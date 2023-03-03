@@ -25,7 +25,6 @@ import org.springframework.ldap.control.PagedResultsDirContextProcessor;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapOperations;
-import org.springframework.ldap.core.support.LdapOperationsCallback;
 import org.springframework.ldap.core.support.SingleContextSource;
 import org.springframework.ldap.support.LdapUtils;
 import org.springframework.ldap.test.LdapTestUtils;
@@ -49,12 +48,7 @@ public class PagedSearchITest extends AbstractJUnit4SpringContextTests {
 	@Autowired
 	private ContextSource contextSource;
 
-	private static final AttributesMapper<String> CN_ATTRIBUTES_MAPPER = new AttributesMapper<String>() {
-		@Override
-		public String mapFromAttributes(Attributes attributes) throws NamingException {
-			return attributes.get("cn").get().toString();
-		}
-	};
+	private static final AttributesMapper<String> CN_ATTRIBUTES_MAPPER = attributes -> attributes.get("cn").get().toString();
 
 	@Before
 	public void prepareTestedData() throws IOException, NamingException {
@@ -77,44 +71,41 @@ public class PagedSearchITest extends AbstractJUnit4SpringContextTests {
 		// There  should be three pages of three entries, and one final page with one entry
 		final PagedResultsDirContextProcessor processor = new PagedResultsDirContextProcessor(3);
 
-		SingleContextSource.doWithSingleContext(contextSource, new LdapOperationsCallback<Object>() {
-			@Override
-			public Object doWithLdapOperations(LdapOperations operations) {
-				List<String> result = operations.search(
-						"ou=People",
-						"(&(objectclass=person))",
-						searchControls,
-						CN_ATTRIBUTES_MAPPER,
-						processor);
-				assertThat(result).hasSize(3);
+		SingleContextSource.doWithSingleContext(contextSource, operations -> {
+			List<String> result = operations.search(
+					"ou=People",
+					"(&(objectclass=person))",
+					searchControls,
+					CN_ATTRIBUTES_MAPPER,
+					processor);
+			assertThat(result).hasSize(3);
 
-				result = operations.search(
-						"ou=People",
-						"(&(objectclass=person))",
-						searchControls,
-						CN_ATTRIBUTES_MAPPER,
-						processor);
-				assertThat(result).hasSize(3);
+			result = operations.search(
+					"ou=People",
+					"(&(objectclass=person))",
+					searchControls,
+					CN_ATTRIBUTES_MAPPER,
+					processor);
+			assertThat(result).hasSize(3);
 
-				result = operations.search(
-						"ou=People",
-						"(&(objectclass=person))",
-						searchControls,
-						CN_ATTRIBUTES_MAPPER,
-						processor);
-				assertThat(result).hasSize(3);
+			result = operations.search(
+					"ou=People",
+					"(&(objectclass=person))",
+					searchControls,
+					CN_ATTRIBUTES_MAPPER,
+					processor);
+			assertThat(result).hasSize(3);
 
-				result = operations.search(
-						"ou=People",
-						"(&(objectclass=person))",
-						searchControls,
-						CN_ATTRIBUTES_MAPPER,
-						processor);
-				assertThat(result).hasSize(1);
+			result = operations.search(
+					"ou=People",
+					"(&(objectclass=person))",
+					searchControls,
+					CN_ATTRIBUTES_MAPPER,
+					processor);
+			assertThat(result).hasSize(1);
 
-				assertThat(processor.hasMore()).isFalse();
-				return null;
-			}
+			assertThat(processor.hasMore()).isFalse();
+			return null;
 		});
 
 	}

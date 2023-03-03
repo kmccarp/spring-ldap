@@ -209,9 +209,10 @@ public class LdifParser implements Parser, InitializingBean {
 		return reader.ready();
 	}
 	
-	public void close() throws IOException {	
-		if (resource.isOpen())
+	public void close() throws IOException {
+		if (resource.isOpen()) {
 			reader.close();
+		}
 	}
 
 	public void reset() throws IOException {
@@ -329,7 +330,7 @@ public class LdifParser implements Parser, InitializingBean {
 				//Validate previous attribute and add to record.
 				Attribute attribute = attributePolicy.parse(buffer);
 					
-				if (attribute.getID().equalsIgnoreCase("dn")) {
+				if ("dn".equalsIgnoreCase(attribute.getID())) {
 					LOG.trace("...adding DN to record.");
 					
 					String dn;

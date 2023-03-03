@@ -28,7 +28,7 @@ import org.springframework.ldap.core.NameClassPairCallbackHandler;
 public class CountNameClassPairCallbackHandler implements
 		NameClassPairCallbackHandler {
 
-	private int noOfRows = 0;
+	private int noOfRows;
 
 	/**
 	 * Get the number of rows that was returned by the search.

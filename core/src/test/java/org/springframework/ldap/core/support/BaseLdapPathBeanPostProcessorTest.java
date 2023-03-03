@@ -122,9 +122,8 @@ public class BaseLdapPathBeanPostProcessorTest {
 				.thenReturn(new String[]{"contextSource"});
 		final LdapContextSource expectedContextSource = new LdapContextSource();
 
-		HashMap<String, BaseLdapPathSource> expectedBeans = new HashMap<String, BaseLdapPathSource>() {{
-			put("dummy", expectedContextSource);
-		}};
+		HashMap<String, BaseLdapPathSource> expectedBeans = new HashMap<>();
+		expectedBeans.put("dummy", expectedContextSource);
 		when(applicationContextMock.getBeansOfType(BaseLdapPathSource.class)).thenReturn(expectedBeans);
 
 		BaseLdapPathSource result = tested.getBaseLdapPathSourceFromApplicationContext();

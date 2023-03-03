@@ -18,12 +18,10 @@ package org.springframework.ldap.core.support;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.ldap.core.ContextExecutor;
 import org.springframework.ldap.core.ContextSource;
 import org.springframework.ldap.core.LdapOperations;
 import org.springframework.util.ReflectionUtils;
 
-import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 
 import java.lang.reflect.Field;
@@ -53,31 +51,22 @@ public class SingleContextSourceTest {
 		when(contextSourceMock.getReadWriteContext()).thenReturn(dirContextMock);
 		verifyNoMoreInteractions(contextSourceMock);
 
-		SingleContextSource.doWithSingleContext(contextSourceMock, new LdapOperationsCallback<Object>() {
-			@Override
-			public Object doWithLdapOperations(LdapOperations operations) {
-				operations.executeReadOnly(new ContextExecutor<Object>() {
-					@Override
-					public Object executeWithContext(DirContext ctx) throws NamingException {
-						Object targetContex = getInternalState(Proxy.getInvocationHandler(ctx), "target");
-						assertThat(targetContex).isSameAs(dirContextMock);
-						return false;
-					}
-				});
+		SingleContextSource.doWithSingleContext(contextSourceMock, operations -> {
+			operations.executeReadOnly(ctx -> {
+				Object targetContex = getInternalState(Proxy.getInvocationHandler(ctx), "target");
+				assertThat(targetContex).isSameAs(dirContextMock);
+				return false;
+			});
 
-				// Second operation will have retrieved new DirContext from the SingleContextSource.
-				// It should be the same instance.
-				operations.executeReadOnly(new ContextExecutor<Object>() {
-					@Override
-					public Object executeWithContext(DirContext ctx) throws NamingException {
-						Object targetContex = getInternalState(Proxy.getInvocationHandler(ctx), "target");
-						assertThat(targetContex).isSameAs(dirContextMock);
-						return false;
-					}
-				});
+			// Second operation will have retrieved new DirContext from the SingleContextSource.
+			// It should be the same instance.
+			operations.executeReadOnly(ctx -> {
+				Object targetContex = getInternalState(Proxy.getInvocationHandler(ctx), "target");
+				assertThat(targetContex).isSameAs(dirContextMock);
+				return false;
+			});
 
-				return null;
-			}
+			return null;
 		});
 	}
 

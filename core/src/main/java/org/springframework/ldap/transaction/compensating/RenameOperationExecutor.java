@@ -33,13 +33,13 @@ import javax.naming.Name;
 public class RenameOperationExecutor implements
 		CompensatingTransactionOperationExecutor {
 
-	private static Logger log = LoggerFactory.getLogger(RenameOperationExecutor.class);
+	private static final Logger log = LoggerFactory.getLogger(RenameOperationExecutor.class);
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
-	private Name newDn;
+	private final Name newDn;
 
-	private Name originalDn;
+	private final Name originalDn;
 
 	/**
 	 * Constructor.

@@ -67,7 +67,7 @@ public class ConversionServiceConverterManager implements ConverterManager {
 		return conversionService.convert(source, toClass);
 	}
 
-	public final static class NameToStringConverter
+	public static final class NameToStringConverter
 			implements org.springframework.core.convert.converter.Converter<Name, String> {
 		@Override
 		public String convert(Name source) {

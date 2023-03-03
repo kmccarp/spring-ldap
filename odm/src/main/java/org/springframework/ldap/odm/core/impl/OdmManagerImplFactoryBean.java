@@ -46,9 +46,9 @@ import java.util.Set;
  * @deprecated This functionality is automatically available in LdapTemplate as of version 2.0
  */
 public final class OdmManagerImplFactoryBean implements FactoryBean {
-	private LdapOperations ldapOperations = null;
-	private Set<Class<?>> managedClasses=null;
-	private ConverterManager converterManager=null;
+	private LdapOperations ldapOperations;
+	private Set<Class<?>> managedClasses;
+	private ConverterManager converterManager;
 
 	/**
 	 * Set the LdapOperations instance to use to interact with the LDAP directory.

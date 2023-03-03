@@ -34,8 +34,8 @@ package org.springframework.ldap.filter;
  * @author Jordan Hein
  */
 public class NotPresentFilter extends AbstractFilter {
-	
-	private String attribute;
+
+	private final String attribute;
 
 	/**
 	 * Creates a new instance of a not present filter for a particular
@@ -57,14 +57,16 @@ public class NotPresentFilter extends AbstractFilter {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		NotPresentFilter that = (NotPresentFilter) o;
 
-		if (attribute != null ? !attribute.equals(that.attribute) : that.attribute != null) return false;
-
-		return true;
+		return !(attribute != null ? !attribute.equals(that.attribute) : that.attribute != null);
 	}
 
 	@Override

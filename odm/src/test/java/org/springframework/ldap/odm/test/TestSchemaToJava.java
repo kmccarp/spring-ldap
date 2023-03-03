@@ -128,7 +128,7 @@ public final class TestSchemaToJava {
 		Pattern pattern=Pattern.compile("\\.");
 		Matcher matcher=pattern.matcher(packageName);
 		String sepToUse=File.separator;
-		if (sepToUse.equals("\\")) {
+		if ("\\".equals(sepToUse)) {
 			sepToUse="\\\\";
 		}
 

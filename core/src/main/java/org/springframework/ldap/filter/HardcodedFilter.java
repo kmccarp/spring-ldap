@@ -47,7 +47,7 @@ import org.springframework.util.StringUtils;
  */
 public class HardcodedFilter extends AbstractFilter {
 
-	private String filter;
+	private final String filter;
 
 	/**
 	 * The hardcoded string to be used for this filter.
@@ -68,14 +68,16 @@ public class HardcodedFilter extends AbstractFilter {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		HardcodedFilter that = (HardcodedFilter) o;
 
-		if (filter != null ? !filter.equals(that.filter) : that.filter != null) return false;
-
-		return true;
+		return !(filter != null ? !filter.equals(that.filter) : that.filter != null);
 	}
 
 	@Override

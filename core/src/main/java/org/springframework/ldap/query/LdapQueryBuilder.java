@@ -55,12 +55,12 @@ import java.text.MessageFormat;
  */
 public final class LdapQueryBuilder implements LdapQuery {
 	private Name base = LdapUtils.emptyLdapName();
-	private SearchScope searchScope = null;
-	private Integer countLimit = null;
-	private Integer timeLimit = null;
-	private String[] attributes = null;
+	private SearchScope searchScope;
+	private Integer countLimit;
+	private Integer timeLimit;
+	private String[] attributes;
 
-	private DefaultContainerCriteria rootContainer = null;
+	private DefaultContainerCriteria rootContainer;
 
 	/**
 	 * Not to be instantiated directly - use static query() method.

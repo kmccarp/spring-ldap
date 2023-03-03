@@ -30,7 +30,7 @@ import com.unboundid.ldap.sdk.Entry;
  */
 public final class EmbeddedLdapServer {
 
-	private InMemoryDirectoryServer directoryServer;
+	private final InMemoryDirectoryServer directoryServer;
 
 	private EmbeddedLdapServer(InMemoryDirectoryServer directoryServer) {
 		this.directoryServer = directoryServer;

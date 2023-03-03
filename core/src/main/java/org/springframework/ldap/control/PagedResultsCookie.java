@@ -59,14 +59,16 @@ public class PagedResultsCookie {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		PagedResultsCookie that = (PagedResultsCookie) o;
 
-		if (!Arrays.equals(cookie, that.cookie)) return false;
-
-		return true;
+		return Arrays.equals(cookie, that.cookie);
 	}
 
 	@Override

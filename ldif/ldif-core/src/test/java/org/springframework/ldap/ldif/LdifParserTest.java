@@ -50,9 +50,9 @@ import static org.assertj.core.api.Assertions.fail;
  */
 public class LdifParserTest {
 
-	private static Logger log = LoggerFactory.getLogger(LdifParserTest.class);
+	private static final Logger log = LoggerFactory.getLogger(LdifParserTest.class);
 
-	private LdifParser parser;
+	private final LdifParser parser;
 
 	/**
 	 * Default constructor: loads a preselected resource with sample LDIF entries.

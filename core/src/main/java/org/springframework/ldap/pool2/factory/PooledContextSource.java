@@ -99,10 +99,10 @@ public class PooledContextSource
 			this.poolConfig = poolConfig;
 			GenericKeyedObjectPoolConfig objectPoolConfig = getConfig(poolConfig);
 			this.keyedObjectPool =
-					new GenericKeyedObjectPool<Object,Object>(this.dirContextPooledObjectFactory, objectPoolConfig);
+					new GenericKeyedObjectPool<>(this.dirContextPooledObjectFactory, objectPoolConfig);
 		} else  {
 			this.keyedObjectPool =
-					new GenericKeyedObjectPool<Object,Object>(this.dirContextPooledObjectFactory);
+					new GenericKeyedObjectPool<>(this.dirContextPooledObjectFactory);
 		}
 	}
 

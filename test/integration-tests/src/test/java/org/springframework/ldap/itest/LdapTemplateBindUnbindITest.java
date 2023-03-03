@@ -46,14 +46,14 @@ public class LdapTemplateBindUnbindITest extends
 	@Autowired
 	private LdapTemplate tested;
 
-	private static String DN = "cn=Some Person4,ou=company1,ou=Sweden";
+	private static String dn = "cn=Some Person4,ou=company1,ou=Sweden";
 
 	@Test
 	public void testBindAndUnbindWithAttributes() {
 		Attributes attributes = setupAttributes();
-		tested.bind(DN, null, attributes);
+		tested.bind(dn, null, attributes);
 		verifyBoundCorrectData();
-		tested.unbind(DN);
+		tested.unbind(dn);
 		verifyCleanup();
 	}
 
@@ -70,9 +70,9 @@ public class LdapTemplateBindUnbindITest extends
 	@Test
 	public void testBindAndUnbindWithAttributesUsingLdapName() {
 		Attributes attributes = setupAttributes();
-		tested.bind(LdapUtils.newLdapName(DN), null, attributes);
+		tested.bind(LdapUtils.newLdapName(dn), null, attributes);
 		verifyBoundCorrectData();
-		tested.unbind(LdapUtils.newLdapName(DN));
+		tested.unbind(LdapUtils.newLdapName(dn));
 		verifyCleanup();
 	}
 
@@ -84,9 +84,9 @@ public class LdapTemplateBindUnbindITest extends
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
-		tested.bind(DN, adapter, null);
+		tested.bind(dn, adapter, null);
 		verifyBoundCorrectData();
-		tested.unbind(DN);
+		tested.unbind(dn);
 		verifyCleanup();
 	}
 
@@ -98,15 +98,15 @@ public class LdapTemplateBindUnbindITest extends
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
-		tested.bind(LdapUtils.newLdapName(DN), adapter, null);
+		tested.bind(LdapUtils.newLdapName(dn), adapter, null);
 		verifyBoundCorrectData();
-		tested.unbind(LdapUtils.newLdapName(DN));
+		tested.unbind(LdapUtils.newLdapName(dn));
 		verifyCleanup();
 	}
 
 	@Test
 	public void testBindAndUnbindWithDirContextAdapterOnly() {
-		DirContextAdapter adapter = new DirContextAdapter(LdapUtils.newLdapName(DN));
+		DirContextAdapter adapter = new DirContextAdapter(LdapUtils.newLdapName(dn));
 		adapter.setAttributeValues("objectclass", new String[] { "top",
 				"person" });
 		adapter.setAttributeValue("cn", "Some Person4");
@@ -114,13 +114,13 @@ public class LdapTemplateBindUnbindITest extends
 
 		tested.bind(adapter);
 		verifyBoundCorrectData();
-		tested.unbind(DN);
+		tested.unbind(dn);
 		verifyCleanup();
 	}
 
 	@Test
 	public void testBindAndRebindWithDirContextAdapterOnly() {
-		DirContextAdapter adapter = new DirContextAdapter(LdapUtils.newLdapName(DN));
+		DirContextAdapter adapter = new DirContextAdapter(LdapUtils.newLdapName(dn));
 		adapter.setAttributeValues("objectclass", new String[] { "top",
 				"person" });
 		adapter.setAttributeValue("cn", "Some Person4");
@@ -131,7 +131,7 @@ public class LdapTemplateBindUnbindITest extends
 		adapter.setAttributeValue("sn", "Person4.Changed");
 		tested.rebind(adapter);
 		verifyReboundCorrectData();
-		tested.unbind(DN);
+		tested.unbind(dn);
 		verifyCleanup();
 	}
 
@@ -147,20 +147,20 @@ public class LdapTemplateBindUnbindITest extends
 	}
 
 	private void verifyBoundCorrectData() {
-		DirContextAdapter result = (DirContextAdapter) tested.lookup(DN);
+		DirContextAdapter result = (DirContextAdapter) tested.lookup(dn);
 		assertThat(result.getStringAttribute("cn")).isEqualTo("Some Person4");
 		assertThat(result.getStringAttribute("sn")).isEqualTo("Person4");
 	}
 
 	private void verifyReboundCorrectData() {
-		DirContextAdapter result = (DirContextAdapter) tested.lookup(DN);
+		DirContextAdapter result = (DirContextAdapter) tested.lookup(dn);
 		assertThat(result.getStringAttribute("cn")).isEqualTo("Some Person4");
 		assertThat(result.getStringAttribute("sn")).isEqualTo("Person4.Changed");
 	}
 
 	private void verifyCleanup() {
 		try {
-			tested.lookup(DN);
+			tested.lookup(dn);
 			fail("NameNotFoundException expected");
 		}
 		catch (NameNotFoundException expected) {

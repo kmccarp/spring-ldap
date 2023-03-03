@@ -39,7 +39,7 @@ public class TransactionAwareContextSourceProxy
 		extends DelegatingBaseLdapPathContextSourceSupport
 		implements ContextSource {
 
-	private ContextSource target;
+	private final ContextSource target;
 
 	/**
 	 * Constructor.

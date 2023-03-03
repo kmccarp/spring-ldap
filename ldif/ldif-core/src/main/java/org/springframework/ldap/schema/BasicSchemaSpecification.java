@@ -51,7 +51,9 @@ public class BasicSchemaSpecification implements Specification<LdapAttributes> {
 						} else if(object instanceof byte[]) {
 							String rdnValue = LdapEncoder.printBase64Binary(((String)rdn.getValue()).getBytes());
 							String attributeValue = LdapEncoder.printBase64Binary((byte[]) object);
-							if (rdnValue.equals(attributeValue)) return true;
+							if (rdnValue.equals(attributeValue)) {
+								return true;
+							}
 						} 
 					}
 				}
