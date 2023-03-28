@@ -23,7 +23,7 @@ import java.util.List;
 
 public class HtmlRowLdapTreeVisitor implements LdapTreeVisitor {
 
-	private List<String> rows = new LinkedList<String>();
+	private final List<String> rows = new LinkedList<>();
 
 	public void visit(DirContextOperations node, int currentDepth) {
 		StringBuilder sb = new StringBuilder();

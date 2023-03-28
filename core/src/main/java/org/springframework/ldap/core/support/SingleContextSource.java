@@ -165,7 +165,7 @@ public class SingleContextSource implements ContextSource, DisposableBean {
 	public static class NonClosingDirContextInvocationHandler implements
 			InvocationHandler {
 
-		private DirContext target;
+		private final DirContext target;
 
 		public NonClosingDirContextInvocationHandler(DirContext target) {
 			this.target = target;
@@ -179,15 +179,15 @@ public class SingleContextSource implements ContextSource, DisposableBean {
 				throws Throwable {
 
 			String methodName = method.getName();
-			if (methodName.equals("getTargetContext")) {
+			if ("getTargetContext".equals(methodName)) {
 				return target;
-			} else if (methodName.equals("equals")) {
+			} else if ("equals".equals(methodName)) {
 				// Only consider equal when proxies are identical.
-				return (proxy == args[0] ? Boolean.TRUE : Boolean.FALSE);
-			} else if (methodName.equals("hashCode")) {
+				return proxy == args[0] ? Boolean.TRUE : Boolean.FALSE;
+			} else if ("hashCode".equals(methodName)) {
 				// Use hashCode of Connection proxy.
 				return proxy.hashCode();
-			} else if (methodName.equals("close")) {
+			} else if ("close".equals(methodName)) {
 				// Never close the target context, as this class will only be
 				// used for operations concerning the compensating transactions.
 				return null;

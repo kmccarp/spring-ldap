@@ -15,7 +15,6 @@
  */
 package org.springframework.ldap;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
 import org.springframework.ldap.core.support.DefaultTlsDirContextAuthenticationStrategy;
@@ -30,11 +29,7 @@ public class TlsContextSourceEc2InstanceLaunchingFactoryBean extends ContextSour
 	protected void setAdditionalContextSourceProperties(LdapContextSource ctx, final String dnsName) {
 		DefaultTlsDirContextAuthenticationStrategy authenticationStrategy = new DefaultTlsDirContextAuthenticationStrategy();
 	
-		authenticationStrategy.setHostnameVerifier(new HostnameVerifier() {
-			public boolean verify(String hostname, SSLSession session) {
-				return hostname.equals(dnsName);
-			}
-		});
+		authenticationStrategy.setHostnameVerifier((hostname, session) -> hostname.equals(dnsName));
 
 		ctx.setAuthenticationStrategy(authenticationStrategy);
 		ctx.setPooled(false);

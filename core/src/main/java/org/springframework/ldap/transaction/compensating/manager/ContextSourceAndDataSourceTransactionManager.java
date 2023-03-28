@@ -42,7 +42,7 @@ public class ContextSourceAndDataSourceTransactionManager extends
 
 	private static final long serialVersionUID = 6832868697460384648L;
 
-	private ContextSourceTransactionManagerDelegate ldapManagerDelegate = new ContextSourceTransactionManagerDelegate();
+	private final ContextSourceTransactionManagerDelegate ldapManagerDelegate = new ContextSourceTransactionManagerDelegate();
 
 	public ContextSourceAndDataSourceTransactionManager() {
 		super();
@@ -166,10 +166,10 @@ public class ContextSourceAndDataSourceTransactionManager extends
 		ldapManagerDelegate.setRenamingStrategy(renamingStrategy);
 	}
 
-	private final static class ContextSourceAndDataSourceTransactionObject {
-		private Object ldapTransactionObject;
+	private static final class ContextSourceAndDataSourceTransactionObject {
+		private final Object ldapTransactionObject;
 
-		private Object dataSourceTransactionObject;
+		private final Object dataSourceTransactionObject;
 
 		public ContextSourceAndDataSourceTransactionObject(
 				Object ldapTransactionObject, Object dataSourceTransactionObject) {

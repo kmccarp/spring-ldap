@@ -71,10 +71,10 @@ import java.util.Set;
  * @since 1.3.2
  */
 public class DefaultIncrementalAttributesMapper implements IncrementalAttributesMapper<DefaultIncrementalAttributesMapper> {
-	private final static Logger LOG = LoggerFactory.getLogger(DefaultIncrementalAttributesMapper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultIncrementalAttributesMapper.class);
 
-	private Map<String, IncrementalAttributeState> stateMap = new LinkedHashMap<String, IncrementalAttributeState>();
-	private Set<String> rangedAttributesInNextIteration = new LinkedHashSet<String>();
+	private Map<String, IncrementalAttributeState> stateMap = new LinkedHashMap<>();
+	private Set<String> rangedAttributesInNextIteration = new LinkedHashSet<>();
 
 	/**
 	 * This guy will be used when an unmapped attribute is encountered. This really should never happen,
@@ -168,7 +168,7 @@ public class DefaultIncrementalAttributesMapper implements IncrementalAttributes
 		}
 
 		// Reset the affected attributes.
-		rangedAttributesInNextIteration = new HashSet<String>();
+		rangedAttributesInNextIteration = new HashSet<>();
 
 		NamingEnumeration<String> attributeNameEnum = attributes.getIDs();
 		while (attributeNameEnum.hasMore()) {
@@ -234,7 +234,7 @@ public class DefaultIncrementalAttributesMapper implements IncrementalAttributes
 
 	@Override
 	public final boolean hasMore() {
-		return rangedAttributesInNextIteration.size() > 0;
+		return !rangedAttributesInNextIteration.isEmpty();
 	}
 
 	@Override
@@ -351,7 +351,7 @@ public class DefaultIncrementalAttributesMapper implements IncrementalAttributes
 	 */
 	private static final class DefaultIncrementalAttributeState implements IncrementalAttributeState {
 		private final String actualAttributeName;
-		private List<Object> values = null;
+		private List<Object> values;
 		private final int pageSize;
 		boolean more = true;
 
@@ -407,14 +407,14 @@ public class DefaultIncrementalAttributesMapper implements IncrementalAttributes
 
 		private void initValuesIfApplicable() {
 			if (values == null) {
-				values = new LinkedList<Object>();
+				values = new LinkedList<>();
 			}
 		}
 
 		@Override
 		public List<Object> getValues() {
 			if (values != null) {
-				return new ArrayList<Object>(values);
+				return new ArrayList<>(values);
 			} else {
 				return null;
 			}

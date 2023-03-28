@@ -144,7 +144,7 @@ public class DefaultLdapClientTest {
 
 		singleSearchResult(searchControlsOneLevel(), searchResult);
 
-		tested.search().query((builder) -> builder.base(nameMock)
+		tested.search().query(builder -> builder.base(nameMock)
 				.searchScope(SearchScope.ONELEVEL)
 				.filter("(ou=somevalue)")).toObject(contextMapperMock);
 
@@ -162,7 +162,7 @@ public class DefaultLdapClientTest {
 
 		singleSearchResultWithStringBase(controls, searchResult);
 
-		tested.search().query((builder) -> builder.base(DEFAULT_BASE.toString())
+		tested.search().query(builder -> builder.base(DEFAULT_BASE.toString())
 				.searchScope(SearchScope.ONELEVEL)
 				.filter("(ou=somevalue)")).toObject(contextMapperMock);
 
@@ -181,7 +181,7 @@ public class DefaultLdapClientTest {
 
 		singleSearchResult(controls, searchResult);
 
-		tested.search().query((builder) -> builder.base(nameMock)
+		tested.search().query(builder -> builder.base(nameMock)
 				.searchScope(SearchScope.SUBTREE)
 				.filter("(ou=somevalue)")).toObject(attributesMapperMock);
 
@@ -200,7 +200,7 @@ public class DefaultLdapClientTest {
 
 		singleSearchResultWithStringBase(controls, searchResult);
 
-		tested.search().query((builder) -> builder.base(DEFAULT_BASE.toString())
+		tested.search().query(builder -> builder.base(DEFAULT_BASE.toString())
 				.searchScope(SearchScope.SUBTREE)
 				.filter("(ou=somevalue)")).toObject(attributesMapperMock);
 
@@ -222,7 +222,7 @@ public class DefaultLdapClientTest {
 				argThat(new SearchControlsMatcher(controls)))).thenThrow(ne);
 
 		try {
-			tested.search().query((builder) -> builder.base(nameMock)
+			tested.search().query(builder -> builder.base(nameMock)
 					.searchScope(SearchScope.SUBTREE)
 					.filter("(ou=somevalue)")).toObject(attributesMapperMock);
 			fail("NameNotFoundException expected");
@@ -247,7 +247,7 @@ public class DefaultLdapClientTest {
 				argThat(new SearchControlsMatcher(controls)))).thenThrow(ne);
 
 		try {
-			tested.search().query((builder) -> builder.base(nameMock)
+			tested.search().query(builder -> builder.base(nameMock)
 					.filter("(ou=somevalue)")).toObject(attributesMapperMock);
 			fail("LimitExceededException expected");
 		}

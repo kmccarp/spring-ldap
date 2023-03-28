@@ -21,7 +21,7 @@ public class HelloController {
 
 	@GetMapping("/cn")
 	public List<String> cn(Authentication authentication) {
-		AttributesMapper<String> mapper = (attrs) -> attrs.get("cn").get().toString();
+		AttributesMapper<String> mapper = attrs -> attrs.get("cn").get().toString();
 		return this.ldap.search("ou=people", "uid=" + authentication.getName(), mapper);
 	}
 }

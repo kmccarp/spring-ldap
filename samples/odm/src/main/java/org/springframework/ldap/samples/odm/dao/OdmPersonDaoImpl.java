@@ -15,13 +15,11 @@
  */
 package org.springframework.ldap.samples.odm.dao;
 
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.samples.plain.dao.PersonDao;
 import org.springframework.ldap.samples.plain.domain.Person;
 import org.springframework.ldap.support.LdapNameBuilder;
 
-import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.ldap.LdapName;
 import java.util.List;
@@ -59,11 +57,7 @@ public class OdmPersonDaoImpl implements PersonDao {
 		return ldapTemplate.search(query()
 				.attributes("cn")
 				.where("objectclass").is("person"),
-				new AttributesMapper<String>() {
-					public String mapFromAttributes(Attributes attrs) throws NamingException {
-						return attrs.get("cn").get().toString();
-					}
-				});
+				attrs -> attrs.get("cn").get().toString());
 	}
 
 	@Override
@@ -74,9 +68,8 @@ public class OdmPersonDaoImpl implements PersonDao {
 	@Override
 	public Person findByPrimaryKey(String country, String company, String fullname) {
 		LdapName dn = buildDn(country, company, fullname);
-		Person person = ldapTemplate.findByDn(dn, Person.class);
 
-		return person;
+		return ldapTemplate.findByDn(dn, Person.class);
 	}
 
 	private LdapName buildDn(Person person) {

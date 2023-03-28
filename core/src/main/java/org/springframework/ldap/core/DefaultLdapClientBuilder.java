@@ -16,9 +16,9 @@ class DefaultLdapClientBuilder implements LdapClient.Builder {
 		return controls;
 	};
 
-	private boolean ignorePartialResultException = false;
+	private boolean ignorePartialResultException;
 
-	private boolean ignoreNameNotFoundException = false;
+	private boolean ignoreNameNotFoundException;
 
 	private boolean ignoreSizeLimitExceededException = true;
 

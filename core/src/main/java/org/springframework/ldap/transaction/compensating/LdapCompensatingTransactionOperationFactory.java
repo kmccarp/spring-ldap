@@ -35,9 +35,9 @@ import javax.naming.directory.DirContext;
  * @since 1.2
  */
 public class LdapCompensatingTransactionOperationFactory implements CompensatingTransactionOperationFactory {
-	private static Logger log = LoggerFactory.getLogger(LdapCompensatingTransactionOperationFactory.class);
+	private static final Logger log = LoggerFactory.getLogger(LdapCompensatingTransactionOperationFactory.class);
 
-	private TempEntryRenamingStrategy renamingStrategy;
+	private final TempEntryRenamingStrategy renamingStrategy;
 
 	/**
 	 * Constructor.

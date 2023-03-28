@@ -32,7 +32,7 @@ public class ContextSourceEc2InstanceLaunchingFactoryBean extends AbstractEc2Ins
 
 	private String password;
 
-	private boolean pooled = false;
+	private boolean pooled;
 
 	@Override
 	public final Class getObjectType() {

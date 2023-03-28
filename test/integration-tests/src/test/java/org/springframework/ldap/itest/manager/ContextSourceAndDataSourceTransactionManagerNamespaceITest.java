@@ -25,9 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.ldap.NameNotFoundException;
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.itest.AbstractLdapTemplateIntegrationTest;
 import org.springframework.ldap.itest.transaction.compensating.manager.DummyDao;
@@ -35,10 +33,8 @@ import org.springframework.ldap.itest.transaction.compensating.manager.DummyExce
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -103,11 +99,7 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 		}
 
 		try {
-			jdbcTemplate.queryForObject("select * from PERSON where fullname='some testperson'", new RowMapper() {
-				public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-					return null;
-				}
-			});
+			jdbcTemplate.queryForObject("select * from PERSON where fullname='some testperson'", (rs, rowNum) -> null);
 			fail("EmptyResultDataAccessException expected");
 		}
 		catch (EmptyResultDataAccessException expected) {
@@ -122,11 +114,7 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 		log.debug("Verifying result");
 		Object ldapResult = ldapTemplate.lookup("cn=some testperson, ou=company1, ou=Sweden");
 		Object dbResult = jdbcTemplate.queryForObject("select * from PERSON where fullname='some testperson'",
-				new RowMapper() {
-					public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-						return new Object();
-					}
-				});
+				(rs, rowNum) -> new Object());
 		assertThat(ldapResult).isNotNull();
 		assertThat(dbResult).isNotNull();
 
@@ -146,22 +134,18 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 
 		log.debug("Verifying result");
 
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Person");
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
-				return new Object();
-			}
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Person");
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
+			return new Object();
 		});
 
 		Object jdbcResult = jdbcTemplate.queryForObject("select * from PERSON where fullname=?",
-				new Object[] { "Some Person" }, new RowMapper() {
-					public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-						assertThat(rs.getString("lastname")).isEqualTo("Person");
-						assertThat(rs.getString("description")).isEqualTo("Sweden, Company1, Some Person");
-						return new Object();
-					}
-				});
+				new Object[] { "Some Person" }, (rs, rowNum) -> {
+			assertThat(rs.getString("lastname")).isEqualTo("Person");
+			assertThat(rs.getString("description")).isEqualTo("Sweden, Company1, Some Person");
+			return new Object();
+		});
 
 		assertThat(ldapResult).isNotNull();
 		assertThat(jdbcResult).isNotNull();
@@ -173,22 +157,18 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 		dummyDao.update(dn, "Some Person", "Updated Person", "Updated description");
 
 		log.debug("Verifying result");
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Updated Person");
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Updated Person");
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
 		Object jdbcResult = jdbcTemplate.queryForObject("select * from PERSON where fullname=?",
-				new Object[] { "Some Person" }, new RowMapper() {
-					public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-						assertThat(rs.getString("lastname")).isEqualTo("Updated Person");
-						assertThat(rs.getString("description")).isEqualTo("Updated description");
-						return new Object();
-					}
-				});
+				new Object[] { "Some Person" }, (rs, rowNum) -> {
+			assertThat(rs.getString("lastname")).isEqualTo("Updated Person");
+			assertThat(rs.getString("description")).isEqualTo("Updated description");
+			return new Object();
+		});
 
 		assertThat(ldapResult).isNotNull();
 		assertThat(jdbcResult).isNotNull();
@@ -218,11 +198,9 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 		}
 
 		// Verify that original entry was not updated.
-		Object object = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person2");
-				return new Object();
-			}
+		Object object = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person2");
+			return new Object();
 		});
 		assertThat(object).isNotNull();
 	}
@@ -235,11 +213,9 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 		dummyDao.updateAndRename(dn, newDn, "Updated description");
 
 		// Verify that entry was moved and updated.
-		Object object = ldapTemplate.lookup(newDn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object object = ldapTemplate.lookup(newDn, attributes -> {
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
 		assertThat(object).isNotNull();
@@ -259,12 +235,10 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 		}
 
 		// Verify result - check that the operation was properly rolled back
-		Object result = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Person");
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
-				return new Object();
-			}
+		Object result = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Person");
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
+			return new Object();
 		});
 
 		assertThat(result).isNotNull();
@@ -277,12 +251,10 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 		dummyDao.modifyAttributes(dn, "Updated lastname", "Updated description");
 
 		// Verify result - check that the operation was not rolled back
-		Object result = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Updated lastname");
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object result = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Updated lastname");
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
 		assertThat(result).isNotNull();
@@ -302,20 +274,10 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 		}
 
 		// Verify result - check that the operation was properly rolled back
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				// Just verify that the entry still exists.
-				return new Object();
-			}
-		});
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> new Object());
 
 		Object jdbcResult = jdbcTemplate.queryForObject("select * from PERSON where fullname=?",
-				new Object[] { "Some Person" }, new RowMapper() {
-					public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-						// Just verify that the entry still exists.
-						return new Object();
-					}
-				});
+				new Object[] { "Some Person" }, (rs, rowNum) -> new Object());
 
 		assertThat(ldapResult).isNotNull();
 		assertThat(jdbcResult).isNotNull();
@@ -338,11 +300,7 @@ public class ContextSourceAndDataSourceTransactionManagerNamespaceITest extends 
 
 		try {
 			jdbcTemplate.queryForObject("select * from PERSON where fullname=?", new Object[] { "Some Person" },
-					new RowMapper() {
-						public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-							return null;
-						}
-					});
+					(rs, rowNum) -> null);
 			fail("EmptyResultDataAccessException expected");
 		}
 		catch (EmptyResultDataAccessException expected) {

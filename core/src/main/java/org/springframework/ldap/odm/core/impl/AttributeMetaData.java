@@ -73,13 +73,13 @@ import java.util.TreeSet;
 	// Is this the objectClass attribute
 	private boolean isObjectClass;
 
-	private boolean isTransient = false;
+	private boolean isTransient;
 
-	private boolean isReadOnly = false;
+	private boolean isReadOnly;
 
 	private String[] attributes;
 
-	private DnAttribute dnAttribute;
+	private final DnAttribute dnAttribute;
 
 	// Extract information from the @Attribute annotation:
 	// syntax, isBinary, isObjectClass and name.
@@ -99,7 +99,7 @@ import java.util.TreeSet;
 		// Grab the @Attribute annotation
 		Attribute attribute = field.getAnnotation(Attribute.class);
 
-		List<String> attrList = new ArrayList<String>();
+		List<String> attrList = new ArrayList<>();
 		// Did we find the annotation?
 		if (attribute != null) {
 			// Pull attribute name, syntax and whether attribute is binary

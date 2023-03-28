@@ -32,7 +32,7 @@ class RangeOption implements Comparable<RangeOption> {
 	public static final int TERMINAL_END_OF_RANGE = -1;
 	public static final int TERMINAL_MISSING = -2;
 
-	private int initial = 0;
+	private int initial;
 	private int terminal = TERMINAL_END_OF_RANGE;
 
 	private static final Pattern RANGE_PATTERN = Pattern.compile("^Range=([0-9]+)(-([0-9]+|\\*))?$", Pattern.CASE_INSENSITIVE);
@@ -127,8 +127,9 @@ class RangeOption implements Comparable<RangeOption> {
 	}
 
 	public int compareTo(RangeOption that) {
-		if (this.getInitial() != that.getInitial())
+		if (this.getInitial() != that.getInitial()) {
 			throw new IllegalStateException("Ranges cannot be compared, range-initial not the same: " + this.toString() + " vs " + that.toString());
+		}
 
 		if (this.getTerminal() == that.getTerminal()) {
 			return 0;
@@ -155,15 +156,19 @@ class RangeOption implements Comparable<RangeOption> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		RangeOption that = (RangeOption) o;
 
-		if (initial != that.initial) return false;
-		if (terminal != that.terminal) return false;
-
-		return true;
+		if (initial != that.initial) {
+			return false;
+		}
+		return terminal == that.terminal;
 	}
 
 	@Override

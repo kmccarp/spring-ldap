@@ -30,7 +30,7 @@ import static org.springframework.ldap.query.CriteriaContainerType.OR;
  * @since 2.0
  */
 class DefaultContainerCriteria implements AppendableContainerCriteria {
-	private final Set<Filter> filters = new LinkedHashSet<Filter>();
+	private final Set<Filter> filters = new LinkedHashSet<>();
 	private final LdapQuery topQuery;
 	private CriteriaContainerType type;
 

@@ -33,7 +33,7 @@ import org.springframework.transaction.compensating.CompensatingTransactionOpera
 public class BindOperationRecorder implements
 		CompensatingTransactionOperationRecorder {
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
 	/**
 	 * Constructor.

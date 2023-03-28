@@ -148,7 +148,7 @@ public class DirContextAdapterTest {
 			}
 		}
 		tested = new TestableDirContextAdapter();
-		String s[] = tested.getStringAttributes("abc");
+		String[] s = tested.getStringAttributes("abc");
 		assertThat(s[0]).isEqualTo("123");
 		assertThat(s[1]).isEqualTo("234");
 		assertThat(s.length).isEqualTo(2);
@@ -186,14 +186,14 @@ public class DirContextAdapterTest {
 			}
 		}
 		tested = new TestableDirContextAdapter();
-		String s[] = tested.getStringAttributes("abc");
+		String[] s = tested.getStringAttributes("abc");
 		assertThat(s).isNotNull();
 		assertThat(s.length).isEqualTo(0);
 	}
 
 	@Test
 	public void testGetStringAttributesNotExists() throws Exception {
-		String s[] = tested.getStringAttributes("abc");
+		String[] s = tested.getStringAttributes("abc");
 		assertThat(s).isNull();
 	}
 
@@ -1176,8 +1176,9 @@ public class DirContextAdapterTest {
 	private ModificationItem getModificationItem(ModificationItem[] mods,
 			int operation) {
 		for (int i = 0; i < mods.length; i++) {
-			if (mods[i].getModificationOp() == operation)
+			if (mods[i].getModificationOp() == operation) {
 				return mods[i];
+			}
 		}
 		return null;
 	}
