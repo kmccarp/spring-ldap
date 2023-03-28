@@ -48,7 +48,7 @@ public abstract class NamingException extends NestedRuntimeException {
 		// the constructor, we check for the cause being "this" here, as the cause
 		// could still be set to "this" via reflection: for example, by a remoting
 		// deserializer like Hessian's.
-		return (this.cause == this ? null : this.cause);
+		return this.cause == this ? null : this.cause;
 	}
 
 	/**

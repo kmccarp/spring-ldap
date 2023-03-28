@@ -42,7 +42,7 @@ public class LdapRdn implements Serializable, Comparable {
 	private static final long serialVersionUID = 5681397547245228750L;
 	private static final int DEFAULT_BUFFER_SIZE = 100;
 
-	private Map<String, LdapRdnComponent> components = new LinkedHashMap<String, LdapRdnComponent>();
+	private Map<String, LdapRdnComponent> components = new LinkedHashMap<>();
 
 	/**
 	 * Default constructor. Create an empty, uninitialized LdapRdn.
@@ -295,7 +295,7 @@ public class LdapRdn implements Serializable, Comparable {
 	 * @since 1.3
 	 */
 	public LdapRdn immutableLdapRdn() {
-		Map<String, LdapRdnComponent> mapWithImmutableRdns = new LinkedHashMap<String, LdapRdnComponent>(components.size());
+		Map<String, LdapRdnComponent> mapWithImmutableRdns = new LinkedHashMap<>(components.size());
 		for (Iterator iterator = components.values().iterator(); iterator.hasNext();) {
 			LdapRdnComponent rdnComponent = (LdapRdnComponent) iterator.next();
 			mapWithImmutableRdns.put(rdnComponent.getKey(), rdnComponent.immutableLdapRdnComponent());

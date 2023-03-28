@@ -57,9 +57,9 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 	@Autowired
 	private LdapTemplate tested;
 
-	private static String PERSON4_DN = "cn=Some Person4,ou=company1,ou=Sweden";
+	private static String person4Dn = "cn=Some Person4,ou=company1,ou=Sweden";
 
-	private static String PERSON5_DN = "cn=Some Person5,ou=company1,ou=Sweden";
+	private static String person5Dn = "cn=Some Person5,ou=company1,ou=Sweden";
 
 	@Before
 	public void prepareTestedInstance() throws Exception {
@@ -69,7 +69,7 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 		adapter.setAttributeValue("sn", "Person4");
 		adapter.setAttributeValue("description", "Some description");
 
-		tested.bind(PERSON4_DN, adapter, null);
+		tested.bind(person4Dn, adapter, null);
 
 		adapter = new DirContextAdapter();
 		adapter.setAttributeValues("objectclass", new String[] { "top", "person" });
@@ -77,21 +77,21 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 		adapter.setAttributeValue("sn", "Person5");
 		adapter.setAttributeValues("description", new String[] { "qwe", "123", "rty", "uio" });
 
-		tested.bind(PERSON5_DN, adapter, null);
+		tested.bind(person5Dn, adapter, null);
 
 	}
 
 	@After
 	public void cleanup() throws Exception {
-		tested.unbind(PERSON4_DN);
-		tested.unbind(PERSON5_DN);
+		tested.unbind(person4Dn);
+		tested.unbind(person5Dn);
 	}
 
 	@Test
 	public void testRebind_Attributes_Plain() {
 		Attributes attributes = setupAttributes();
 
-		tested.rebind(PERSON4_DN, null, attributes);
+		tested.rebind(person4Dn, null, attributes);
 
 		verifyBoundCorrectData();
 	}
@@ -100,7 +100,7 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 	public void testRebind_Attributes_LdapName() {
 		Attributes attributes = setupAttributes();
 
-		tested.rebind(LdapUtils.newLdapName(PERSON4_DN), null, attributes);
+		tested.rebind(LdapUtils.newLdapName(person4Dn), null, attributes);
 
 		verifyBoundCorrectData();
 	}
@@ -112,9 +112,9 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 		ModificationItem[] mods = new ModificationItem[1];
 		mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, attr);
 
-		tested.modifyAttributes(PERSON4_DN, mods);
+		tested.modifyAttributes(person4Dn, mods);
 
-		DirContextAdapter result = (DirContextAdapter) tested.lookup(PERSON4_DN);
+		DirContextAdapter result = (DirContextAdapter) tested.lookup(person4Dn);
 		List<String> attributes = Arrays.asList(result.getStringAttributes("description"));
 		assertThat(attributes).hasSize(2);
 		assertThat(attributes.contains("Some other description")).isTrue();
@@ -128,9 +128,9 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 		ModificationItem[] mods = new ModificationItem[1];
 		mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, attr);
 
-		tested.modifyAttributes(PERSON4_DN, mods);
+		tested.modifyAttributes(person4Dn, mods);
 
-		DirContextAdapter result = (DirContextAdapter) tested.lookup(PERSON4_DN);
+		DirContextAdapter result = (DirContextAdapter) tested.lookup(person4Dn);
 		List<String> attributes = Arrays.asList(result.getStringAttributes("description"));
 		assertThat(attributes).hasSize(3);
 		assertThat(attributes.contains("Some other description")).isTrue();
@@ -153,7 +153,7 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 		mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, attr);
 
 		try {
-			tested.modifyAttributes(PERSON4_DN, mods);
+			tested.modifyAttributes(person4Dn, mods);
 			fail("AttributeInUseException expected");
 		}
 		catch (AttributeInUseException expected) {
@@ -175,9 +175,9 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 		ModificationItem[] mods = new ModificationItem[1];
 		mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, attr);
 
-		tested.modifyAttributes(PERSON4_DN, mods);
+		tested.modifyAttributes(person4Dn, mods);
 
-		DirContextAdapter result = (DirContextAdapter) tested.lookup(PERSON4_DN);
+		DirContextAdapter result = (DirContextAdapter) tested.lookup(person4Dn);
 		List<String> attributes = Arrays.asList(result.getStringAttributes("description"));
 		assertThat(attributes).hasSize(3);
 		assertThat(attributes.contains("Some other description")).isTrue();
@@ -190,7 +190,7 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 		ModificationItem item = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("description",
 				"Some other description"));
 
-		tested.modifyAttributes(PERSON4_DN, new ModificationItem[] { item });
+		tested.modifyAttributes(person4Dn, new ModificationItem[] { item });
 
 		verifyBoundCorrectData();
 	}
@@ -200,20 +200,20 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 		ModificationItem item = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, new BasicAttribute("description",
 				"Some other description"));
 
-		tested.modifyAttributes(LdapUtils.newLdapName(PERSON4_DN), new ModificationItem[] { item });
+		tested.modifyAttributes(LdapUtils.newLdapName(person4Dn), new ModificationItem[] { item });
 
 		verifyBoundCorrectData();
 	}
 
 	@Test
 	public void testModifyAttributes_DirContextAdapter_MultiAttributes() {
-		DirContextAdapter adapter = (DirContextAdapter) tested.lookup(PERSON5_DN);
+		DirContextAdapter adapter = (DirContextAdapter) tested.lookup(person5Dn);
 		adapter.setAttributeValues("description", new String[] { "qwe", "123", "klytt", "kalle" });
 
-		tested.modifyAttributes(PERSON5_DN, adapter.getModificationItems());
+		tested.modifyAttributes(person5Dn, adapter.getModificationItems());
 
 		// Verify
-		adapter = (DirContextAdapter) tested.lookup(PERSON5_DN);
+		adapter = (DirContextAdapter) tested.lookup(person5Dn);
 		List<String> attributes = Arrays.asList(adapter.getStringAttributes("description"));
 		assertThat(attributes).hasSize(4);
 		assertThat(attributes.contains("qwe")).isTrue();
@@ -229,12 +229,12 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 	 */
 	@Test
 	public void testModifyAttributes_DirContextAdapter() throws Exception {
-		DirContextAdapter adapter = (DirContextAdapter) tested.lookup(PERSON4_DN);
+		DirContextAdapter adapter = (DirContextAdapter) tested.lookup(person4Dn);
 
 		adapter.setAttributeValue("description", "Some other description");
 
 		ModificationItem[] modificationItems = adapter.getModificationItems();
-		tested.modifyAttributes(PERSON4_DN, modificationItems);
+		tested.modifyAttributes(person4Dn, modificationItems);
 
 		verifyBoundCorrectData();
 	}
@@ -276,7 +276,7 @@ public class LdapTemplateModifyITest extends AbstractLdapTemplateIntegrationTest
 	}
 
 	private void verifyBoundCorrectData() {
-		DirContextAdapter result = (DirContextAdapter) tested.lookup(PERSON4_DN);
+		DirContextAdapter result = (DirContextAdapter) tested.lookup(person4Dn);
 		assertThat(result.getStringAttribute("cn")).isEqualTo("Some Person4");
 		assertThat(result.getStringAttribute("sn")).isEqualTo("Person4");
 		assertThat(result.getStringAttribute("description")).isEqualTo("Some other description");

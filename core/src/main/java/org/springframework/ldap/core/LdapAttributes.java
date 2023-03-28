@@ -123,9 +123,9 @@ public class LdapAttributes extends BasicAttributes {
 			LdapName dn = getName();
 			
 			if (!dn.toString().matches(SAFE_INIT_CHAR + SAFE_CHAR + "*")) {
-				sb.append("dn:: " + LdapEncoder.printBase64Binary(dn.toString().getBytes()) + "\n");
+				sb.append("dn:: ").append(LdapEncoder.printBase64Binary(dn.toString().getBytes())).append("\n");
 			} else {
-				sb.append("dn: " + getDN() + "\n");
+				sb.append("dn: ").append(getDN()).append("\n");
 			}
 			
 			NamingEnumeration<Attribute> attributes = getAll();
@@ -141,13 +141,13 @@ public class LdapAttributes extends BasicAttributes {
 						sb.append(attribute.getID() + ": " + (String) value + "\n");
 					
 					} else if (value instanceof byte[]) {
-						sb.append(attribute.getID() + ":: " + LdapEncoder.printBase64Binary((byte[]) value) + "\n");
+						sb.append(attribute.getID() + ":: ").append(LdapEncoder.printBase64Binary((byte[]) value)).append("\n");
 
 					} else if (value instanceof URI) {
 						sb.append(attribute.getID() + ":< " + (URI) value + "\n");
 					
 					} else {
-						sb.append(attribute.getID() + ": " + value + "\n");
+						sb.append(attribute.getID() + ": ").append(value).append("\n");
 					}
 				}
 			}

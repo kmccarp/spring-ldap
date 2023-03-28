@@ -31,7 +31,8 @@ import java.util.Map;
  * @since 2.0
  */
 public final class NameAwareAttributes implements Attributes {
-	private Map<String, NameAwareAttribute> attributes = new HashMap<String, NameAwareAttribute>();
+	private static final long serialVersionUID = 1;
+	private Map<String, NameAwareAttribute> attributes = new HashMap<>();
 
 	/**
 	 * Create an empty instance
@@ -70,12 +71,12 @@ public final class NameAwareAttributes implements Attributes {
 
 	@Override
 	public NamingEnumeration<NameAwareAttribute> getAll() {
-		return new IterableNamingEnumeration<NameAwareAttribute>(attributes.values());
+		return new IterableNamingEnumeration<>(attributes.values());
 	}
 
 	@Override
 	public NamingEnumeration<String> getIDs() {
-		return new IterableNamingEnumeration<String>(attributes.keySet());
+		return new IterableNamingEnumeration<>(attributes.keySet());
 	}
 
 	@Override
@@ -109,14 +110,16 @@ public final class NameAwareAttributes implements Attributes {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		NameAwareAttributes that = (NameAwareAttributes) o;
 
-		if (attributes != null ? !attributes.equals(that.attributes) : that.attributes != null) return false;
-
-		return true;
+		return !(attributes != null ? !attributes.equals(that.attributes) : that.attributes != null);
 	}
 
 	@Override

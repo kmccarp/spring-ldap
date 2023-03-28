@@ -29,22 +29,22 @@ public class PoolConfig {
 	private int maxIdlePerKey = 8;
 	private int maxTotal = -1;
 	private int maxTotalPerKey = 8;
-	private int minIdlePerKey = 0;
+	private int minIdlePerKey;
 	private boolean blockWhenExhausted = true;
 	private String evictionPolicyClassName = "org.apache.commons.pool2.impl.DefaultEvictionPolicy";
-	private boolean fairness = false;
+	private boolean fairness;
 	private boolean jmxEnabled = true;
-	private String jmxNameBase = null;
+	private String jmxNameBase;
 	private String jmxNamePrefix = "ldap-pool";
 	private boolean lifo = true;
 	private long maxWaitMillis = -1L;
 	private long minEvictableIdleTimeMillis = 1000L * 60L * 30L;
 	private int numTestsPerEvictionRun = 3;
 	private long softMinEvictableIdleTimeMillis = -1L;
-	private boolean testOnBorrow = false;
-	private boolean testOnCreate = false;
-	private boolean testOnReturn = false;
-	private boolean testWhileIdle = false;
+	private boolean testOnBorrow;
+	private boolean testOnCreate;
+	private boolean testOnReturn;
+	private boolean testWhileIdle;
 	private long timeBetweenEvictionRunsMillis = -1L;
 
 

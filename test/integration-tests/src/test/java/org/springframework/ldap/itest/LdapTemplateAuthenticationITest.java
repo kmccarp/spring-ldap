@@ -93,15 +93,13 @@ public class LdapTemplateAuthenticationITest extends AbstractLdapTemplateIntegra
 	public void testAuthenticateWithLookupOperationPerformedOnAuthenticatedContext() {
 		AndFilter filter = new AndFilter();
 		filter.and(new EqualsFilter("objectclass", "person")).and(new EqualsFilter("uid", "some.person3"));
-		AuthenticatedLdapEntryContextCallback contextCallback = new AuthenticatedLdapEntryContextCallback() {
-			public void executeWithContext(DirContext ctx, LdapEntryIdentification ldapEntryIdentification) {
-				try {
-					DirContextAdapter adapter = (DirContextAdapter) ctx.lookup(ldapEntryIdentification.getRelativeDn());
-					assertThat(adapter.getStringAttribute("cn")).isEqualTo("Some Person3");
-				}
-				catch (NamingException e) {
-					throw new RuntimeException("Failed to lookup " + ldapEntryIdentification.getRelativeDn(), e);
-				}
+		AuthenticatedLdapEntryContextCallback contextCallback = (ctx, ldapEntryIdentification) -> {
+			try {
+				DirContextAdapter adapter = (DirContextAdapter) ctx.lookup(ldapEntryIdentification.getRelativeDn());
+				assertThat(adapter.getStringAttribute("cn")).isEqualTo("Some Person3");
+			}
+			catch (NamingException e) {
+				throw new RuntimeException("Failed to lookup " + ldapEntryIdentification.getRelativeDn(), e);
 			}
 		};
 		assertThat(tested.authenticate("", filter.toString(), "password", contextCallback)).isTrue();

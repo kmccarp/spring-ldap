@@ -57,19 +57,15 @@ public class SupportedControlsITest extends AbstractLdapTemplateIntegrationTest 
 		/**
 		 * Maps the 'supportedcontrol' attribute to a string array.
 		 */
-		ContextMapper mapper = new ContextMapper() {
-
-			public Object mapFromContext(Object ctx) {
-				DirContextAdapter adapter = (DirContextAdapter) ctx;
-				return adapter.getStringAttributes(SUPPORTED_CONTROL);
-			}
-
+		ContextMapper mapper = ctx -> {
+			DirContextAdapter adapter = (DirContextAdapter) ctx;
+			return adapter.getStringAttributes(SUPPORTED_CONTROL);
 		};
 
 		String[] controls = (String[]) tested.lookup("", new String[] { SUPPORTED_CONTROL }, mapper);
 		System.out.println(Arrays.toString(controls));
 
-		HashSet<String> controlsSet = new HashSet<String>(Arrays.asList(controls));
+		HashSet<String> controlsSet = new HashSet<>(Arrays.asList(controls));
 
 		assertThat(controlsSet.contains("1.3.6.1.4.1.4203.1.10.1")).as("Entry Change Notification LDAPv3 control,").isTrue();
 		assertThat(controlsSet.contains("1.3.6.1.4.1.4203.1.10.1")).as("Subentries Control,").isTrue();

@@ -38,7 +38,7 @@ public class LdifPopulator implements InitializingBean {
 	private ContextSource contextSource;
 
 	private String base = "";
-	private boolean clean = false;
+	private boolean clean;
 	private String defaultBase;
 
 	public void setContextSource(ContextSource contextSource) {

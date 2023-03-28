@@ -113,7 +113,7 @@ public class DefaultLdapClientLookupTest {
 		Attributes expected = new BasicAttributes();
 		whenSearching(name).thenReturn(result(null, expected));
 
-		AttributesMapper<Attributes> mapper = (attributes) -> attributes;
+		AttributesMapper<Attributes> mapper = attributes -> attributes;
 		Attributes actual = tested.search().name(name).toObject(mapper);
 
 		verify(dirContextMock).close();
@@ -127,7 +127,7 @@ public class DefaultLdapClientLookupTest {
 		Attributes expected = new BasicAttributes();
 		whenSearching(DEFAULT_BASE).thenReturn(result(null, expected));
 
-		AttributesMapper<Attributes> mapper = (attributes) -> attributes;
+		AttributesMapper<Attributes> mapper = attributes -> attributes;
 		Attributes actual = tested.search().name(DEFAULT_BASE.toString()).toObject(mapper);
 
 		verify(dirContextMock).close();
@@ -141,7 +141,7 @@ public class DefaultLdapClientLookupTest {
 		javax.naming.NameNotFoundException ne = new javax.naming.NameNotFoundException();
 		whenSearching(name).thenThrow(ne);
 
-		AttributesMapper<?> mapper = (attributes) -> attributes;
+		AttributesMapper<?> mapper = attributes -> attributes;
 		assertThatExceptionOfType(NameNotFoundException.class)
 				.describedAs("NameNotFoundException expected")
 				.isThrownBy(() -> tested.search().name(name).toObject(mapper));
@@ -157,7 +157,7 @@ public class DefaultLdapClientLookupTest {
 		Object expected = new Object();
 		whenSearching(name).thenReturn(result(expected, null));
 
-		ContextMapper<?> mapper = (ctx) -> ctx;
+		ContextMapper<?> mapper = ctx -> ctx;
 		Object actual = tested.search().name(name).toObject(mapper);
 
 		verify(dirContextMock).close();
@@ -171,7 +171,7 @@ public class DefaultLdapClientLookupTest {
 		Object expected = new Object();
 		whenSearching(DEFAULT_BASE).thenReturn(result(expected, null));
 
-		ContextMapper<?> mapper = (ctx) -> ctx;
+		ContextMapper<?> mapper = ctx -> ctx;
 		Object actual = tested.search().name(DEFAULT_BASE.toString()).toObject(mapper);
 
 		verify(dirContextMock).close();
@@ -185,7 +185,7 @@ public class DefaultLdapClientLookupTest {
 		javax.naming.NameNotFoundException ne = new javax.naming.NameNotFoundException();
 		whenSearching(name).thenThrow(ne);
 
-		ContextMapper<?> mapper = (ctx) -> ctx;
+		ContextMapper<?> mapper = ctx -> ctx;
 		assertThatExceptionOfType(NameNotFoundException.class)
 				.describedAs("NameNotFoundException expected")
 				.isThrownBy(() -> tested.search().name(name).toObject(mapper));

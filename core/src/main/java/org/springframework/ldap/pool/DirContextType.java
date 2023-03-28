@@ -28,7 +28,7 @@ import javax.naming.directory.DirContext;
  * @author Eric Dalquist
  */
 public final class DirContextType {
-	private String name;
+	private final String name;
 
 	private DirContextType(String name) {
 		this.name = name;

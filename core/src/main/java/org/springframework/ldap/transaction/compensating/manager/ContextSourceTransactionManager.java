@@ -113,7 +113,7 @@ public class ContextSourceTransactionManager extends
 
 	private static final long serialVersionUID = 7138208218687237856L;
 
-	private ContextSourceTransactionManagerDelegate delegate = new ContextSourceTransactionManagerDelegate();
+	private final ContextSourceTransactionManagerDelegate delegate = new ContextSourceTransactionManagerDelegate();
 
 	/*
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#doBegin(java.lang.Object,
@@ -191,6 +191,6 @@ public class ContextSourceTransactionManager extends
 	protected boolean isExistingTransaction(Object transaction)
 			throws TransactionException {
 		CompensatingTransactionObject txObject = (CompensatingTransactionObject) transaction;
-		return (txObject.getHolder() != null);
+		return txObject.getHolder() != null;
 	}
 }

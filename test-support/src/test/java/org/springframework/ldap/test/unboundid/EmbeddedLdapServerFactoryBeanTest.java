@@ -18,14 +18,12 @@ package org.springframework.ldap.test.unboundid;
 
 import java.util.List;
 
-import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 
 import org.junit.After;
 import org.junit.Test;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.query.LdapQueryBuilder;
 
@@ -49,12 +47,7 @@ public class EmbeddedLdapServerFactoryBeanTest {
 
 		List<String> list = ldapTemplate.search(
 				LdapQueryBuilder.query().where("objectclass").is("person"),
-				new AttributesMapper<String>() {
-					public String mapFromAttributes(Attributes attrs)
-							throws NamingException {
-						return (String) attrs.get("cn").get();
-					}
-				});
+				attrs -> (String) attrs.get("cn").get());
 		assertThat(list.size()).isEqualTo(5);
 	}
 

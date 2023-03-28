@@ -33,7 +33,7 @@ public final class PlainPerson {
 	public PlainPerson(Name dn, String commonName, String surname) {
 		this.dn = dn;
 		this.surname = surname;
-		objectClasses = new ArrayList<String>();
+		objectClasses = new ArrayList<>();
 		objectClasses.add("top");
 		objectClasses.add("person");
 		cn = commonName;
@@ -77,18 +77,25 @@ public final class PlainPerson {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		PlainPerson that = (PlainPerson) o;
 
-		if (cn != null ? !cn.equals(that.cn) : that.cn != null) return false;
-		if (dn != null ? !dn.equals(that.dn) : that.dn != null) return false;
-		if (objectClasses != null ? !objectClasses.equals(that.objectClasses) : that.objectClasses != null)
+		if (cn != null ? !cn.equals(that.cn) : that.cn != null) {
 			return false;
-		if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
-
-		return true;
+		}
+		if (dn != null ? !dn.equals(that.dn) : that.dn != null) {
+			return false;
+		}
+		if (objectClasses != null ? !objectClasses.equals(that.objectClasses) : that.objectClasses != null) {
+			return false;
+		}
+		return !(surname != null ? !surname.equals(that.surname) : that.surname != null);
 	}
 
 	@Override

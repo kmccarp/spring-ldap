@@ -22,7 +22,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ldap.NameNotFoundException;
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.itest.AbstractLdapTemplateIntegrationTest;
 import org.springframework.ldap.itest.transaction.compensating.manager.DummyDao;
@@ -30,7 +29,6 @@ import org.springframework.ldap.itest.transaction.compensating.manager.DummyExce
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -107,12 +105,10 @@ public class ContextSourceTransactionManagerIntegrationTest extends AbstractLdap
 
 		log.debug("Verifying result");
 
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Person");
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
-				return new Object();
-			}
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Person");
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
+			return new Object();
 		});
 
 		assertThat(ldapResult).isNotNull();
@@ -124,12 +120,10 @@ public class ContextSourceTransactionManagerIntegrationTest extends AbstractLdap
 		dummyDao.update(dn, "Some Person", "Updated Person", "Updated description");
 
 		log.debug("Verifying result");
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Updated Person");
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Updated Person");
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
 		assertThat(ldapResult).isNotNull();
@@ -160,11 +154,9 @@ public class ContextSourceTransactionManagerIntegrationTest extends AbstractLdap
 		}
 
 		// Verify that original entry was not updated.
-		Object object = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person2");
-				return new Object();
-			}
+		Object object = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person2");
+			return new Object();
 		});
 		assertThat(object).isNotNull();
 	}
@@ -177,11 +169,9 @@ public class ContextSourceTransactionManagerIntegrationTest extends AbstractLdap
 		dummyDao.updateAndRename(dn, newDn, "Updated description");
 
 		// Verify that entry was moved and updated.
-		Object object = ldapTemplate.lookup(newDn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object object = ldapTemplate.lookup(newDn, attributes -> {
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
 		assertThat(object).isNotNull();
@@ -201,12 +191,10 @@ public class ContextSourceTransactionManagerIntegrationTest extends AbstractLdap
 		}
 
 		// Verify result - check that the operation was properly rolled back
-		Object result = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Person");
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
-				return new Object();
-			}
+		Object result = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Person");
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
+			return new Object();
 		});
 
 		assertThat(result).isNotNull();
@@ -219,12 +207,10 @@ public class ContextSourceTransactionManagerIntegrationTest extends AbstractLdap
 		dummyDao.modifyAttributes(dn, "Updated lastname", "Updated description");
 
 		// Verify result - check that the operation was not rolled back
-		Object result = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Updated lastname");
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object result = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Updated lastname");
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
 		assertThat(result).isNotNull();
@@ -243,12 +229,7 @@ public class ContextSourceTransactionManagerIntegrationTest extends AbstractLdap
 		}
 
 		// Verify result - check that the operation was properly rolled back
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				// Just verify that the entry still exists.
-				return new Object();
-			}
-		});
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> new Object());
 
 		assertThat(ldapResult).isNotNull();
 	}

@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class AggregateDirContextProcessor implements DirContextProcessor {
 
-	private List<DirContextProcessor> dirContextProcessors = new LinkedList<DirContextProcessor>();
+	private List<DirContextProcessor> dirContextProcessors = new LinkedList<>();
 
 	/**
 	 * Add the supplied DirContextProcessor to the list of managed objects.
@@ -62,7 +62,7 @@ public class AggregateDirContextProcessor implements DirContextProcessor {
 	 *			the list of {@link DirContextProcessor} instances to set.
 	 */
 	public void setDirContextProcessors(List<DirContextProcessor> dirContextProcessors) {
-		this.dirContextProcessors = new ArrayList<DirContextProcessor>(dirContextProcessors);
+		this.dirContextProcessors = new ArrayList<>(dirContextProcessors);
 	}
 
 	/*

@@ -44,9 +44,9 @@ import static org.assertj.core.api.Assertions.fail;
 
 @ContextConfiguration(locations = {"/conf/simpleLdapTemplateTestContext.xml"})
 public class SimpleLdapTemplateITest extends AbstractLdapTemplateIntegrationTest {
-	private static String DN_STRING = "cn=Some Person4,ou=company1,ou=Sweden";
+	private static String dnString = "cn=Some Person4,ou=company1,ou=Sweden";
 
-	private static LdapName DN = LdapUtils.newLdapName("cn=Some Person4,ou=company1,ou=Sweden");
+	private static LdapName dn = LdapUtils.newLdapName("cn=Some Person4,ou=company1,ou=Sweden");
 
 	@Autowired
 	private LdapTemplate ldapTemplate;
@@ -148,13 +148,11 @@ public class SimpleLdapTemplateITest extends AbstractLdapTemplateIntegrationTest
 		ldapTemplate.modifyAttributes(ctx);
 
 		// verify that the data was properly updated.
-		ldapTemplate.lookup("cn=Some Person,ou=company1,ou=Sweden", new ContextMapper<Object>() {
-			public Object mapFromContext(Object ctx) {
-				DirContextAdapter adapter = (DirContextAdapter) ctx;
-				assertThat(adapter.getStringAttribute("description")).isEqualTo("updated description");
-				assertThat(adapter.getStringAttribute("telephoneNumber")).isEqualTo("0000001");
-				return null;
-			}
+		ldapTemplate.lookup("cn=Some Person,ou=company1,ou=Sweden", ctx -> {
+			DirContextAdapter adapter = (DirContextAdapter) ctx;
+			assertThat(adapter.getStringAttribute("description")).isEqualTo("updated description");
+			assertThat(adapter.getStringAttribute("telephoneNumber")).isEqualTo("0000001");
+			return null;
 		});
 	}
 
@@ -165,9 +163,9 @@ public class SimpleLdapTemplateITest extends AbstractLdapTemplateIntegrationTest
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
-		ldapTemplate.bind(DN_STRING, adapter, null);
+		ldapTemplate.bind(dnString, adapter, null);
 		verifyBoundCorrectData();
-		ldapTemplate.unbind(DN_STRING);
+		ldapTemplate.unbind(dnString);
 		verifyCleanup();
 	}
 
@@ -178,22 +176,22 @@ public class SimpleLdapTemplateITest extends AbstractLdapTemplateIntegrationTest
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
-		ldapTemplate.bind(DN, adapter, null);
+		ldapTemplate.bind(dn, adapter, null);
 		verifyBoundCorrectData();
-		ldapTemplate.unbind(DN);
+		ldapTemplate.unbind(dn);
 		verifyCleanup();
 	}
 
 	@Test
 	public void testBindAndUnbindWithDirContextAdapter() {
-		DirContextAdapter adapter = new DirContextAdapter(DN);
+		DirContextAdapter adapter = new DirContextAdapter(dn);
 		adapter.setAttributeValues("objectclass", new String[] { "top", "person" });
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
 		ldapTemplate.bind(adapter);
 		verifyBoundCorrectData();
-		ldapTemplate.unbind(DN);
+		ldapTemplate.unbind(dn);
 		verifyCleanup();
 	}
 
@@ -206,14 +204,14 @@ public class SimpleLdapTemplateITest extends AbstractLdapTemplateIntegrationTest
 	}
 	
 	private void verifyBoundCorrectData() {
-		DirContextOperations result = ldapTemplate.lookupContext(DN_STRING);
+		DirContextOperations result = ldapTemplate.lookupContext(dnString);
 		assertThat(result.getStringAttribute("cn")).isEqualTo("Some Person4");
 		assertThat(result.getStringAttribute("sn")).isEqualTo("Person4");
 	}
 
 	private void verifyCleanup() {
 		try {
-			ldapTemplate.lookupContext(DN_STRING);
+			ldapTemplate.lookupContext(dnString);
 			fail("NameNotFoundException expected");
 		}
 		catch (NameNotFoundException expected) {
