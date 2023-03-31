@@ -33,9 +33,9 @@ import javax.naming.Name;
  */
 public class RenameOperationRecorder implements CompensatingTransactionOperationRecorder {
 
-	private static Logger log = LoggerFactory.getLogger(RenameOperationRecorder.class);
+	private static final Logger log = LoggerFactory.getLogger(RenameOperationRecorder.class);
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
 	/**
 	 * Constructor.

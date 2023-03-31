@@ -32,7 +32,6 @@ public class UnbindOperationExecutorTest {
 	@Before
 	public void setUp() throws Exception {
 		ldapOperationsMock = mock(LdapOperations.class);
-		;
 	}
 
 	@Test

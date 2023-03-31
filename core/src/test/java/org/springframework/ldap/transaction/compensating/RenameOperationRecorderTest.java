@@ -30,7 +30,6 @@ public class RenameOperationRecorderTest {
 	@Before
 	public void setUp() throws Exception {
 		ldapOperationsMock = mock(LdapOperations.class);
-		;
 	}
 
 	@Test

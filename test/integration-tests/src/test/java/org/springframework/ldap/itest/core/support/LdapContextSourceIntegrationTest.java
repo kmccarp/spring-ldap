@@ -159,7 +159,7 @@ public class LdapContextSourceIntegrationTest extends AbstractLdapTemplateIntegr
 		}
 	}
 
-	private final static class DnContextMapper extends AbstractContextMapper<String> {
+	private static final class DnContextMapper extends AbstractContextMapper<String> {
 
 		@Override
 		protected String doMapFromContext(DirContextOperations ctx) {

@@ -23,7 +23,6 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,17 +59,14 @@ public class LdapTemplateAttributesMapperITest extends AbstractLdapTemplateInteg
 	 */
 	@Test
 	public void testSearch_AttributesMapper_MultiValue() throws Exception {
-		AttributesMapper mapper = new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				LinkedList list = new LinkedList();
-				NamingEnumeration enumeration = attributes.get("uniqueMember").getAll();
-				while (enumeration.hasMoreElements()) {
-					String value = (String) enumeration.nextElement();
-					list.add(value);
-				}
-				String[] members = (String[]) list.toArray(new String[0]);
-				return members;
+		AttributesMapper mapper = attributes -> {
+			LinkedList list = new LinkedList();
+			NamingEnumeration enumeration = attributes.get("uniqueMember").getAll();
+			while (enumeration.hasMoreElements()) {
+				String value = (String) enumeration.nextElement();
+				list.add(value);
 			}
+			return (String[]) list.toArray(new String[0]);
 		};
 		List result = tested.search("ou=groups", "(&(objectclass=groupOfUniqueNames)(cn=ROLE_USER))", mapper);
 

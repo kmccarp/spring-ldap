@@ -23,7 +23,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.ldap.odm.test.utils.ExecuteRunnable;
 import org.springframework.ldap.odm.test.utils.GetFreePort;
-import org.springframework.ldap.odm.test.utils.RunnableTest;
 import org.springframework.ldap.odm.tools.SchemaViewer;
 import org.springframework.ldap.support.LdapUtils;
 import org.springframework.ldap.test.LdapTestUtils;
@@ -81,7 +80,7 @@ public final class TestSchemaViewer {
 		try {
 			System.setErr(new PrintStream(output));
 
-			List<String> commandFlags = new ArrayList<String>(Arrays.asList(commonFlags));
+			List<String> commandFlags = new ArrayList<>(Arrays.asList(commonFlags));
 			commandFlags.addAll(Arrays.asList(flags));
 
 			SchemaViewer.main(commandFlags.toArray(new String[0]));
@@ -128,11 +127,9 @@ public final class TestSchemaViewer {
 	// ensure we get representative test coverage
 	@Test
 	public void testSchemaViewer() throws Exception {
-		new ExecuteRunnable<TestData>().runTests(new RunnableTest<TestData>() {
-			public void runTest(TestData testData) {
-				String result = runSchemaViewer(testData.flag, testData.value);
-				assertEquals(testData.result, result);
-			}
+		new ExecuteRunnable<TestData>().runTests(testData -> {
+			String result = runSchemaViewer(testData.flag, testData.value);
+			assertEquals(testData.result, result);
 		}, viewerTestData);
 	}
 

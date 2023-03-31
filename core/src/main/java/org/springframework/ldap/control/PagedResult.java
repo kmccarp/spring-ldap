@@ -27,9 +27,9 @@ import java.util.List;
  */
 public class PagedResult {
 
-	private List<?> resultList;
+	private final List<?> resultList;
 
-	private PagedResultsCookie cookie;
+	private final PagedResultsCookie cookie;
 
 	/**
 	 * Constructs a PagedResults using the supplied List and {@link PagedResultsCookie}.
@@ -59,19 +59,19 @@ public class PagedResult {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		PagedResult that = (PagedResult) o;
 
-		if (cookie != null ? !cookie.equals(that.cookie) : that.cookie != null)
+		if (cookie != null ? !cookie.equals(that.cookie) : that.cookie != null) {
 			return false;
-		if (resultList != null ? !resultList.equals(that.resultList) : that.resultList != null)
-			return false;
-
-		return true;
+		}
+		return !(resultList != null ? !resultList.equals(that.resultList) : that.resultList != null);
 	}
 
 	@Override

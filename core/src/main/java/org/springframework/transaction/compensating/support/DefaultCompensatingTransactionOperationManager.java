@@ -35,11 +35,11 @@ import java.util.Stack;
  */
 public class DefaultCompensatingTransactionOperationManager implements CompensatingTransactionOperationManager {
 
-	private static Logger log = LoggerFactory.getLogger(DefaultCompensatingTransactionOperationManager.class);
+	private static final Logger log = LoggerFactory.getLogger(DefaultCompensatingTransactionOperationManager.class);
 
-	private Stack<CompensatingTransactionOperationExecutor> operationExecutors = new Stack<CompensatingTransactionOperationExecutor>();
+	private Stack<CompensatingTransactionOperationExecutor> operationExecutors = new Stack<>();
 
-	private CompensatingTransactionOperationFactory operationFactory;
+	private final CompensatingTransactionOperationFactory operationFactory;
 
 	/**
 	 * Set the {@link CompensatingTransactionOperationFactory} to use.

@@ -58,15 +58,15 @@ import java.util.Set;
 	private SchemaAttributeType getSchemaAttributeType(String type) {
 		SchemaAttributeType result = SchemaAttributeType.UNKNOWN;
 
-		if (type.equals("SUP")) {
+		if ("SUP".equals(type)) {
 			result = SchemaAttributeType.SUP;
 		}
 		else {
-			if (type.equals("MUST")) {
+			if ("MUST".equals(type)) {
 				result = SchemaAttributeType.MUST;
 			}
 			else {
-				if (type.equals("MAY")) {
+				if ("MAY".equals(type)) {
 					result = SchemaAttributeType.MAY;
 				}
 			}
@@ -139,7 +139,7 @@ import java.util.Set;
 			throws NamingException, ClassNotFoundException {
 
 		// Super classes
-		Set<String> supList = new HashSet<String>();
+		Set<String> supList = new HashSet<>();
 
 		// For each of the given object classes
 		for (String objectClass : objectClasses) {

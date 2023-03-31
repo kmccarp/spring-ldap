@@ -33,7 +33,7 @@ import javax.naming.directory.SearchResult;
  */
 public class AttributesMapperCallbackHandler<T> extends CollectingNameClassPairCallbackHandler<T> {
 
-	private AttributesMapper<T> mapper;
+	private final AttributesMapper<T> mapper;
 
 	/**
 	 * Constructs a new instance around the specified {@link AttributesMapper}.

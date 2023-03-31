@@ -48,7 +48,7 @@ public class ContextSourceAndHibernateTransactionManager extends HibernateTransa
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ContextSourceTransactionManagerDelegate ldapManagerDelegate = new ContextSourceTransactionManagerDelegate();
+	private final ContextSourceTransactionManagerDelegate ldapManagerDelegate = new ContextSourceTransactionManagerDelegate();
 
 	/*
 	 * @see org.springframework.orm.hibernate5.HibernateTransactionManager#
@@ -164,9 +164,9 @@ public class ContextSourceAndHibernateTransactionManager extends HibernateTransa
 
 	private static final class ContextSourceAndHibernateTransactionObject {
 
-		private Object ldapTransactionObject;
+		private final Object ldapTransactionObject;
 
-		private Object hibernateTransactionObject;
+		private final Object hibernateTransactionObject;
 
 		public ContextSourceAndHibernateTransactionObject(Object ldapTransactionObject,
 				Object hibernateTransactionObject) {

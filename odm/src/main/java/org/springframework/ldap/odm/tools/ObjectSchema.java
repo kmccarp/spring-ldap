@@ -29,11 +29,11 @@ import java.util.Set;
  */
 public final class ObjectSchema {
 
-	private final Set<AttributeSchema> must = new HashSet<AttributeSchema>();
+	private final Set<AttributeSchema> must = new HashSet<>();
 
-	private final Set<AttributeSchema> may = new HashSet<AttributeSchema>();
+	private final Set<AttributeSchema> may = new HashSet<>();
 
-	private final Set<String> objectClass = new HashSet<String>();
+	private final Set<String> objectClass = new HashSet<>();
 
 	public void addMust(AttributeSchema must) {
 		// if may attributes contain must attribute, remove from may and add to must
@@ -88,31 +88,40 @@ public final class ObjectSchema {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		ObjectSchema other = (ObjectSchema) obj;
 		if (may == null) {
-			if (other.may != null)
+			if (other.may != null) {
 				return false;
+			}
 		}
-		else if (!may.equals(other.may))
+		else if (!may.equals(other.may)) {
 			return false;
+		}
 		if (must == null) {
-			if (other.must != null)
+			if (other.must != null) {
 				return false;
+			}
 		}
-		else if (!must.equals(other.must))
+		else if (!must.equals(other.must)) {
 			return false;
+		}
 		if (objectClass == null) {
-			if (other.objectClass != null)
+			if (other.objectClass != null) {
 				return false;
+			}
 		}
-		else if (!objectClass.equals(other.objectClass))
+		else if (!objectClass.equals(other.objectClass)) {
 			return false;
+		}
 		return true;
 	}
 
