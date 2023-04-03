@@ -51,7 +51,7 @@ public final class ConverterManagerImpl implements ConverterManager {
 	/**
 	 * Map of keys created via makeConverterKey to Converter instances.
 	 */
-	private final Map<String, Converter> converters = new HashMap<String, Converter>();
+	private final Map<String, Converter> converters = new HashMap<>();
 
 	/**
 	 * Make a key into the converters map - the keys is formed from the
@@ -80,7 +80,7 @@ public final class ConverterManagerImpl implements ConverterManager {
 	 * Used to help in the process of dealing with primitive types by mapping them to
 	 * their equivalent boxed class.
 	 */
-	private static Map<Class<?>, Class<?>> primitiveTypeMap = new HashMap<Class<?>, Class<?>>();
+	private static final Map<Class<?>, Class<?>> primitiveTypeMap = new HashMap<>();
 	static {
 		primitiveTypeMap.put(Byte.TYPE, Byte.class);
 		primitiveTypeMap.put(Short.TYPE, Short.class);

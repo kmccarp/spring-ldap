@@ -25,7 +25,7 @@ import javax.naming.Name;
 
 public class LdapTreeBuilder {
 
-	private LdapTemplate ldapTemplate;
+	private final LdapTemplate ldapTemplate;
 
 	public LdapTreeBuilder(LdapTemplate ldapTemplate) {
 		this.ldapTemplate = ldapTemplate;

@@ -34,13 +34,13 @@ import javax.naming.Name;
  */
 public class UnbindOperationExecutor implements CompensatingTransactionOperationExecutor {
 
-	private static Logger log = LoggerFactory.getLogger(UnbindOperationExecutor.class);
+	private static final Logger log = LoggerFactory.getLogger(UnbindOperationExecutor.class);
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
-	private Name originalDn;
+	private final Name originalDn;
 
-	private Name temporaryDn;
+	private final Name temporaryDn;
 
 	/**
 	 * Constructor.

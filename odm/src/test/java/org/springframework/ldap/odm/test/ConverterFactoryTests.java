@@ -7,7 +7,6 @@ import java.util.Set;
 import org.junit.Test;
 
 import org.springframework.ldap.odm.test.utils.ExecuteRunnable;
-import org.springframework.ldap.odm.test.utils.RunnableTests;
 import org.springframework.ldap.odm.typeconversion.ConverterManager;
 import org.springframework.ldap.odm.typeconversion.impl.Converter;
 import org.springframework.ldap.odm.typeconversion.impl.ConverterManagerFactoryBean;
@@ -26,13 +25,13 @@ public class ConverterFactoryTests {
 
 	private static final Converter nullConverter = new NullConverter();
 
-	private static class ConverterConfigTestData {
+	private static final class ConverterConfigTestData {
 
-		private Class<?>[] fromClasses;
+		private final Class<?>[] fromClasses;
 
-		private String syntax;
+		private final String syntax;
 
-		private Class<?>[] toClasses;
+		private final Class<?>[] toClasses;
 
 		private ConverterConfigTestData(Class<?>[] fromClasses, String syntax, Class<?>[] toClasses) {
 			this.fromClasses = fromClasses;
@@ -49,7 +48,7 @@ public class ConverterFactoryTests {
 			new ConverterConfigTestData(new Class<?>[] { String.class }, "123",
 					new Class<?>[] { java.net.URI.class }), };
 
-	private static class ConverterTestData {
+	private static final class ConverterTestData {
 
 		private final Class<?> fromClass;
 
@@ -79,23 +78,21 @@ public class ConverterFactoryTests {
 	@Test
 	public void testConverterFactory() throws Exception {
 		ConverterManagerFactoryBean converterManagerFactory = new ConverterManagerFactoryBean();
-		Set<ConverterManagerFactoryBean.ConverterConfig> configList = new HashSet<ConverterManagerFactoryBean.ConverterConfig>();
+		Set<ConverterManagerFactoryBean.ConverterConfig> configList = new HashSet<>();
 		for (ConverterConfigTestData config : converterConfigTestData) {
 			ConverterManagerFactoryBean.ConverterConfig converterConfig = new ConverterManagerFactoryBean.ConverterConfig();
-			converterConfig.setFromClasses(new HashSet<Class<?>>(Arrays.asList(config.fromClasses)));
+			converterConfig.setFromClasses(new HashSet<>(Arrays.asList(config.fromClasses)));
 			converterConfig.setSyntax(config.syntax);
-			converterConfig.setToClasses(new HashSet<Class<?>>(Arrays.asList(config.toClasses)));
+			converterConfig.setToClasses(new HashSet<>(Arrays.asList(config.toClasses)));
 			converterConfig.setConverter(nullConverter);
 			configList.add(converterConfig);
 		}
 		converterManagerFactory.setConverterConfig(configList);
 		final ConverterManager converterManager = (ConverterManager) converterManagerFactory.getObject();
 
-		new ExecuteRunnable<ConverterTestData>().runTests(new RunnableTests<ConverterTestData>() {
-			public void runTest(ConverterTestData testData) {
-				assertEquals(testData.canConvert,
-						converterManager.canConvert(testData.fromClass, testData.syntax, testData.toClass));
-			}
+		new ExecuteRunnable<ConverterTestData>().runTests(testData -> {
+			assertEquals(testData.canConvert,
+		converterManager.canConvert(testData.fromClass, testData.syntax, testData.toClass));
 		}, converterTestData);
 	}
 

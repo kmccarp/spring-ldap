@@ -38,11 +38,11 @@ import java.lang.reflect.Method;
  */
 public class TransactionAwareDirContextInvocationHandler implements InvocationHandler {
 
-	private static Logger log = LoggerFactory.getLogger(TransactionAwareDirContextInvocationHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(TransactionAwareDirContextInvocationHandler.class);
 
-	private DirContext target;
+	private final DirContext target;
 
-	private ContextSource contextSource;
+	private final ContextSource contextSource;
 
 	/**
 	 * Constructor.
@@ -62,18 +62,18 @@ public class TransactionAwareDirContextInvocationHandler implements InvocationHa
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
 		String methodName = method.getName();
-		if (methodName.equals("getTargetContext")) {
+		if ("getTargetContext".equals(methodName)) {
 			return this.target;
 		}
-		else if (methodName.equals("equals")) {
+		else if ("equals".equals(methodName)) {
 			// Only consider equal when proxies are identical.
-			return (proxy == args[0] ? Boolean.TRUE : Boolean.FALSE);
+			return proxy == args[0] ? Boolean.TRUE : Boolean.FALSE;
 		}
-		else if (methodName.equals("hashCode")) {
+		else if ("hashCode".equals(methodName)) {
 			// Use hashCode of Connection proxy.
 			return hashCode();
 		}
-		else if (methodName.equals("close")) {
+		else if ("close".equals(methodName)) {
 			doCloseConnection(this.target, this.contextSource);
 			return null;
 		}

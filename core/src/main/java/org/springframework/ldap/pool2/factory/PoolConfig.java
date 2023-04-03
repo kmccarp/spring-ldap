@@ -32,17 +32,17 @@ public class PoolConfig {
 
 	private int maxTotalPerKey = 8;
 
-	private int minIdlePerKey = 0;
+	private int minIdlePerKey;
 
 	private boolean blockWhenExhausted = true;
 
 	private String evictionPolicyClassName = "org.apache.commons.pool2.impl.DefaultEvictionPolicy";
 
-	private boolean fairness = false;
+	private boolean fairness;
 
 	private boolean jmxEnabled = true;
 
-	private String jmxNameBase = null;
+	private String jmxNameBase;
 
 	private String jmxNamePrefix = "ldap-pool";
 
@@ -56,13 +56,13 @@ public class PoolConfig {
 
 	private long softMinEvictableIdleTimeMillis = -1L;
 
-	private boolean testOnBorrow = false;
+	private boolean testOnBorrow;
 
-	private boolean testOnCreate = false;
+	private boolean testOnCreate;
 
-	private boolean testOnReturn = false;
+	private boolean testOnReturn;
 
-	private boolean testWhileIdle = false;
+	private boolean testWhileIdle;
 
 	private long timeBetweenEvictionRunsMillis = -1L;
 

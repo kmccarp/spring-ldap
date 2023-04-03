@@ -123,7 +123,7 @@ public class DefaultLdapClientLookupITests extends AbstractLdapTemplateIntegrati
 		AttributesMapper<Person> mapper = new SubsetPersonAttributesMapper();
 
 		Person person = tested.search()
-				.query((builder) -> builder.base("cn=Some Person2, ou=company1,ou=Sweden").attributes("cn"))
+				.query(builder -> builder.base("cn=Some Person2, ou=company1,ou=Sweden").attributes("cn"))
 				.toObject(mapper);
 
 		assertThat(person.getFullname()).isEqualTo("Some Person2");
@@ -139,7 +139,7 @@ public class DefaultLdapClientLookupITests extends AbstractLdapTemplateIntegrati
 	public void testLookup_ReturnAttributes_AttributesMapper_LdapName() {
 		AttributesMapper<Person> mapper = new SubsetPersonAttributesMapper();
 		Person person = tested
-				.search().query((builder) -> builder
+				.search().query(builder -> builder
 						.base(LdapUtils.newLdapName("cn=Some Person2, ou=company1,ou=Sweden")).attributes("cn"))
 				.toObject(mapper);
 
@@ -172,7 +172,7 @@ public class DefaultLdapClientLookupITests extends AbstractLdapTemplateIntegrati
 		ContextMapper<Person> mapper = new PersonContextMapper();
 
 		Person person = tested.search()
-				.query((builder) -> builder.base("cn=Some Person2, ou=company1,ou=Sweden").attributes("cn"))
+				.query(builder -> builder.base("cn=Some Person2, ou=company1,ou=Sweden").attributes("cn"))
 				.toObject(mapper);
 
 		assertThat(person.getFullname()).isEqualTo("Some Person2");

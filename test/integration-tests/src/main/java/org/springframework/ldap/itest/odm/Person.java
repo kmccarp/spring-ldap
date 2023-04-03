@@ -35,7 +35,7 @@ public class Person implements Persistable<Name> {
 	private String telephoneNumber;
 
 	@Transient
-	private boolean isNew = false;
+	private boolean isNew;
 
 	// operational attribute according to https://tools.ietf.org/html/rfc4530
 	@Attribute(name = "entryUUID", readonly = true)

@@ -70,7 +70,7 @@ public abstract class AbstractTlsDirContextAuthenticationStrategy implements Dir
 	private HostnameVerifier hostnameVerifier;
 
 	/** Flag to cause graceful shutdown required by some LDAP DSAs */
-	private boolean shutdownTlsGracefully = false;
+	private boolean shutdownTlsGracefully;
 
 	/** SSL socket factory to use for startTLS negotiation */
 	private SSLSocketFactory sslSocketFactory;

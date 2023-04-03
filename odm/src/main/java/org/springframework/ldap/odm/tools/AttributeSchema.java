@@ -113,39 +113,52 @@ public final class AttributeSchema {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		AttributeSchema other = (AttributeSchema) obj;
-		if (isArray != other.isArray)
+		if (isArray != other.isArray) {
 			return false;
-		if (isBinary != other.isBinary)
+		}
+		if (isBinary != other.isBinary) {
 			return false;
-		if (isMultiValued != other.isMultiValued)
+		}
+		if (isMultiValued != other.isMultiValued) {
 			return false;
-		if (isPrimitive != other.isPrimitive)
+		}
+		if (isPrimitive != other.isPrimitive) {
 			return false;
+		}
 		if (name == null) {
-			if (other.name != null)
+			if (other.name != null) {
 				return false;
+			}
 		}
-		else if (!name.equals(other.name))
+		else if (!name.equals(other.name)) {
 			return false;
+		}
 		if (scalarType == null) {
-			if (other.scalarType != null)
+			if (other.scalarType != null) {
 				return false;
+			}
 		}
-		else if (!scalarType.equals(other.scalarType))
+		else if (!scalarType.equals(other.scalarType)) {
 			return false;
+		}
 		if (syntax == null) {
-			if (other.syntax != null)
+			if (other.syntax != null) {
 				return false;
+			}
 		}
-		else if (!syntax.equals(other.syntax))
+		else if (!syntax.equals(other.syntax)) {
 			return false;
+		}
 		return true;
 	}
 

@@ -36,7 +36,6 @@ public class UnbindOperationRecorderTests {
 	@Before
 	public void setUp() throws Exception {
 		this.ldapOperationsMock = mock(LdapOperations.class);
-		;
 
 		this.renamingStrategyMock = mock(TempEntryRenamingStrategy.class);
 	}

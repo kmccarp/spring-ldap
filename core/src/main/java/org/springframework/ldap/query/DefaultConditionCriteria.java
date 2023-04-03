@@ -35,7 +35,7 @@ class DefaultConditionCriteria implements ConditionCriteria {
 
 	private final String attribute;
 
-	private boolean negated = false;
+	private boolean negated;
 
 	DefaultConditionCriteria(AppendableContainerCriteria parent, String attribute) {
 		this.parent = parent;

@@ -53,9 +53,9 @@ public final class SchemaViewer {
 				"objectclass"), ATTRIBUTE("a",
 						"attribute"), SYNTAX("s", "syntax"), HELP("h", "help"), ERROR("e", "error");
 
-		private String shortName;
+		private final String shortName;
 
-		private String longName;
+		private final String longName;
 
 		private Flag(String shortName, String longName) {
 			this.shortName = shortName;
@@ -81,7 +81,7 @@ public final class SchemaViewer {
 
 		OBJECTCLASS("ClassDefinition"), ATTRIBUTE("AttributeDefinition"), SYNTAX("SyntaxDefinition");
 
-		private String value;
+		private final String value;
 
 		private SchemaContext(String value) {
 			this.value = value;
@@ -175,7 +175,7 @@ public final class SchemaViewer {
 
 	private static PrintStream outstream = System.out;
 
-	private final static String WILDCARD = "?";
+	private static final String WILDCARD = "?";
 
 	public static void main(String[] argv) {
 		CommandLineParser parser = new PosixParser();
@@ -204,7 +204,7 @@ public final class SchemaViewer {
 		String user = cmd.getOptionValue(Flag.USERNAME.getShort(), "");
 		String pass = cmd.getOptionValue(Flag.PASSWORD.getShort(), "");
 
-		Hashtable<String, String> env = new Hashtable<String, String>();
+		Hashtable<String, String> env = new Hashtable<>();
 		env.put(Context.PROVIDER_URL, url);
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		if (user != null) {

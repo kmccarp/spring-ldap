@@ -43,7 +43,7 @@ import java.util.Set;
  */
 public class ModifyAttributesOperationRecorder implements CompensatingTransactionOperationRecorder {
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
 	public ModifyAttributesOperationRecorder(LdapOperations ldapOperations) {
 		this.ldapOperations = ldapOperations;
@@ -62,7 +62,7 @@ public class ModifyAttributesOperationRecorder implements CompensatingTransactio
 
 		ModificationItem[] incomingModifications = (ModificationItem[]) args[1];
 
-		Set<String> set = new HashSet<String>();
+		Set<String> set = new HashSet<>();
 		for (ModificationItem incomingModification : incomingModifications) {
 			set.add(incomingModification.getAttribute().getID());
 		}

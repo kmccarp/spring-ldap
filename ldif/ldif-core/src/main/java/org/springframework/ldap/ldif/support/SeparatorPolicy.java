@@ -32,7 +32,7 @@ import org.springframework.util.StringUtils;
  */
 public class SeparatorPolicy {
 
-	private static Logger log = LoggerFactory.getLogger(SeparatorPolicy.class);
+	private static final Logger log = LoggerFactory.getLogger(SeparatorPolicy.class);
 
 	/*
 	 * Line Identification Patterns.
@@ -50,9 +50,9 @@ public class SeparatorPolicy {
 
 	private static final String NEW_RECORD = "^dn:.*$";
 
-	private boolean record = false;
+	private boolean record;
 
-	private boolean skip = false;
+	private boolean skip;
 
 	public SeparatorPolicy() {
 

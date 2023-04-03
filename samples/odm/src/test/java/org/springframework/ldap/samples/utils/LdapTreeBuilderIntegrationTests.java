@@ -48,7 +48,7 @@ public class LdapTreeBuilderIntegrationTests extends AbstractJUnit4SpringContext
 		private static final LdapName DN_3 = LdapUtils.newLdapName("cn=Some Person,ou=company1,c=Sweden");
 		private static final LdapName DN_4 = LdapUtils.newLdapName("cn=Some Person2,ou=company1,c=Sweden");
 
-		private Map<LdapName, Integer> names = new LinkedHashMap<LdapName, Integer>();
+		private Map<LdapName, Integer> names = new LinkedHashMap<>();
 
 		private Iterator<LdapName> keyIterator;
 

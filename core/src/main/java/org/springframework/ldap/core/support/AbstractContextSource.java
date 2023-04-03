@@ -101,9 +101,9 @@ public abstract class AbstractContextSource implements BaseLdapPathContextSource
 
 	private String[] urls;
 
-	private boolean pooled = false;
+	private boolean pooled;
 
-	private Hashtable<String, Object> baseEnv = new Hashtable<String, Object>();
+	private Hashtable<String, Object> baseEnv = new Hashtable<>();
 
 	private Hashtable<String, Object> anonymousEnv;
 
@@ -111,9 +111,9 @@ public abstract class AbstractContextSource implements BaseLdapPathContextSource
 
 	private boolean cacheEnvironmentProperties = true;
 
-	private boolean anonymousReadOnly = false;
+	private boolean anonymousReadOnly;
 
-	private String referral = null;
+	private String referral;
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractContextSource.class);
 
@@ -148,9 +148,8 @@ public abstract class AbstractContextSource implements BaseLdapPathContextSource
 		DirContext ctx = createContext(env);
 
 		try {
-			DirContext processedDirContext = this.authenticationStrategy.processContextAfterCreation(ctx, principal,
+			return this.authenticationStrategy.processContextAfterCreation(ctx, principal,
 					credentials);
-			return processedDirContext;
 		}
 		catch (NamingException e) {
 			closeContext(ctx);
@@ -447,7 +446,7 @@ public abstract class AbstractContextSource implements BaseLdapPathContextSource
 			LOG.debug("Not using LDAP pooling");
 		}
 
-		Hashtable<String, Object> env = new Hashtable<String, Object>(this.baseEnv);
+		Hashtable<String, Object> env = new Hashtable<>(this.baseEnv);
 
 		env.put(Context.INITIAL_CONTEXT_FACTORY, this.contextFactory.getName());
 		env.put(Context.PROVIDER_URL, assembleProviderUrlString(this.urls));
@@ -563,7 +562,7 @@ public abstract class AbstractContextSource implements BaseLdapPathContextSource
 	 * be used when creating new Context instances.
 	 */
 	public void setBaseEnvironmentProperties(Map<String, Object> baseEnvironmentProperties) {
-		this.baseEnv = new Hashtable<String, Object>(baseEnvironmentProperties);
+		this.baseEnv = new Hashtable<>(baseEnvironmentProperties);
 	}
 
 	protected Hashtable<String, Object> getAnonymousEnv() {
@@ -577,7 +576,7 @@ public abstract class AbstractContextSource implements BaseLdapPathContextSource
 
 	protected Hashtable<String, Object> getAuthenticatedEnv(String principal, String credentials) {
 		// The authenticated environment should always be rebuilt.
-		Hashtable<String, Object> env = new Hashtable<String, Object>(getAnonymousEnv());
+		Hashtable<String, Object> env = new Hashtable<>(getAnonymousEnv());
 		setupAuthenticatedEnvironment(env, principal, credentials);
 		return env;
 	}

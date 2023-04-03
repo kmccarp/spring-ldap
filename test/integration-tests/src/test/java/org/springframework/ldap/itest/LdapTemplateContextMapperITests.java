@@ -63,12 +63,9 @@ public class LdapTemplateContextMapperITests extends AbstractLdapTemplateIntegra
 	 */
 	@Test
 	public void testSearch_ContextMapper_MultiValue() throws Exception {
-		ContextMapper mapper = new ContextMapper() {
-			public Object mapFromContext(Object ctx) {
-				DirContextAdapter adapter = (DirContextAdapter) ctx;
-				String[] members = adapter.getStringAttributes("uniqueMember");
-				return members;
-			}
+		ContextMapper mapper = ctx -> {
+			DirContextAdapter adapter = (DirContextAdapter) ctx;
+			return adapter.getStringAttributes("uniqueMember");
 		};
 		List result = tested.search("ou=groups", "(&(objectclass=groupOfUniqueNames)(cn=ROLE_USER))", mapper);
 
