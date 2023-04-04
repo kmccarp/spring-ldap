@@ -37,7 +37,7 @@ import java.lang.reflect.Proxy;
 public class TransactionAwareContextSourceProxy extends DelegatingBaseLdapPathContextSourceSupport
 		implements ContextSource {
 
-	private ContextSource target;
+	private final ContextSource target;
 
 	/**
 	 * Constructor.

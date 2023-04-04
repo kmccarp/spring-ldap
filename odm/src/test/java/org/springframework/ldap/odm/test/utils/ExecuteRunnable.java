@@ -8,10 +8,10 @@ public final class ExecuteRunnable<U> {
 
 	public void runTests(RunnableTests<U> runnableTest, U[] testData) throws Exception {
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-		Logger LOG = LoggerFactory.getLogger(ste.getClassName());
+		Logger log = LoggerFactory.getLogger(ste.getClassName());
 		for (U testDatum : testData) {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(String.format("Running test with data %1$s", testDatum));
+			if (log.isDebugEnabled()) {
+				log.debug(String.format("Running test with data %1$s", testDatum));
 			}
 			runnableTest.runTest(testDatum);
 		}

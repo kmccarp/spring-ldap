@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ldap.odm.test.utils.ExecuteRunnable;
-import org.springframework.ldap.odm.test.utils.RunnableTests;
 import org.springframework.ldap.odm.typeconversion.ConverterException;
 import org.springframework.ldap.odm.typeconversion.impl.Converter;
 import org.springframework.ldap.odm.typeconversion.impl.ConverterManagerImpl;
@@ -111,11 +110,9 @@ public final class ConverterManagerTests {
 				new ConverterTestData<String>(new URI("https://apache.org/index.html"), String.class,
 						"https://apache.org/index.html") };
 
-		new ExecuteRunnable<ConverterTestData<?>>().runTests(new RunnableTests<ConverterTestData<?>>() {
-			public void runTest(ConverterTestData<?> testData) {
-				assertEquals(testData.expectedValue,
-						converterManager.convert(testData.sourceData, "", testData.destClass));
-			}
+		new ExecuteRunnable<ConverterTestData<?>>().runTests(testData -> {
+			assertEquals(testData.expectedValue,
+		converterManager.convert(testData.sourceData, "", testData.destClass));
 		}, primitiveTypeTests);
 	}
 
@@ -125,7 +122,7 @@ public final class ConverterManagerTests {
 			Integer intSource = null;
 
 			if (source.getClass() == String.class) {
-				intSource = new Integer((String) source);
+				intSource = Integer.valueOf((String) source);
 			}
 			else {
 				if (source.getClass() == Integer.class) {
@@ -149,7 +146,7 @@ public final class ConverterManagerTests {
 			Integer intSource = null;
 
 			if (source.getClass() == String.class) {
-				intSource = new Integer((String) source);
+				intSource = Integer.valueOf((String) source);
 			}
 			else {
 				if (source.getClass() == Integer.class) {
@@ -191,11 +188,9 @@ public final class ConverterManagerTests {
 				new ConverterTestData<Integer>(5, "3", Integer.class, Integer.valueOf(125)),
 				new ConverterTestData<Integer>(6, "3", Integer.class, Integer.valueOf(216)), };
 
-		new ExecuteRunnable<ConverterTestData<?>>().runTests(new RunnableTests<ConverterTestData<?>>() {
-			public void runTest(ConverterTestData<?> testData) {
-				assertEquals(testData.expectedValue,
-						converterManager.convert(testData.sourceData, testData.syntax, testData.destClass));
-			}
+		new ExecuteRunnable<ConverterTestData<?>>().runTests(testData -> {
+			assertEquals(testData.expectedValue,
+		converterManager.convert(testData.sourceData, testData.syntax, testData.destClass));
 		}, syntaxTests);
 
 	}

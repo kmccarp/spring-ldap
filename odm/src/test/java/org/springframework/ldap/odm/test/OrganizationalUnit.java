@@ -37,7 +37,7 @@ public final class OrganizationalUnit {
 	private Name dn;
 
 	@Attribute(name = "objectClass", syntax = "1.3.6.1.4.1.1466.115.121.1.38")
-	private List<String> objectClass = new ArrayList<String>();
+	private List<String> objectClass = new ArrayList<>();
 
 	@Attribute(name = "ou", syntax = "1.3.6.1.4.1.1466.115.121.1.15")
 	private String ou;
@@ -117,44 +117,57 @@ public final class OrganizationalUnit {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		OrganizationalUnit other = (OrganizationalUnit) obj;
 		if (description == null) {
-			if (other.description != null)
+			if (other.description != null) {
 				return false;
+			}
 		}
-		else if (!description.equals(other.description))
+		else if (!description.equals(other.description)) {
 			return false;
+		}
 		if (dn == null) {
-			if (other.dn != null)
+			if (other.dn != null) {
 				return false;
+			}
 		}
-		else if (!dn.equals(other.dn))
+		else if (!dn.equals(other.dn)) {
 			return false;
+		}
 		if (objectClass == null) {
-			if (other.objectClass != null)
+			if (other.objectClass != null) {
 				return false;
+			}
 		}
 		else if (objectClass.size() != other.objectClass.size()
-				|| !(new HashSet<String>(objectClass)).equals(new HashSet<String>(other.objectClass)))
+	|| !(new HashSet<String>(objectClass)).equals(new HashSet<String>(other.objectClass))) {
 			return false;
+		}
 		if (ou == null) {
-			if (other.ou != null)
+			if (other.ou != null) {
 				return false;
+			}
 		}
-		else if (!ou.equals(other.ou))
+		else if (!ou.equals(other.ou)) {
 			return false;
+		}
 		if (street == null) {
-			if (other.street != null)
+			if (other.street != null) {
 				return false;
+			}
 		}
-		else if (!street.equals(other.street))
+		else if (!street.equals(other.street)) {
 			return false;
+		}
 		return true;
 	}
 

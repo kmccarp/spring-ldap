@@ -111,7 +111,7 @@ public class DirContextAdapter implements DirContextOperations {
 
 	private LdapName base = LdapUtils.emptyLdapName();
 
-	private boolean updateMode = false;
+	private boolean updateMode;
 
 	private NameAwareAttributes updatedAttrs;
 
@@ -233,7 +233,7 @@ public class DirContextAdapter implements DirContextOperations {
 	@Override
 	public String[] getNamesOfModifiedAttributes() {
 
-		List<String> tmpList = new ArrayList<String>();
+		List<String> tmpList = new ArrayList<>();
 
 		NamingEnumeration<? extends Attribute> attributesEnumeration;
 		if (isUpdateMode()) {
@@ -279,7 +279,7 @@ public class DirContextAdapter implements DirContextOperations {
 			return new ModificationItem[0];
 		}
 
-		List<ModificationItem> tmpList = new LinkedList<ModificationItem>();
+		List<ModificationItem> tmpList = new LinkedList<>();
 		NamingEnumeration<? extends Attribute> attributesEnumeration = null;
 		try {
 			attributesEnumeration = this.updatedAttrs.getAll();
@@ -355,7 +355,7 @@ public class DirContextAdapter implements DirContextOperations {
 		else if (changedAttr.size() > 0) {
 			// Change of multivalue Attribute. Collect additions and removals
 			// individually.
-			List<ModificationItem> myModifications = new LinkedList<ModificationItem>();
+			List<ModificationItem> myModifications = new LinkedList<>();
 			collectModifications(currentAttribute, changedAttr, myModifications);
 
 			if (myModifications.isEmpty()) {
@@ -408,7 +408,7 @@ public class DirContextAdapter implements DirContextOperations {
 	 */
 	private boolean isEmptyAttribute(Attribute a) {
 		try {
-			return (a == null || a.size() == 0 || a.get() == null);
+			return a == null || a.size() == 0 || a.get() == null;
 		}
 		catch (NamingException e) {
 			return true;
@@ -435,7 +435,7 @@ public class DirContextAdapter implements DirContextOperations {
 		NameAwareAttribute prev = this.updatedAttrs.get(name);
 
 		// values == null and values.length == 0 is treated the same way
-		boolean emptyNewValue = (values == null || values.length == 0);
+		boolean emptyNewValue = values == null || values.length == 0;
 
 		// Setting to empty ---------------------
 		if (emptyNewValue) {
@@ -467,14 +467,16 @@ public class DirContextAdapter implements DirContextOperations {
 		// Check contents of arrays
 
 		// Order DOES matter, e.g. first names
-		if (isAttributeUpdated(values, orderMatters, orig))
+		if (isAttributeUpdated(values, orderMatters, orig)) {
 			return true;
+		}
 
 		if (prev != null) {
 			// Also check against updatedAttrs, since there might have been
 			// a previous update
-			if (isAttributeUpdated(values, orderMatters, prev))
+			if (isAttributeUpdated(values, orderMatters, prev)) {
 				return true;
+			}
 		}
 		// FALSE since we have compared all values
 		return false;
@@ -752,7 +754,7 @@ public class DirContextAdapter implements DirContextOperations {
 	}
 
 	private <T> List<T> collectAttributeValuesAsList(String name, Class<T> clazz) {
-		List<T> list = new LinkedList<T>();
+		List<T> list = new LinkedList<>();
 		LdapUtils.collectAttributeValues(this.originalAttrs, name, list, clazz);
 		return list;
 	}
@@ -763,7 +765,7 @@ public class DirContextAdapter implements DirContextOperations {
 	@Override
 	public SortedSet<String> getAttributeSortedStringSet(String name) {
 		try {
-			TreeSet<String> attrSet = new TreeSet<String>();
+			TreeSet<String> attrSet = new TreeSet<>();
 			LdapUtils.collectAttributeValues(this.originalAttrs, name, attrSet, String.class);
 			return attrSet;
 		}
@@ -1294,27 +1296,31 @@ public class DirContextAdapter implements DirContextOperations {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
+		if (this == o) {
 			return true;
-		if (o == null || getClass() != o.getClass())
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
 
 		DirContextAdapter that = (DirContextAdapter) o;
 
-		if (this.updateMode != that.updateMode)
+		if (this.updateMode != that.updateMode) {
 			return false;
-		if (this.base != null ? !this.base.equals(that.base) : that.base != null)
+		}
+		if (this.base != null ? !this.base.equals(that.base) : that.base != null) {
 			return false;
-		if (this.dn != null ? !this.dn.equals(that.dn) : that.dn != null)
+		}
+		if (this.dn != null ? !this.dn.equals(that.dn) : that.dn != null) {
 			return false;
-		if (this.originalAttrs != null ? !this.originalAttrs.equals(that.originalAttrs) : that.originalAttrs != null)
+		}
+		if (this.originalAttrs != null ? !this.originalAttrs.equals(that.originalAttrs) : that.originalAttrs != null) {
 			return false;
-		if (this.referralUrl != null ? !this.referralUrl.equals(that.referralUrl) : that.referralUrl != null)
+		}
+		if (this.referralUrl != null ? !this.referralUrl.equals(that.referralUrl) : that.referralUrl != null) {
 			return false;
-		if (this.updatedAttrs != null ? !this.updatedAttrs.equals(that.updatedAttrs) : that.updatedAttrs != null)
-			return false;
-
-		return true;
+		}
+		return !(this.updatedAttrs != null ? !this.updatedAttrs.equals(that.updatedAttrs) : that.updatedAttrs != null);
 	}
 
 	/**

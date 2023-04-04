@@ -15,7 +15,6 @@
  */
 package org.springframework.ldap.itest;
 
-import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 
 import org.junit.Test;
@@ -40,11 +39,7 @@ public class LdapTemplateContextExecutorTests extends AbstractLdapTemplateIntegr
 
 	@Test
 	public void testLookupLink() {
-		ContextExecutor executor = new ContextExecutor() {
-			public Object executeWithContext(DirContext ctx) throws NamingException {
-				return ctx.lookupLink("cn=Some Person,ou=company1,ou=Sweden");
-			}
-		};
+		ContextExecutor executor = ctx -> ctx.lookupLink("cn=Some Person,ou=company1,ou=Sweden");
 
 		Object object = tested.executeReadOnly(executor);
 		assertThat(object instanceof DirContextAdapter).as("Should be a DirContextAdapter").isTrue();

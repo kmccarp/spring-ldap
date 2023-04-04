@@ -30,8 +30,6 @@ import org.springframework.ldap.core.support.DefaultIncrementalAttributesMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.naming.directory.BasicAttribute;
@@ -199,16 +197,13 @@ public class IncrementalAttributeMapperITests extends AbstractJUnit4SpringContex
 		TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
 
 		try {
-			transactionTemplate.execute(new TransactionCallback<Object>() {
-				@Override
-				public Object doInTransaction(TransactionStatus status) {
-					ModificationItem modificationItem = new ModificationItem(DirContext.ADD_ATTRIBUTE,
-							new BasicAttribute("member", buildUserRefDn("test" + 1501)));
-					ldapTemplate.modifyAttributes(GROUP_DN, new ModificationItem[] { modificationItem });
+			transactionTemplate.execute(status -> {
+				ModificationItem modificationItem = new ModificationItem(DirContext.ADD_ATTRIBUTE,
+			new BasicAttribute("member", buildUserRefDn("test" + 1501)));
+				ldapTemplate.modifyAttributes(GROUP_DN, new ModificationItem[]{modificationItem});
 
-					// The below should cause a rollback
-					throw new RuntimeException("Simulate some failure");
-				}
+				// The below should cause a rollback
+				throw new RuntimeException("Simulate some failure");
 			});
 
 			fail("RuntimeException expected");

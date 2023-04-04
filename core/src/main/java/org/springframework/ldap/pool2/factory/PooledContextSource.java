@@ -99,11 +99,11 @@ public class PooledContextSource extends DelegatingBaseLdapPathContextSourceSupp
 		if (poolConfig != null) {
 			this.poolConfig = poolConfig;
 			GenericKeyedObjectPoolConfig objectPoolConfig = getConfig(poolConfig);
-			this.keyedObjectPool = new GenericKeyedObjectPool<Object, Object>(this.dirContextPooledObjectFactory,
+			this.keyedObjectPool = new GenericKeyedObjectPool<>(this.dirContextPooledObjectFactory,
 					objectPoolConfig);
 		}
 		else {
-			this.keyedObjectPool = new GenericKeyedObjectPool<Object, Object>(this.dirContextPooledObjectFactory);
+			this.keyedObjectPool = new GenericKeyedObjectPool<>(this.dirContextPooledObjectFactory);
 		}
 	}
 

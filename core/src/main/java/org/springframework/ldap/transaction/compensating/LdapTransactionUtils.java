@@ -84,11 +84,11 @@ public final class LdapTransactionUtils {
 	 * <code>false</code> otherwise.
 	 */
 	public static boolean isSupportedWriteTransactionOperation(String methodName) {
-		return (ObjectUtils.nullSafeEquals(methodName, BIND_METHOD_NAME)
+		return ObjectUtils.nullSafeEquals(methodName, BIND_METHOD_NAME)
 				|| ObjectUtils.nullSafeEquals(methodName, REBIND_METHOD_NAME)
 				|| ObjectUtils.nullSafeEquals(methodName, RENAME_METHOD_NAME)
 				|| ObjectUtils.nullSafeEquals(methodName, MODIFY_ATTRIBUTES_METHOD_NAME)
-				|| ObjectUtils.nullSafeEquals(methodName, UNBIND_METHOD_NAME));
+				|| ObjectUtils.nullSafeEquals(methodName, UNBIND_METHOD_NAME);
 
 	}
 

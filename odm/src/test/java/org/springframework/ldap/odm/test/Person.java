@@ -41,7 +41,7 @@ public final class Person {
 		this.desc = desc;
 		this.telephoneNumber = telephoneNumber;
 		this.jpegPhoto = jpegPhoto;
-		objectClasses = new ArrayList<String>();
+		objectClasses = new ArrayList<>();
 		objectClasses.add("inetOrgPerson");
 		objectClasses.add("organizationalPerson");
 		objectClasses.add("person");
@@ -56,10 +56,10 @@ public final class Person {
 	}
 
 	@Transient
-	private String someRandomField = null;
+	private String someRandomField;
 
 	@Transient
-	private List<String> someRandomList = new ArrayList<String>();
+	private List<String> someRandomList = new ArrayList<>();
 
 	@Attribute(name = "objectClass")
 	private List<String> objectClasses;
@@ -168,62 +168,78 @@ public final class Person {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Person other = (Person) obj;
 		if (cn == null) {
-			if (other.cn != null)
+			if (other.cn != null) {
 				return false;
+			}
 		}
-		else if (!cn.equals(other.cn))
+		else if (!cn.equals(other.cn)) {
 			return false;
+		}
 		if (desc == null) {
-			if (other.desc != null)
+			if (other.desc != null) {
 				return false;
+			}
 		}
 		else if (desc.size() != other.desc.size()
-				|| !(new HashSet<String>(desc)).equals(new HashSet<String>(other.desc)))
+	|| !(new HashSet<String>(desc)).equals(new HashSet<String>(other.desc))) {
 			return false;
-		if (dn == null) {
-			if (other.dn != null)
-				return false;
 		}
-		else if (!dn.equals(other.dn))
-			return false;
-		if (!Arrays.equals(jpegPhoto, other.jpegPhoto))
-			return false;
-		if (objectClasses == null) {
-			if (other.objectClasses != null)
+		if (dn == null) {
+			if (other.dn != null) {
 				return false;
+			}
+		}
+		else if (!dn.equals(other.dn)) {
+			return false;
+		}
+		if (!Arrays.equals(jpegPhoto, other.jpegPhoto)) {
+			return false;
+		}
+		if (objectClasses == null) {
+			if (other.objectClasses != null) {
+				return false;
+			}
 		}
 		else if (objectClasses.size() != other.objectClasses.size()
-				|| !(new HashSet<String>(objectClasses)).equals(new HashSet<String>(other.objectClasses)))
+	|| !(new HashSet<String>(objectClasses)).equals(new HashSet<String>(other.objectClasses))) {
 			return false;
+		}
 		if (someRandomField == null) {
-			if (other.someRandomField != null)
+			if (other.someRandomField != null) {
 				return false;
+			}
 		}
-		else if (!someRandomField.equals(other.someRandomField))
+		else if (!someRandomField.equals(other.someRandomField)) {
 			return false;
+		}
 		if (someRandomList == null) {
-			if (other.someRandomList != null)
+			if (other.someRandomList != null) {
 				return false;
+			}
 		}
-		else if (!someRandomList.equals(other.someRandomList))
+		else if (!someRandomList.equals(other.someRandomList)) {
 			return false;
+		}
 		if (surname == null) {
-			if (other.surname != null)
+			if (other.surname != null) {
 				return false;
+			}
 		}
-		else if (!surname.equals(other.surname))
+		else if (!surname.equals(other.surname)) {
 			return false;
-		if (telephoneNumber != other.telephoneNumber)
-			return false;
-		return true;
+		}
+		return telephoneNumber == other.telephoneNumber;
 	}
 
 }

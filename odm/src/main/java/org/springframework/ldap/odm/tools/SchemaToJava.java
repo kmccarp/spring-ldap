@@ -122,9 +122,9 @@ public final class SchemaToJava {
 				"c", "class"), PACKAGE("k",
 						"package"), SYNTAX_MAP("s", "syntaxmap"), OUTPUT_DIR("t", "outputdir"), HELP("h", "help");
 
-		private String shortName;
+		private final String shortName;
 
-		private String longName;
+		private final String longName;
 
 		private Flag(String shortName, String longName) {
 			this.shortName = shortName;
@@ -177,7 +177,7 @@ public final class SchemaToJava {
 	// Read list of LDAP syntaxes that are returned as byte[]
 	private static Set<String> readBinarySet(File binarySetFile) throws IOException {
 
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new HashSet<>();
 
 		BufferedReader reader = null;
 		try {
@@ -207,7 +207,7 @@ public final class SchemaToJava {
 	// Read mappings of LDAP syntaxes to Java classes.
 	private static Map<String, String> readSyntaxMap(File syntaxMapFile) throws IOException {
 
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<>();
 
 		BufferedReader reader = null;
 		try {
@@ -245,7 +245,7 @@ public final class SchemaToJava {
 			Set<String> binarySet, Set<String> objectClasses) throws NamingException, ClassNotFoundException {
 
 		// Set up environment
-		Hashtable<String, String> env = new Hashtable<String, String>();
+		Hashtable<String, String> env = new Hashtable<>();
 		env.put(Context.PROVIDER_URL, url);
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		if (user != null) {
@@ -277,7 +277,7 @@ public final class SchemaToJava {
 		freeMarkerConfiguration.setObjectWrapper(new DefaultObjectWrapper());
 
 		// Build the model for FreeMarker
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("package", packageName);
 		model.put("class", className);
 		model.put("schema", schema);
@@ -309,7 +309,7 @@ public final class SchemaToJava {
 		Pattern pattern = Pattern.compile("\\.");
 		Matcher matcher = pattern.matcher(packageName);
 		String sepToUse = File.separator;
-		if (sepToUse.equals("\\")) {
+		if ("\\".equals(sepToUse)) {
 			sepToUse = "\\\\";
 		}
 
@@ -335,7 +335,7 @@ public final class SchemaToJava {
 	}
 
 	private static Set<String> parseObjectClassesFlag(String objectClassesFlag) {
-		Set<String> objectClasses = new HashSet<String>();
+		Set<String> objectClasses = new HashSet<>();
 
 		for (String objectClassFlag : objectClassesFlag.split(",")) {
 			if (objectClassFlag.length() > 0) {
@@ -404,7 +404,7 @@ public final class SchemaToJava {
 			error("You must specificy a package name");
 		}
 		Set<String> objectClasses = parseObjectClassesFlag(objectClassesFlag);
-		if (objectClasses.size() == 0) {
+		if (objectClasses.isEmpty()) {
 			error("You must specificy a package name");
 		}
 
@@ -457,7 +457,7 @@ public final class SchemaToJava {
 		}
 
 		// Work out what imports we need
-		Set<SyntaxToJavaClass.ClassInfo> imports = new HashSet<SyntaxToJavaClass.ClassInfo>();
+		Set<SyntaxToJavaClass.ClassInfo> imports = new HashSet<>();
 		for (AttributeSchema attributeSchema : schema.getMay()) {
 			SyntaxToJavaClass.ClassInfo classInfo = syntaxToJavaClass.getClassInfo(attributeSchema.getSyntax());
 			if (classInfo != null) {

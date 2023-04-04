@@ -50,7 +50,7 @@ public class DefaultAttributeValidationPolicyTests {
 
 	private static DefaultAttributeValidationPolicy policy = new DefaultAttributeValidationPolicy();
 
-	private static enum AttributeType {
+	private enum AttributeType {
 
 		STRING, BASE64, URL, UTF8
 
@@ -201,8 +201,9 @@ public class DefaultAttributeValidationPolicyTests {
 
 		}
 		catch (Exception e) {
-			if (!exceptions.contains(line))
+			if (!exceptions.contains(line)) {
 				fail("Exception thrown: " + e.getClass().getSimpleName() + " (message: " + e.getMessage() + ")");
+			}
 		}
 	}
 

@@ -147,7 +147,7 @@ public class DefaultLdapClientTests {
 		singleSearchResult(searchControlsOneLevel(), searchResult);
 
 		this.tested.search().query(
-				(builder) -> builder.base(this.nameMock).searchScope(SearchScope.ONELEVEL).filter("(ou=somevalue)"))
+				builder -> builder.base(this.nameMock).searchScope(SearchScope.ONELEVEL).filter("(ou=somevalue)"))
 				.toObject(this.contextMapperMock);
 
 		verify(this.contextMapperMock).mapFromContext(any());
@@ -164,7 +164,7 @@ public class DefaultLdapClientTests {
 
 		singleSearchResultWithStringBase(controls, searchResult);
 
-		this.tested.search().query((builder) -> builder.base(DEFAULT_BASE.toString()).searchScope(SearchScope.ONELEVEL)
+		this.tested.search().query(builder -> builder.base(DEFAULT_BASE.toString()).searchScope(SearchScope.ONELEVEL)
 				.filter("(ou=somevalue)")).toObject(this.contextMapperMock);
 
 		verify(this.contextMapperMock).mapFromContext(any());
@@ -183,7 +183,7 @@ public class DefaultLdapClientTests {
 		singleSearchResult(controls, searchResult);
 
 		this.tested.search().query(
-				(builder) -> builder.base(this.nameMock).searchScope(SearchScope.SUBTREE).filter("(ou=somevalue)"))
+				builder -> builder.base(this.nameMock).searchScope(SearchScope.SUBTREE).filter("(ou=somevalue)"))
 				.toObject(this.attributesMapperMock);
 
 		verify(this.attributesMapperMock).mapFromAttributes(any());
@@ -201,7 +201,7 @@ public class DefaultLdapClientTests {
 
 		singleSearchResultWithStringBase(controls, searchResult);
 
-		this.tested.search().query((builder) -> builder.base(DEFAULT_BASE.toString()).searchScope(SearchScope.SUBTREE)
+		this.tested.search().query(builder -> builder.base(DEFAULT_BASE.toString()).searchScope(SearchScope.SUBTREE)
 				.filter("(ou=somevalue)")).toObject(this.attributesMapperMock);
 
 		verify(this.attributesMapperMock).mapFromAttributes(any());
@@ -221,7 +221,7 @@ public class DefaultLdapClientTests {
 
 		try {
 			this.tested.search().query(
-					(builder) -> builder.base(this.nameMock).searchScope(SearchScope.SUBTREE).filter("(ou=somevalue)"))
+					builder -> builder.base(this.nameMock).searchScope(SearchScope.SUBTREE).filter("(ou=somevalue)"))
 					.toObject(this.attributesMapperMock);
 			fail("NameNotFoundException expected");
 		}
@@ -243,7 +243,7 @@ public class DefaultLdapClientTests {
 				argThat(new SearchControlsMatcher(controls)))).thenThrow(ne);
 
 		try {
-			this.tested.search().query((builder) -> builder.base(this.nameMock).filter("(ou=somevalue)"))
+			this.tested.search().query(builder -> builder.base(this.nameMock).filter("(ou=somevalue)"))
 					.toObject(this.attributesMapperMock);
 			fail("LimitExceededException expected");
 		}

@@ -104,7 +104,7 @@ public class ContextSourceTransactionManager extends AbstractPlatformTransaction
 
 	private static final long serialVersionUID = 7138208218687237856L;
 
-	private ContextSourceTransactionManagerDelegate delegate = new ContextSourceTransactionManagerDelegate();
+	private final ContextSourceTransactionManagerDelegate delegate = new ContextSourceTransactionManagerDelegate();
 
 	/*
 	 * @see
@@ -182,7 +182,7 @@ public class ContextSourceTransactionManager extends AbstractPlatformTransaction
 	@Override
 	protected boolean isExistingTransaction(Object transaction) throws TransactionException {
 		CompensatingTransactionObject txObject = (CompensatingTransactionObject) transaction;
-		return (txObject.getHolder() != null);
+		return txObject.getHolder() != null;
 	}
 
 }
