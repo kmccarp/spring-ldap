@@ -45,9 +45,9 @@ import java.util.TreeSet;
 
 	private AttributeMetaData idAttribute;
 
-	private Map<Field, AttributeMetaData> fieldToAttribute = new HashMap<Field, AttributeMetaData>();
+	private final Map<Field, AttributeMetaData> fieldToAttribute = new HashMap<>();
 
-	private Set<AttributeMetaData> dnAttributes = new TreeSet<AttributeMetaData>(new Comparator<AttributeMetaData>() {
+	private final Set<AttributeMetaData> dnAttributes = new TreeSet<>(new Comparator<AttributeMetaData>() {
 		@Override
 		public int compare(AttributeMetaData a1, AttributeMetaData a2) {
 			if (!a1.isDnAttribute() || !a2.isDnAttribute()) {
@@ -55,13 +55,13 @@ import java.util.TreeSet;
 				return 0;
 			}
 
-			return Integer.valueOf(a1.getDnAttribute().index()).compareTo(a2.getDnAttribute().index());
+			return Integer.compare(a1.getDnAttribute().index(), a2.getDnAttribute().index());
 		}
 	});
 
-	private boolean indexedDnAttributes = false;
+	private boolean indexedDnAttributes;
 
-	private Set<CaseIgnoreString> objectClasses = new LinkedHashSet<CaseIgnoreString>();
+	private final Set<CaseIgnoreString> objectClasses = new LinkedHashSet<>();
 
 	private Name base = LdapUtils.emptyLdapName();
 
@@ -190,7 +190,7 @@ import java.util.TreeSet;
 	}
 
 	boolean canCalculateDn() {
-		return this.dnAttributes.size() > 0 && this.indexedDnAttributes;
+		return !this.dnAttributes.isEmpty() && this.indexedDnAttributes;
 	}
 
 	public Set<AttributeMetaData> getDnAttributes() {

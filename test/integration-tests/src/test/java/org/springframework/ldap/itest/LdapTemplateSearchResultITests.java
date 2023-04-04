@@ -23,7 +23,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.SizeLimitExceededException;
-import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
@@ -37,7 +36,6 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.naming.Name;
-import javax.naming.NamingException;
 import javax.naming.directory.SearchControls;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -482,12 +480,7 @@ public class LdapTemplateSearchResultITests extends AbstractLdapTemplateIntegrat
 	@Test
 	public void verifyThatSearchWithCountLimitReturnsTheEntriesFoundSoFar() {
 		List<Object> result = tested.search(query().countLimit(3).where("objectclass").is("person"),
-				new ContextMapper<Object>() {
-					@Override
-					public Object mapFromContext(Object ctx) throws NamingException {
-						return new Object();
-					}
-				});
+	ctx -> new Object());
 
 		assertThat(result).hasSize(3);
 	}
@@ -495,12 +488,7 @@ public class LdapTemplateSearchResultITests extends AbstractLdapTemplateIntegrat
 	@Test(expected = SizeLimitExceededException.class)
 	public void verifyThatSearchWithCountLimitWithFlagToFalseThrowsException() {
 		tested.setIgnoreSizeLimitExceededException(false);
-		tested.search(query().countLimit(3).where("objectclass").is("person"), new ContextMapper<Object>() {
-			@Override
-			public Object mapFromContext(Object ctx) throws NamingException {
-				return new Object();
-			}
-		});
+		tested.search(query().countLimit(3).where("objectclass").is("person"), ctx -> new Object());
 	}
 
 }

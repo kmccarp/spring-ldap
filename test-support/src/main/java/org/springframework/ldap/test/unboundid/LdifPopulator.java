@@ -42,7 +42,7 @@ public class LdifPopulator implements InitializingBean {
 
 	private String base = "";
 
-	private boolean clean = false;
+	private boolean clean;
 
 	private String defaultBase;
 

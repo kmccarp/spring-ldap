@@ -77,11 +77,11 @@ import java.util.Set;
 public class DefaultIncrementalAttributesMapper
 		implements IncrementalAttributesMapper<DefaultIncrementalAttributesMapper> {
 
-	private final static Logger LOG = LoggerFactory.getLogger(DefaultIncrementalAttributesMapper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultIncrementalAttributesMapper.class);
 
-	private Map<String, IncrementalAttributeState> stateMap = new LinkedHashMap<String, IncrementalAttributeState>();
+	private Map<String, IncrementalAttributeState> stateMap = new LinkedHashMap<>();
 
-	private Set<String> rangedAttributesInNextIteration = new LinkedHashSet<String>();
+	private Set<String> rangedAttributesInNextIteration = new LinkedHashSet<>();
 
 	/**
 	 * This guy will be used when an unmapped attribute is encountered. This really should
@@ -169,7 +169,7 @@ public class DefaultIncrementalAttributesMapper
 		}
 
 		// Reset the affected attributes.
-		this.rangedAttributesInNextIteration = new HashSet<String>();
+		this.rangedAttributesInNextIteration = new HashSet<>();
 
 		NamingEnumeration<String> attributeNameEnum = attributes.getIDs();
 		while (attributeNameEnum.hasMore()) {
@@ -236,7 +236,7 @@ public class DefaultIncrementalAttributesMapper
 
 	@Override
 	public final boolean hasMore() {
-		return this.rangedAttributesInNextIteration.size() > 0;
+		return !this.rangedAttributesInNextIteration.isEmpty();
 	}
 
 	@Override
@@ -357,7 +357,7 @@ public class DefaultIncrementalAttributesMapper
 
 		private final String actualAttributeName;
 
-		private List<Object> values = null;
+		private List<Object> values;
 
 		private final int pageSize;
 
@@ -415,14 +415,14 @@ public class DefaultIncrementalAttributesMapper
 
 		private void initValuesIfApplicable() {
 			if (this.values == null) {
-				this.values = new LinkedList<Object>();
+				this.values = new LinkedList<>();
 			}
 		}
 
 		@Override
 		public List<Object> getValues() {
 			if (this.values != null) {
-				return new ArrayList<Object>(this.values);
+				return new ArrayList<>(this.values);
 			}
 			else {
 				return null;

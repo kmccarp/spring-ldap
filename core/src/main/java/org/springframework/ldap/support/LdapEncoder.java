@@ -32,9 +32,9 @@ public final class LdapEncoder {
 
 	private static final int HEX = 16;
 
-	private static String[] NAME_ESCAPE_TABLE = new String[96];
+	private static final String[] NAME_ESCAPE_TABLE = new String[96];
 
-	private static String[] FILTER_ESCAPE_TABLE = new String['\\' + 1];
+	private static final String[] FILTER_ESCAPE_TABLE = new String['\\' + 1];
 
 	private static final int RFC2849_MAX_BASE64_CHARS_PER_LINE = 76;
 
@@ -98,8 +98,9 @@ public final class LdapEncoder {
 	 */
 	public static String filterEncode(String value) {
 
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		// make buffer roomy
 		StringBuilder encodedValue = new StringBuilder(value.length() * 2);
@@ -142,8 +143,9 @@ public final class LdapEncoder {
 	 */
 	public static String nameEncode(String value) {
 
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		// make buffer roomy
 		StringBuilder encodedValue = new StringBuilder(value.length() * 2);
@@ -186,10 +188,11 @@ public final class LdapEncoder {
 	 * @return The decoded value as a string.
 	 * @throws BadLdapGrammarException
 	 */
-	static public String nameDecode(String value) throws BadLdapGrammarException {
+	public static String nameDecode(String value) throws BadLdapGrammarException {
 
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		// make buffer same size
 		StringBuilder decoded = new StringBuilder(value.length());

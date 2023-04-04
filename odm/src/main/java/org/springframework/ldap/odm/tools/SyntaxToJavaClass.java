@@ -43,7 +43,7 @@ import java.util.Map.Entry;
 
 	}
 
-	private final Map<String, ClassInfo> mapSyntaxToClassInfo = new HashMap<String, ClassInfo>();
+	private final Map<String, ClassInfo> mapSyntaxToClassInfo = new HashMap<>();
 
 	public SyntaxToJavaClass(Map<String, String> mapSyntaxToClass) {
 		for (Entry<String, String> syntaxAndClass : mapSyntaxToClass.entrySet()) {

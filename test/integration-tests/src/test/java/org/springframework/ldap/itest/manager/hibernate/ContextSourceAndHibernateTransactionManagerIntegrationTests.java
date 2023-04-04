@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ldap.NameNotFoundException;
-import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.itest.AbstractLdapTemplateIntegrationTests;
 import org.springframework.ldap.itest.transaction.compensating.manager.DummyException;
@@ -38,7 +37,6 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import java.util.List;
 
@@ -76,7 +74,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 		}
 
 		OrgPerson person = new OrgPerson();
-		person.setId(new Integer(1));
+		person.setId(Integer.valueOf(1));
 		person.setLastname("Person");
 		person.setFullname("Some Person");
 		person.setDescription("Sweden, Company1, Some Person");
@@ -109,7 +107,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 	public void testCreateWithException() {
 		OrgPerson person = new OrgPerson();
 
-		person.setId(new Integer(2));
+		person.setId(Integer.valueOf(2));
 		person.setDescription("some description");
 		person.setFullname("Some testperson");
 		person.setLastname("testperson");
@@ -137,7 +135,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 
 		List result = hibernateTemplate.findByNamedParam("from OrgPerson person where person.lastname = :lastname",
 				"lastname", person.getLastname());
-		assertThat(result.size() == 0).isTrue();
+		assertThat(result.isEmpty()).isTrue();
 
 	}
 
@@ -145,7 +143,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 	public void testCreate() {
 		OrgPerson person = new OrgPerson();
 
-		person.setId(new Integer(2));
+		person.setId(Integer.valueOf(2));
 		person.setDescription("some description");
 		person.setFullname("Some testperson");
 		person.setLastname("testperson");
@@ -158,7 +156,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 		person = null;
 		log.debug("Verifying result");
 		Object ldapResult = ldapTemplate.lookup("cn=some testperson, ou=company1, ou=Sweden");
-		OrgPerson fromDb = (OrgPerson) this.hibernateTemplate.get(OrgPerson.class, new Integer(2));
+		OrgPerson fromDb = (OrgPerson) this.hibernateTemplate.get(OrgPerson.class, Integer.valueOf(2));
 		assertThat(ldapResult).isNotNull();
 		assertThat(fromDb).isNotNull();
 	}
@@ -166,7 +164,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 	@Test
 	public void testUpdateWithException() {
 		String dn = "cn=Some Person,ou=company1,ou=Sweden";
-		OrgPerson originalPerson = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, new Integer(1));
+		OrgPerson originalPerson = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, Integer.valueOf(1));
 		originalPerson.setLastname("fooo");
 		try {
 			dummyDao.updateWithException(originalPerson);
@@ -178,15 +176,13 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 
 		log.debug("Verifying result");
 
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).as("Person").isNotNull();
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
-				return new Object();
-			}
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).as("Person").isNotNull();
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
+			return new Object();
 		});
 
-		OrgPerson notUpdatedPerson = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, new Integer(1));
+		OrgPerson notUpdatedPerson = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, Integer.valueOf(1));
 		assertThat(notUpdatedPerson.getLastname()).isEqualTo("Person");
 		assertThat(notUpdatedPerson.getDescription()).isEqualTo("Sweden, Company1, Some Person");
 
@@ -197,22 +193,20 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 	@Test
 	public void testUpdate() {
 		String dn = "cn=Some Person,ou=company1,ou=Sweden";
-		OrgPerson person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, new Integer(1));
+		OrgPerson person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, Integer.valueOf(1));
 		person.setLastname("Updated Person");
 		person.setDescription("Updated description");
 
 		dummyDao.update(person);
 
 		log.debug("Verifying result");
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Updated Person");
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Updated Person");
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
-		OrgPerson updatedPerson = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, new Integer(1));
+		OrgPerson updatedPerson = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, Integer.valueOf(1));
 		assertThat(updatedPerson.getLastname()).isEqualTo("Updated Person");
 		assertThat(updatedPerson.getDescription()).isEqualTo("Updated description");
 		assertThat(ldapResult).isNotNull();
@@ -222,7 +216,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 	public void testUpdateAndRenameWithException() {
 		String dn = "cn=Some Person2,ou=company1,ou=Sweden";
 		String newDn = "cn=Some Person2,ou=company2,ou=Sweden";
-		OrgPerson person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, new Integer(1));
+		OrgPerson person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, Integer.valueOf(1));
 		person.setLastname("Updated Person");
 		person.setDescription("Updated description");
 
@@ -245,11 +239,9 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 		}
 
 		// Verify that original entry was not updated.
-		Object object = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person2");
-				return new Object();
-			}
+		Object object = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person2");
+			return new Object();
 		});
 		assertThat(object).isNotNull();
 	}
@@ -262,11 +254,9 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 		dummyDao.updateAndRename(dn, newDn, "Updated description");
 
 		// Verify that entry was moved and updated.
-		Object object = ldapTemplate.lookup(newDn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object object = ldapTemplate.lookup(newDn, attributes -> {
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
 		assertThat(object).isNotNull();
@@ -285,12 +275,10 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 		}
 
 		// Verify result - check that the operation was properly rolled back
-		Object result = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Person");
-				assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
-				return new Object();
-			}
+		Object result = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Person");
+			assertThat(attributes.get("description").get()).isEqualTo("Sweden, Company1, Some Person");
+			return new Object();
 		});
 
 		assertThat(result).isNotNull();
@@ -303,12 +291,10 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 		dummyDao.modifyAttributes(dn, "Updated lastname", "Updated description");
 
 		// Verify result - check that the operation was not rolled back
-		Object result = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				assertThat(attributes.get("sn").get()).isEqualTo("Updated lastname");
-				assertThat(attributes.get("description").get()).isEqualTo("Updated description");
-				return new Object();
-			}
+		Object result = ldapTemplate.lookup(dn, attributes -> {
+			assertThat(attributes.get("sn").get()).isEqualTo("Updated lastname");
+			assertThat(attributes.get("description").get()).isEqualTo("Updated description");
+			return new Object();
 		});
 
 		assertThat(result).isNotNull();
@@ -317,7 +303,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 	@Test
 	public void testUnbindWithException() {
 		String dn = "cn=Some Person,ou=company1,ou=Sweden";
-		OrgPerson person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, new Integer(1));
+		OrgPerson person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, Integer.valueOf(1));
 
 		try {
 			// Perform test
@@ -330,14 +316,9 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 
 		person = null;
 		// Verify result - check that the operation was properly rolled back
-		Object ldapResult = ldapTemplate.lookup(dn, new AttributesMapper() {
-			public Object mapFromAttributes(Attributes attributes) throws NamingException {
-				// Just verify that the entry still exists.
-				return new Object();
-			}
-		});
+		Object ldapResult = ldapTemplate.lookup(dn, attributes -> new Object());
 
-		person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, new Integer(1)); // will
+		person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, Integer.valueOf(1)); // will
 		// throw
 		// exception
 		// of
@@ -353,7 +334,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 	public void testUnbind() {
 		String dn = "cn=Some Person,ou=company1,ou=Sweden";
 		// Perform test
-		OrgPerson person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, new Integer(1));
+		OrgPerson person = (OrgPerson) this.hibernateTemplate.load(OrgPerson.class, Integer.valueOf(1));
 		dummyDao.unbind(person);
 
 		try {
@@ -365,7 +346,7 @@ public class ContextSourceAndHibernateTransactionManagerIntegrationTests extends
 			assertThat(true).isTrue();
 		}
 
-		person = (OrgPerson) this.hibernateTemplate.get(OrgPerson.class, new Integer(1));
+		person = (OrgPerson) this.hibernateTemplate.get(OrgPerson.class, Integer.valueOf(1));
 		assertThat(person).isNull();
 	}
 

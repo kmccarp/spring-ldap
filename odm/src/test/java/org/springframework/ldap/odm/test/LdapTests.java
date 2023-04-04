@@ -57,7 +57,6 @@ import org.springframework.ldap.odm.core.impl.MetaDataException;
 import org.springframework.ldap.odm.core.impl.OdmManagerImpl;
 import org.springframework.ldap.odm.test.utils.ExecuteRunnable;
 import org.springframework.ldap.odm.test.utils.GetFreePort;
-import org.springframework.ldap.odm.test.utils.RunnableTests;
 import org.springframework.ldap.odm.typeconversion.impl.Converter;
 import org.springframework.ldap.odm.typeconversion.impl.ConverterManagerImpl;
 import org.springframework.ldap.odm.typeconversion.impl.converters.FromStringConverter;
@@ -87,8 +86,8 @@ public final class LdapTests {
 	// Maximum time to wait for results in testing (ms)
 	private static final int TIME_LIMIT = 60000;
 
-	private SearchControls searchControls = new SearchControls(SearchControls.SUBTREE_SCOPE, COUNT_LIMIT, TIME_LIMIT,
-			null, true, false);
+	private final SearchControls searchControls = new SearchControls(SearchControls.SUBTREE_SCOPE, COUNT_LIMIT, TIME_LIMIT,
+null, true, false);
 
 	private ConverterManagerImpl converterManager;
 
@@ -186,7 +185,7 @@ public final class LdapTests {
 		LdapTestUtils.cleanAndSetup(contextSource, baseName, new ClassPathResource("testdata.ldif"));
 
 		// Create our OdmManager
-		Set<Class<?>> managedClasses = new HashSet<Class<?>>();
+		Set<Class<?>> managedClasses = new HashSet<>();
 		managedClasses.add(Person.class);
 		managedClasses.add(PlainPerson.class);
 		managedClasses.add(OrganizationalUnit.class);
@@ -211,7 +210,7 @@ public final class LdapTests {
 
 		WILLIAM(0), PATRICK(1), JON(2), TOM(3), PETER(4), DAVROS(5), DALEKS(6), MASTER(7);
 
-		private int index;
+		private final int index;
 
 		private PersonName(int index) {
 			this.index = index;
@@ -244,24 +243,22 @@ public final class LdapTests {
 	// Read various entries from the sample data set and check they are what we'd expect.
 	@Test
 	public void read() throws Exception {
-		new ExecuteRunnable<Person>().runTests(new RunnableTests<Person>() {
-			public void runTest(Person testData) {
-				Name dn = testData.getDn();
-				LOG.debug(String.format("reading - %1$s", dn));
-				Person personEntry = odmManager.read(Person.class, dn);
-				LOG.debug(String.format("read - %1$s", personEntry));
-				assertEquals(testData, personEntry);
-			}
+		new ExecuteRunnable<Person>().runTests(testData -> {
+			Name dn = testData.getDn();
+			LOG.debug(String.format("reading - %1$s", dn));
+			Person personEntry = odmManager.read(Person.class, dn);
+			LOG.debug(String.format("read - %1$s", personEntry));
+			assertEquals(testData, personEntry);
 		}, personTestData);
 	}
 
 	private static class SearchTestData {
 
-		private String search;
+		private final String search;
 
-		private SearchControls searchScope;
+		private final SearchControls searchScope;
 
-		private Person[] people;
+		private final Person[] people;
 
 		public SearchTestData(String search, SearchControls searchScope, Person[] people) {
 			this.search = search;
@@ -285,14 +282,12 @@ public final class LdapTests {
 	// we'd expect.
 	@Test
 	public void search() throws Exception {
-		new ExecuteRunnable<SearchTestData>().runTests(new RunnableTests<SearchTestData>() {
-			public void runTest(SearchTestData testData) {
-				String search = testData.search;
-				LOG.debug(String.format("searching - %1$s", search));
-				List<Person> results = odmManager.search(Person.class, baseName, testData.search, testData.searchScope);
-				LOG.debug(String.format("found - %1$s", results));
-				assertEquals(new HashSet<Person>(Arrays.asList(testData.people)), new HashSet<Person>(results));
-			}
+		new ExecuteRunnable<SearchTestData>().runTests(testData -> {
+			String search = testData.search;
+			LOG.debug(String.format("searching - %1$s", search));
+			List<Person> results = odmManager.search(Person.class, baseName, testData.search, testData.searchScope);
+			LOG.debug(String.format("found - %1$s", results));
+			assertEquals(new HashSet<Person>(Arrays.asList(testData.people)), new HashSet<Person>(results));
 		}, searchTestData);
 	}
 
@@ -300,7 +295,7 @@ public final class LdapTests {
 
 		ENEMIES(0), ASSISTANTS(1), DOCTORS(2);
 
-		private int index;
+		private final int index;
 
 		private OrganizationalName(int index) {
 			this.index = index;
@@ -312,7 +307,7 @@ public final class LdapTests {
 
 	}
 
-	private static OrganizationalUnit ouTestData[] = new OrganizationalUnit[] {
+	private static OrganizationalUnit[] ouTestData = new OrganizationalUnit[] {
 			new OrganizationalUnit(LdapUtils.newLdapName("ou=Enemies,o=Whoniverse"), "Acacia Avenue", "The bad guys"),
 			new OrganizationalUnit(LdapUtils.newLdapName("ou=Assistants,o=Whoniverse"), "Somewhere in space",
 					"The plucky helpers"),
@@ -406,14 +401,12 @@ public final class LdapTests {
 			odmManager.create(person);
 		}
 		LOG.debug("Created all, reading back");
-		new ExecuteRunnable<Person>().runTests(new RunnableTests<Person>() {
-			public void runTest(Person testData) {
-				Name dn = testData.getDn();
-				LOG.debug(String.format("reading - %1$s", dn));
-				Person personEntry = odmManager.read(Person.class, dn);
-				LOG.debug(String.format("read - %1$s", personEntry));
-				assertEquals(testData, personEntry);
-			}
+		new ExecuteRunnable<Person>().runTests(testData -> {
+			Name dn = testData.getDn();
+			LOG.debug(String.format("reading - %1$s", dn));
+			Person personEntry = odmManager.read(Person.class, dn);
+			LOG.debug(String.format("read - %1$s", personEntry));
+			assertEquals(testData, personEntry);
 		}, createTestData);
 	}
 
@@ -461,7 +454,7 @@ public final class LdapTests {
 		odmManager.read(Person.class, LdapUtils.newLdapName("ou=Doctors,o=Whoniverse"));
 	}
 
-	private final static class NoEntry {
+	private static final class NoEntry {
 
 		@SuppressWarnings("unused")
 		@Id
@@ -476,7 +469,7 @@ public final class LdapTests {
 	}
 
 	@Entry(objectClasses = "test")
-	private final static class NoId {
+	private static final class NoId {
 
 	}
 
@@ -487,7 +480,7 @@ public final class LdapTests {
 	}
 
 	@Entry(objectClasses = "test")
-	private final static class TwoIds {
+	private static final class TwoIds {
 
 		@SuppressWarnings("unused")
 		@Id
@@ -510,7 +503,7 @@ public final class LdapTests {
 	}
 
 	@Entry(objectClasses = "test")
-	public final static class NoConstructor {
+	public static final class NoConstructor {
 
 		@SuppressWarnings("unused")
 		@Id
@@ -528,7 +521,7 @@ public final class LdapTests {
 	}
 
 	@Entry(objectClasses = "test")
-	public final static class AttributeOnId {
+	public static final class AttributeOnId {
 
 		@SuppressWarnings("unused")
 		@Id
@@ -544,7 +537,7 @@ public final class LdapTests {
 	}
 
 	@Entry(objectClasses = "test")
-	public final static class IdIsNotAName {
+	public static final class IdIsNotAName {
 
 		@SuppressWarnings("unused")
 		@Id
@@ -559,7 +552,7 @@ public final class LdapTests {
 	}
 
 	@Entry(objectClasses = "test")
-	public final static class MissingConverter {
+	public static final class MissingConverter {
 
 		@SuppressWarnings("unused")
 		@Id
@@ -577,7 +570,7 @@ public final class LdapTests {
 	}
 
 	@Entry(objectClasses = "test")
-	public final static class WrongClassForOc {
+	public static final class WrongClassForOc {
 
 		@SuppressWarnings("unused")
 		@Id
@@ -616,9 +609,9 @@ public final class LdapTests {
 
 		URL("l", "url"), USERNAME("u", "username"), PASSWORD("p", "password"), HELP("h", "help");
 
-		private String shortName;
+		private final String shortName;
 
-		private String longName;
+		private final String longName;
 
 		private Flag(String shortName, String longName) {
 			this.shortName = shortName;

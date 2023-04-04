@@ -154,7 +154,7 @@ public class DistinguishedName implements Name {
 	/**
 	 * An empty, unmodifiable DistinguishedName.
 	 */
-	public static final DistinguishedName EMPTY_PATH = new DistinguishedName(Collections.EMPTY_LIST);
+	public static final DistinguishedName EMPTY_PATH = new DistinguishedName(Collections.emptyList());
 
 	private static final int DEFAULT_BUFFER_SIZE = 256;
 
@@ -337,7 +337,7 @@ public class DistinguishedName implements Name {
 
 	private String format(boolean compact) {
 		// empty path
-		if (this.names.size() == 0) {
+		if (this.names.isEmpty()) {
 			return "";
 		}
 
@@ -396,7 +396,7 @@ public class DistinguishedName implements Name {
 		}
 
 		// must have names
-		if (shortlist.size() == 0) {
+		if (shortlist.isEmpty()) {
 			return false;
 		}
 
@@ -556,7 +556,7 @@ public class DistinguishedName implements Name {
 	}
 
 	public boolean isEmpty() {
-		return this.names.size() == 0;
+		return this.names.isEmpty();
 	}
 
 	/*
@@ -679,7 +679,7 @@ public class DistinguishedName implements Name {
 		}
 
 		// must have names
-		if (shortlist.size() == 0) {
+		if (shortlist.isEmpty()) {
 			return false;
 		}
 
@@ -690,8 +690,9 @@ public class DistinguishedName implements Name {
 			LdapRdn longname = (LdapRdn) longiter.previous();
 			LdapRdn shortname = (LdapRdn) shortiter.previous();
 
-			if (!longname.equals(shortname))
+			if (!longname.equals(shortname)) {
 				return false;
+			}
 		}
 
 		// if short list ended, all were equal
@@ -817,7 +818,7 @@ public class DistinguishedName implements Name {
 	 * @return an immutable DistinguishedName corresponding to the supplied DN string.
 	 * @since 1.3
 	 */
-	public static final DistinguishedName immutableDistinguishedName(String dnString) {
+	public static DistinguishedName immutableDistinguishedName(String dnString) {
 		return new DistinguishedName(dnString).immutableDistinguishedName();
 	}
 

@@ -38,7 +38,7 @@ public class LdapAttribute extends BasicAttribute {
 	/**
 	 * Holds the attributes options.
 	 */
-	protected Set<String> options = new HashSet<String>();
+	protected Set<String> options = new HashSet<>();
 
 	/**
 	 * Creates an unordered attribute with the specified ID.

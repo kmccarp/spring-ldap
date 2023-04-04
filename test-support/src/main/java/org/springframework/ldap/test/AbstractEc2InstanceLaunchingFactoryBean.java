@@ -63,7 +63,7 @@ public abstract class AbstractEc2InstanceLaunchingFactoryBean extends AbstractFa
 
 	private Instance instance;
 
-	private long preparationSleepTime = DEFAULT_PREPARATION_SLEEP_TIME;
+	private final long preparationSleepTime = DEFAULT_PREPARATION_SLEEP_TIME;
 
 	/**
 	 * Set the name of the AMI image to be launched.

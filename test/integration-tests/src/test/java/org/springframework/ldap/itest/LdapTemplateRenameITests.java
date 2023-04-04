@@ -47,7 +47,7 @@ public class LdapTemplateRenameITests extends AbstractLdapTemplateIntegrationTes
 
 	private static String DN = "cn=Some Person6,ou=company1,ou=Sweden";
 
-	private static String NEWDN = "cn=Some Person6,ou=company2,ou=Sweden";
+	private static String newdn = "cn=Some Person6,ou=company2,ou=Sweden";
 
 	@Before
 	public void prepareTestedInstance() throws Exception {
@@ -62,13 +62,13 @@ public class LdapTemplateRenameITests extends AbstractLdapTemplateIntegrationTes
 
 	@After
 	public void cleanup() throws Exception {
-		tested.unbind(NEWDN);
+		tested.unbind(newdn);
 		tested.unbind(DN);
 	}
 
 	@Test
 	public void testRename() {
-		tested.rename(DN, NEWDN);
+		tested.rename(DN, newdn);
 
 		verifyDeleted(LdapUtils.newLdapName(DN));
 		verifyBoundCorrectData();
@@ -77,7 +77,7 @@ public class LdapTemplateRenameITests extends AbstractLdapTemplateIntegrationTes
 	@Test
 	public void testRename_LdapName() throws Exception {
 		Name oldDn = LdapUtils.newLdapName(DN);
-		Name newDn = LdapUtils.newLdapName(NEWDN);
+		Name newDn = LdapUtils.newLdapName(newdn);
 		tested.rename(oldDn, newDn);
 
 		verifyDeleted(oldDn);
@@ -95,7 +95,7 @@ public class LdapTemplateRenameITests extends AbstractLdapTemplateIntegrationTes
 	}
 
 	private void verifyBoundCorrectData() {
-		DirContextAdapter result = (DirContextAdapter) tested.lookup(NEWDN);
+		DirContextAdapter result = (DirContextAdapter) tested.lookup(newdn);
 		assertThat(result.getStringAttribute("cn")).isEqualTo("Some Person6");
 		assertThat(result.getStringAttribute("sn")).isEqualTo("Person6");
 		assertThat(result.getStringAttribute("description")).isEqualTo("Some description");
