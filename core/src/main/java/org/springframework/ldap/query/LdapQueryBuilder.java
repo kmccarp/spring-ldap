@@ -62,17 +62,17 @@ public final class LdapQueryBuilder implements LdapQuery {
 
 	private Name base = LdapUtils.emptyLdapName();
 
-	private SearchScope searchScope = null;
+	private SearchScope searchScope;
 
-	private Integer countLimit = null;
+	private Integer countLimit;
 
-	private Integer timeLimit = null;
+	private Integer timeLimit;
 
-	private String[] attributes = null;
+	private String[] attributes;
 
-	private DefaultContainerCriteria rootContainer = null;
+	private DefaultContainerCriteria rootContainer;
 
-	private boolean isFilterStarted = false;
+	private boolean isFilterStarted;
 
 	/**
 	 * Not to be instantiated directly - use static query() method.

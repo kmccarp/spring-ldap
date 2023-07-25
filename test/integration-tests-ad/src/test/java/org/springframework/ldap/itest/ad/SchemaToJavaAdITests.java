@@ -62,7 +62,7 @@ public final class SchemaToJavaAdITests {
 	private static final String PASSWORD = "Buc8xe6AZiewoh7";
 
 	// These unit tests require this port to free on localhost
-	private static int port = 13636;
+	private static final int port = 13636;
 
 	private ConverterManagerImpl converterManager;
 
@@ -100,12 +100,9 @@ public final class SchemaToJavaAdITests {
 		this.contextSource.setPassword(PASSWORD);
 		this.contextSource.setPooled(false);
 		this.contextSource.setBase("dc=261consulting,dc=local");
-		HashMap<String, Object> baseEnvironment = new HashMap<String, Object>() {
-			{
-				put("java.naming.ldap.attributes.binary",
-						"thumbnailLogo replPropertyMetaData partialAttributeSet registeredAddress userPassword telexNumber partialAttributeDeletionList mS-DS-ConsistencyGuid attributeCertificateAttribute thumbnailPhoto teletexTerminalIdentifier replUpToDateVector dSASignature objectGUID");
-			}
-		};
+		HashMap<String, Object> baseEnvironment = new HashMap<>();
+		baseEnvironment.put("java.naming.ldap.attributes.binary",
+"thumbnailLogo replPropertyMetaData partialAttributeSet registeredAddress userPassword telexNumber partialAttributeDeletionList mS-DS-ConsistencyGuid attributeCertificateAttribute thumbnailPhoto teletexTerminalIdentifier replUpToDateVector dSASignature objectGUID");
 		this.contextSource.setBaseEnvironmentProperties(baseEnvironment);
 		this.contextSource.afterPropertiesSet();
 
@@ -136,7 +133,7 @@ public final class SchemaToJavaAdITests {
 		Pattern pattern = Pattern.compile("\\.");
 		Matcher matcher = pattern.matcher(packageName);
 		String sepToUse = File.separator;
-		if (sepToUse.equals("\\")) {
+		if ("\\".equals(sepToUse)) {
 			sepToUse = "\\\\";
 		}
 

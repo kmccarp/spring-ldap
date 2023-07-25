@@ -74,9 +74,9 @@ class DefaultLdapClient implements LdapClient {
 
 	private final Supplier<SearchControls> searchControlsSupplier;
 
-	private boolean ignorePartialResultException = false;
+	private boolean ignorePartialResultException;
 
-	private boolean ignoreNameNotFoundException = false;
+	private boolean ignoreNameNotFoundException;
 
 	private boolean ignoreSizeLimitExceededException = true;
 
@@ -210,11 +210,11 @@ class DefaultLdapClient implements LdapClient {
 	}
 
 	private <T> NamingExceptionFunction<? extends Binding, T> function(ContextMapper<T> mapper) {
-		return (result) -> mapper.mapFromContext(result.getObject());
+		return result -> mapper.mapFromContext(result.getObject());
 	}
 
 	private <T> NamingExceptionFunction<? extends SearchResult, T> function(AttributesMapper<T> mapper) {
-		return (result) -> mapper.mapFromAttributes(result.getAttributes());
+		return result -> mapper.mapFromAttributes(result.getAttributes());
 	}
 
 	private <T> Enumeration<T> enumeration(NamingEnumeration<T> enumeration) {
@@ -243,7 +243,7 @@ class DefaultLdapClient implements LdapClient {
 		};
 	}
 
-	private final Consumer<NamingException> namingExceptionHandler = (ex) -> {
+	private final Consumer<NamingException> namingExceptionHandler = ex -> {
 		if (ex instanceof NameNotFoundException) {
 			if (!this.ignoreNameNotFoundException) {
 				throw LdapUtils.convertLdapException(ex);
@@ -355,7 +355,7 @@ class DefaultLdapClient implements LdapClient {
 		T apply(S element) throws NamingException;
 
 		default Function<S, T> wrap(Consumer<NamingException> handler) {
-			return (s) -> {
+			return s -> {
 				try {
 					return apply(s);
 				}
@@ -378,14 +378,14 @@ class DefaultLdapClient implements LdapClient {
 
 		@Override
 		public <T> List<T> toList(NameClassPairMapper<T> mapper) {
-			ContextExecutor<NamingEnumeration<NameClassPair>> executor = (ctx) -> ctx.list(this.name);
+			ContextExecutor<NamingEnumeration<NameClassPair>> executor = ctx -> ctx.list(this.name);
 			NamingEnumeration<NameClassPair> results = computeWithReadOnlyContext(executor);
 			return DefaultLdapClient.this.toList(results, mapper::mapFromNameClassPair);
 		}
 
 		@Override
 		public <T> Stream<T> toStream(NameClassPairMapper<T> mapper) {
-			ContextExecutor<NamingEnumeration<NameClassPair>> executor = (ctx) -> ctx.list(this.name);
+			ContextExecutor<NamingEnumeration<NameClassPair>> executor = ctx -> ctx.list(this.name);
 			NamingEnumeration<NameClassPair> results = computeWithReadOnlyContext(executor);
 			return DefaultLdapClient.this.toStream(results, mapper::mapFromNameClassPair);
 		}
@@ -402,28 +402,28 @@ class DefaultLdapClient implements LdapClient {
 
 		@Override
 		public <T> List<T> toList(NameClassPairMapper<T> mapper) {
-			ContextExecutor<NamingEnumeration<Binding>> executor = (ctx) -> ctx.listBindings(this.name);
+			ContextExecutor<NamingEnumeration<Binding>> executor = ctx -> ctx.listBindings(this.name);
 			NamingEnumeration<Binding> results = computeWithReadOnlyContext(executor);
 			return DefaultLdapClient.this.toList(results, mapper::mapFromNameClassPair);
 		}
 
 		@Override
 		public <T> List<T> toList(ContextMapper<T> mapper) {
-			ContextExecutor<NamingEnumeration<Binding>> executor = (ctx) -> ctx.listBindings(this.name);
+			ContextExecutor<NamingEnumeration<Binding>> executor = ctx -> ctx.listBindings(this.name);
 			NamingEnumeration<Binding> results = computeWithReadOnlyContext(executor);
 			return DefaultLdapClient.this.toList(results, function(mapper));
 		}
 
 		@Override
 		public <T> Stream<T> toStream(NameClassPairMapper<T> mapper) {
-			ContextExecutor<NamingEnumeration<Binding>> executor = (ctx) -> ctx.listBindings(this.name);
+			ContextExecutor<NamingEnumeration<Binding>> executor = ctx -> ctx.listBindings(this.name);
 			NamingEnumeration<Binding> results = computeWithReadOnlyContext(executor);
 			return DefaultLdapClient.this.toStream(results, mapper::mapFromNameClassPair);
 		}
 
 		@Override
 		public <T> Stream<T> toStream(ContextMapper<T> mapper) {
-			ContextExecutor<NamingEnumeration<Binding>> executor = (ctx) -> ctx.listBindings(this.name);
+			ContextExecutor<NamingEnumeration<Binding>> executor = ctx -> ctx.listBindings(this.name);
 			NamingEnumeration<Binding> results = computeWithReadOnlyContext(executor);
 			return DefaultLdapClient.this.toStream(results, function(mapper));
 		}
@@ -457,7 +457,7 @@ class DefaultLdapClient implements LdapClient {
 		public <T> T execute(AuthenticatedLdapEntryContextMapper<T> mapper) {
 			LdapEntryIdentificationContextMapper m = new LdapEntryIdentificationContextMapper();
 			List<LdapEntryIdentification> identification = this.search.toList(m);
-			if (identification.size() == 0) {
+			if (identification.isEmpty()) {
 				throw new EmptyResultDataAccessException(1);
 			}
 			else if (identification.size() != 1) {
@@ -486,12 +486,12 @@ class DefaultLdapClient implements LdapClient {
 
 		@Override
 		public SearchSpec name(String name) {
-			return query((builder) -> builder.base(name).searchScope(SearchScope.OBJECT));
+			return query(builder -> builder.base(name).searchScope(SearchScope.OBJECT));
 		}
 
 		@Override
 		public SearchSpec name(Name name) {
-			return query((builder) -> builder.base(name).searchScope(SearchScope.OBJECT));
+			return query(builder -> builder.base(name).searchScope(SearchScope.OBJECT));
 		}
 
 		@Override
@@ -580,7 +580,7 @@ class DefaultLdapClient implements LdapClient {
 
 		private Attributes attributes;
 
-		private boolean rebind = false;
+		private boolean rebind;
 
 		private DefaultBindSpec(Name name) {
 			this.name = name;
@@ -611,10 +611,10 @@ class DefaultLdapClient implements LdapClient {
 		@Override
 		public void execute() {
 			if (this.rebind) {
-				runWithReadWriteContext((ctx) -> ctx.rebind(this.name, this.obj, this.attributes));
+				runWithReadWriteContext(ctx -> ctx.rebind(this.name, this.obj, this.attributes));
 			}
 			else {
-				runWithReadWriteContext((ctx) -> ctx.bind(this.name, this.obj, this.attributes));
+				runWithReadWriteContext(ctx -> ctx.bind(this.name, this.obj, this.attributes));
 			}
 		}
 
@@ -656,18 +656,18 @@ class DefaultLdapClient implements LdapClient {
 		public void execute() {
 			boolean renamed = false;
 			if (!this.entry.getDn().equals(this.name)) {
-				runWithReadWriteContext((ctx) -> ctx.rename(this.entry.getDn(), this.name));
+				runWithReadWriteContext(ctx -> ctx.rename(this.entry.getDn(), this.name));
 				renamed = true;
 			}
 			try {
 				if (this.items.length > 0) {
-					runWithReadWriteContext((ctx) -> ctx.modifyAttributes(this.name, this.items));
+					runWithReadWriteContext(ctx -> ctx.modifyAttributes(this.name, this.items));
 				}
 			}
 			catch (Throwable th) {
 				if (renamed) {
 					// attempt to change the name back
-					runWithReadWriteContext((ctx) -> ctx.rename(this.name, this.entry.getDn()));
+					runWithReadWriteContext(ctx -> ctx.rename(this.name, this.entry.getDn()));
 				}
 				throw th;
 			}
@@ -679,7 +679,7 @@ class DefaultLdapClient implements LdapClient {
 
 		private final Name name;
 
-		private boolean recursive = false;
+		private boolean recursive;
 
 		private DefaultUnbindSpec(Name name) {
 			this.name = name;
@@ -694,10 +694,10 @@ class DefaultLdapClient implements LdapClient {
 		@Override
 		public void execute() {
 			if (this.recursive) {
-				runWithReadWriteContext((ctx) -> unbindRecursive(ctx, this.name));
+				runWithReadWriteContext(ctx -> unbindRecursive(ctx, this.name));
 				return;
 			}
-			runWithReadWriteContext((ctx) -> ctx.unbind(this.name));
+			runWithReadWriteContext(ctx -> ctx.unbind(this.name));
 		}
 
 		void unbindRecursive(DirContext ctx, Name name) throws NamingException {

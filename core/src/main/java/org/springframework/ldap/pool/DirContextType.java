@@ -28,7 +28,7 @@ import org.springframework.ldap.core.ContextSource;
  */
 public final class DirContextType {
 
-	private String name;
+	private final String name;
 
 	private DirContextType(String name) {
 		this.name = name;

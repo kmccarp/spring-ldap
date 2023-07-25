@@ -86,8 +86,7 @@ public final class LdapTests {
 	// Maximum time to wait for results in testing (ms)
 	private static final int TIME_LIMIT = 60000;
 
-	private SearchControls searchControls = new SearchControls(SearchControls.SUBTREE_SCOPE, COUNT_LIMIT, TIME_LIMIT,
-			null, true, false);
+	private final SearchControls searchControls = new SearchControls(SearchControls.SUBTREE_SCOPE, COUNT_LIMIT, TIME_LIMIT,null, true, false);
 
 	private ConverterManagerImpl converterManager;
 
@@ -185,7 +184,7 @@ public final class LdapTests {
 		LdapTestUtils.cleanAndSetup(this.contextSource, baseName, new ClassPathResource("testdata.ldif"));
 
 		// Create our OdmManager
-		Set<Class<?>> managedClasses = new HashSet<Class<?>>();
+		Set<Class<?>> managedClasses = new HashSet<>();
 		managedClasses.add(Person.class);
 		managedClasses.add(PlainPerson.class);
 		managedClasses.add(OrganizationalUnit.class);
@@ -222,28 +221,20 @@ public final class LdapTests {
 
 	}
 
-	private Person[] personTestData = new Person[] {
-			new Person(LdapUtils.newLdapName("cn=William Hartnell,ou=Doctors,o=Whoniverse"), "Hartnell",
-					Arrays.asList(new String[] { "First Doctor", "Grumpy" }), 1, null),
-			new Person(LdapUtils.newLdapName("cn=Patrick Troughton,ou=Doctors,o=Whoniverse"), "Troughton",
-					Arrays.asList(new String[] { "Second Doctor", "Clown" }), 2, null),
-			new Person(LdapUtils.newLdapName("cn=Jon Pertwee,ou=Doctors,o=Whoniverse"), "Pertwee",
-					Arrays.asList(new String[] { "Third Doctor", "Dandy" }), 3, null),
-			new Person(LdapUtils.newLdapName("cn=Tom Baker,ou=Doctors,o=Whoniverse"), "Baker",
-					Arrays.asList(new String[] { "Fourth Doctor", "The one and only!" }), 4, null),
-			new Person(LdapUtils.newLdapName("cn=Peter Davison,ou=Doctors,o=Whoniverse"), "Davison",
-					Arrays.asList(new String[] { "Fifth Doctor" }), 5, null),
-			new Person(LdapUtils.newLdapName("cn=Davros,ou=Enemies,o=Whoniverse"), "Unknown",
-					Arrays.asList(new String[] { "Creator of the Daleks", "Kaled head scientist" }), 0, null),
-			new Person(LdapUtils.newLdapName("cn=Daleks,ou=Enemies,o=Whoniverse"), "NA",
-					Arrays.asList(new String[] { "The Doctor's greatest foe" }), 0, null),
-			new Person(LdapUtils.newLdapName("cn=Master,ou=Enemies,o=Whoniverse"), "Unknown",
-					Arrays.asList(new String[] { "An evil Time Lord" }), 0, photo), };
+	private final Person[] personTestData = new Person[]{new Person(LdapUtils.newLdapName("cn=William Hartnell,ou=Doctors,o=Whoniverse"), "Hartnell",
+					Arrays.asList(new String[]{"First Doctor", "Grumpy"}), 1, null),new Person(LdapUtils.newLdapName("cn=Patrick Troughton,ou=Doctors,o=Whoniverse"), "Troughton",
+					Arrays.asList(new String[]{"Second Doctor", "Clown"}), 2, null),new Person(LdapUtils.newLdapName("cn=Jon Pertwee,ou=Doctors,o=Whoniverse"), "Pertwee",
+					Arrays.asList(new String[]{"Third Doctor", "Dandy"}), 3, null),new Person(LdapUtils.newLdapName("cn=Tom Baker,ou=Doctors,o=Whoniverse"), "Baker",
+					Arrays.asList(new String[]{"Fourth Doctor", "The one and only!"}), 4, null),new Person(LdapUtils.newLdapName("cn=Peter Davison,ou=Doctors,o=Whoniverse"), "Davison",
+					Arrays.asList(new String[]{"Fifth Doctor"}), 5, null),new Person(LdapUtils.newLdapName("cn=Davros,ou=Enemies,o=Whoniverse"), "Unknown",
+					Arrays.asList(new String[]{"Creator of the Daleks", "Kaled head scientist"}), 0, null),new Person(LdapUtils.newLdapName("cn=Daleks,ou=Enemies,o=Whoniverse"), "NA",
+					Arrays.asList(new String[]{"The Doctor's greatest foe"}), 0, null),new Person(LdapUtils.newLdapName("cn=Master,ou=Enemies,o=Whoniverse"), "Unknown",
+					Arrays.asList(new String[]{"An evil Time Lord"}), 0, photo), };
 
 	// Read various entries from the sample data set and check they are what we'd expect.
 	@Test
 	public void read() throws Exception {
-		new ExecuteRunnable<Person>().runTests(new RunnableTests<Person>() {
+		new ExecuteRunnable<Person>().runTests(new RunnableTests<>() {
 			public void runTest(Person testData) {
 				Name dn = testData.getDn();
 				LOG.debug(String.format("reading - %1$s", dn));
@@ -254,22 +245,20 @@ public final class LdapTests {
 		}, this.personTestData);
 	}
 
-	private SearchTestData[] searchTestData = {
-			new SearchTestData("(sn=Unknown)", this.searchControls,
-					new Person[] { this.personTestData[PersonName.DAVROS.getIndex()],
-							this.personTestData[PersonName.MASTER.getIndex()] }),
-			new SearchTestData("(description=*Doctor)", this.searchControls,
-					new Person[] { this.personTestData[PersonName.WILLIAM.getIndex()],
+	private final SearchTestData[] searchTestData = {new SearchTestData("(sn=Unknown)", this.searchControls,
+					new Person[]{this.personTestData[PersonName.DAVROS.getIndex()],
+							this.personTestData[PersonName.MASTER.getIndex()]}),new SearchTestData("(description=*Doctor)", this.searchControls,
+					new Person[]{this.personTestData[PersonName.WILLIAM.getIndex()],
 							this.personTestData[PersonName.PATRICK.getIndex()],
 							this.personTestData[PersonName.JON.getIndex()],
 							this.personTestData[PersonName.TOM.getIndex()],
-							this.personTestData[PersonName.PETER.getIndex()] }), };
+							this.personTestData[PersonName.PETER.getIndex()]}), };
 
 	// Carry out various searches against the test data set and check the results are what
 	// we'd expect.
 	@Test
 	public void search() throws Exception {
-		new ExecuteRunnable<SearchTestData>().runTests(new RunnableTests<SearchTestData>() {
+		new ExecuteRunnable<SearchTestData>().runTests(new RunnableTests<>() {
 			public void runTest(SearchTestData testData) {
 				String search = testData.search;
 				LOG.debug(String.format("searching - %1$s", search));
@@ -297,11 +286,8 @@ public final class LdapTests {
 
 	}
 
-	private static OrganizationalUnit[] ouTestData = new OrganizationalUnit[] {
-			new OrganizationalUnit(LdapUtils.newLdapName("ou=Enemies,o=Whoniverse"), "Acacia Avenue", "The bad guys"),
-			new OrganizationalUnit(LdapUtils.newLdapName("ou=Assistants,o=Whoniverse"), "Somewhere in space",
-					"The plucky helpers"),
-			new OrganizationalUnit(LdapUtils.newLdapName("ou=Doctors,o=Whoniverse"), "Somewhere in time",
+	private static final OrganizationalUnit[] ouTestData = new OrganizationalUnit[]{new OrganizationalUnit(LdapUtils.newLdapName("ou=Enemies,o=Whoniverse"), "Acacia Avenue", "The bad guys"),new OrganizationalUnit(LdapUtils.newLdapName("ou=Assistants,o=Whoniverse"), "Somewhere in space",
+					"The plucky helpers"),new OrganizationalUnit(LdapUtils.newLdapName("ou=Doctors,o=Whoniverse"), "Somewhere in time",
 					"Our hero"), };
 
 	// Check everything works OK with a second managed class
@@ -378,13 +364,10 @@ public final class LdapTests {
 		assertThat(1).isEqualTo(updatedResult.size());
 	}
 
-	private Person[] createTestData = {
-			new Person(LdapUtils.newLdapName("cn=Colin Baker,ou=Doctors,o=Whoniverse"), "Baker",
-					Arrays.asList(new String[] { "Sixth Doctor" }), 6, null),
-			new Person(LdapUtils.newLdapName("cn=Sylvester McCoy,ou=Doctors,o=Whoniverse"), "McCoy",
-					Arrays.asList(new String[] { "Seventh Doctor" }), 7, null),
-			new Person(LdapUtils.newLdapName("cn=Paul McGann,ou=Doctors,o=Whoniverse"), "McGann",
-					Arrays.asList(new String[] { "Eigth Doctor" }), 8, photo), };
+	private final Person[] createTestData = {new Person(LdapUtils.newLdapName("cn=Colin Baker,ou=Doctors,o=Whoniverse"), "Baker",
+					Arrays.asList(new String[]{"Sixth Doctor"}), 6, null),new Person(LdapUtils.newLdapName("cn=Sylvester McCoy,ou=Doctors,o=Whoniverse"), "McCoy",
+					Arrays.asList(new String[]{"Seventh Doctor"}), 7, null),new Person(LdapUtils.newLdapName("cn=Paul McGann,ou=Doctors,o=Whoniverse"), "McGann",
+					Arrays.asList(new String[]{"Eigth Doctor"}), 8, photo), };
 
 	// Create some entries, read them back and check they are what we'd expect.
 	@Test
@@ -394,7 +377,7 @@ public final class LdapTests {
 			this.odmManager.create(person);
 		}
 		LOG.debug("Created all, reading back");
-		new ExecuteRunnable<Person>().runTests(new RunnableTests<Person>() {
+		new ExecuteRunnable<Person>().runTests(new RunnableTests<>() {
 			public void runTest(Person testData) {
 				Name dn = testData.getDn();
 				LOG.debug(String.format("reading - %1$s", dn));
@@ -417,12 +400,9 @@ public final class LdapTests {
 		assertThat(william).isEqualTo(readWilliam);
 	}
 
-	private Person[] deleteData = { this.personTestData[PersonName.JON.getIndex()],
-			this.personTestData[PersonName.TOM.getIndex()], this.personTestData[PersonName.DAVROS.getIndex()], };
+	private final Person[] deleteData = {this.personTestData[PersonName.JON.getIndex()],this.personTestData[PersonName.TOM.getIndex()], this.personTestData[PersonName.DAVROS.getIndex()], };
 
-	private Person[] whatsLeft = { this.personTestData[PersonName.WILLIAM.getIndex()],
-			this.personTestData[PersonName.PATRICK.getIndex()], this.personTestData[PersonName.PETER.getIndex()],
-			this.personTestData[PersonName.DALEKS.getIndex()], this.personTestData[PersonName.MASTER.getIndex()], };
+	private final Person[] whatsLeft = {this.personTestData[PersonName.WILLIAM.getIndex()],this.personTestData[PersonName.PATRICK.getIndex()], this.personTestData[PersonName.PETER.getIndex()],this.personTestData[PersonName.DALEKS.getIndex()], this.personTestData[PersonName.MASTER.getIndex()], };
 
 	// Delete a some entries from the the test data set and check what's left is what we'd
 	// expect

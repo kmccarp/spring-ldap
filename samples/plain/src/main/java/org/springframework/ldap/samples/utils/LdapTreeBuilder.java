@@ -25,7 +25,7 @@ import org.springframework.ldap.support.LdapUtils;
 
 public class LdapTreeBuilder {
 
-	private LdapTemplate ldapTemplate;
+	private final LdapTemplate ldapTemplate;
 
 	public LdapTreeBuilder(LdapTemplate ldapTemplate) {
 		this.ldapTemplate = ldapTemplate;
@@ -39,7 +39,7 @@ public class LdapTreeBuilder {
 	private LdapTree getLdapTree(final DirContextOperations rootContext) {
 		final LdapTree ldapTree = new LdapTree(rootContext);
 		ldapTemplate.listBindings(rootContext.getDn(),
-				new AbstractContextMapper<Object>() {
+				new AbstractContextMapper<>() {
 					@Override
 					protected Object doMapFromContext(DirContextOperations ctx) {
 						Name dn = ctx.getDn();

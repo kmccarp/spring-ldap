@@ -60,7 +60,7 @@ public class OdmPersonDaoImpl implements PersonDao {
 		return ldapTemplate.search(query()
 				.attributes("cn")
 				.where("objectclass").is("person"),
-				new AttributesMapper<String>() {
+				new AttributesMapper<>() {
 					public String mapFromAttributes(Attributes attrs) throws NamingException {
 						return attrs.get("cn").get().toString();
 					}
@@ -75,9 +75,7 @@ public class OdmPersonDaoImpl implements PersonDao {
 	@Override
 	public Person findByPrimaryKey(String country, String company, String fullname) {
 		LdapName dn = buildDn(country, company, fullname);
-		Person person = ldapTemplate.findByDn(dn, Person.class);
-
-		return person;
+		return ldapTemplate.findByDn(dn, Person.class);
 	}
 
 	private LdapName buildDn(Person person) {

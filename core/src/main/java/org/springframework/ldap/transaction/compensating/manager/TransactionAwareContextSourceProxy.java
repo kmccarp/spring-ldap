@@ -39,7 +39,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class TransactionAwareContextSourceProxy extends DelegatingBaseLdapPathContextSourceSupport
 		implements ContextSource {
 
-	private ContextSource target;
+	private final ContextSource target;
 
 	/**
 	 * Constructor.

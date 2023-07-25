@@ -79,7 +79,7 @@ public class PersonDaoImpl implements PersonDao {
 		return ldapTemplate.search(query()
 				.attributes("cn")
 				.where("objectclass").is("person"),
-				new AttributesMapper<String>() {
+				new AttributesMapper<>() {
 					public String mapFromAttributes(Attributes attrs) throws NamingException {
 						return attrs.get("cn").get().toString();
 					}
@@ -125,7 +125,7 @@ public class PersonDaoImpl implements PersonDao {
 	 * the values of these attributes must be extracted from the DN. For this,
 	 * we use the LdapName along with utility methods in LdapUtils.
 	 */
-	private final static ContextMapper<Person> PERSON_CONTEXT_MAPPER = new AbstractContextMapper<Person>() {
+	private static final ContextMapper<Person> PERSON_CONTEXT_MAPPER = new AbstractContextMapper<>() {
 		@Override
 		public Person doMapFromContext(DirContextOperations context) {
 			Person person = new Person();
