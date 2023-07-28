@@ -37,7 +37,7 @@ import org.springframework.util.StringUtils;
  */
 public class WhitespaceWildcardsFilter extends EqualsFilter {
 
-	private static Pattern starReplacePattern = Pattern.compile("\\s+");
+	private static final Pattern starReplacePattern = Pattern.compile("\\s+");
 
 	public WhitespaceWildcardsFilter(String attribute, String value) {
 		super(attribute, value);

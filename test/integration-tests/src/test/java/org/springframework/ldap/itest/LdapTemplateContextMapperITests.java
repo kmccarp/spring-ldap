@@ -67,8 +67,7 @@ public class LdapTemplateContextMapperITests extends AbstractLdapTemplateIntegra
 		ContextMapper mapper = new ContextMapper() {
 			public Object mapFromContext(Object ctx) {
 				DirContextAdapter adapter = (DirContextAdapter) ctx;
-				String[] members = adapter.getStringAttributes("uniqueMember");
-				return members;
+				return adapter.getStringAttributes("uniqueMember");
 			}
 		};
 		List result = this.tested.search("ou=groups", "(&(objectclass=groupOfUniqueNames)(cn=ROLE_USER))", mapper);

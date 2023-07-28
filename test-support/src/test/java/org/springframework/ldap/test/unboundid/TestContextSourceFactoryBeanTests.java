@@ -49,7 +49,7 @@ public class TestContextSourceFactoryBeanTests {
 		assertThat(ldapTemplate).isNotNull();
 
 		List<String> list = ldapTemplate.search(LdapQueryBuilder.query().where("objectclass").is("person"),
-				new AttributesMapper<String>() {
+				new AttributesMapper<>() {
 					public String mapFromAttributes(Attributes attrs) throws NamingException {
 						return (String) attrs.get("cn").get();
 					}

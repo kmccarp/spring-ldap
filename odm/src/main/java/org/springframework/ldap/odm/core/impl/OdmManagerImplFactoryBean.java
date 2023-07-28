@@ -48,11 +48,11 @@ import org.springframework.ldap.odm.typeconversion.ConverterManager;
 @Deprecated
 public final class OdmManagerImplFactoryBean implements FactoryBean {
 
-	private LdapOperations ldapOperations = null;
+	private LdapOperations ldapOperations;
 
-	private Set<Class<?>> managedClasses = null;
+	private Set<Class<?>> managedClasses;
 
-	private ConverterManager converterManager = null;
+	private ConverterManager converterManager;
 
 	/**
 	 * Set the LdapOperations instance to use to interact with the LDAP directory.

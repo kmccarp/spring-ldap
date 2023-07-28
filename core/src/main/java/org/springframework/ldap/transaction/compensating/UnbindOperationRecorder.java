@@ -31,9 +31,9 @@ import org.springframework.transaction.compensating.CompensatingTransactionOpera
  */
 public class UnbindOperationRecorder implements CompensatingTransactionOperationRecorder {
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
-	private TempEntryRenamingStrategy renamingStrategy;
+	private final TempEntryRenamingStrategy renamingStrategy;
 
 	/**
 	 * Constructor.

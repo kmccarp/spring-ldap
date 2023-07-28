@@ -42,7 +42,7 @@ public final class Person {
 		this.desc = desc;
 		this.telephoneNumber = telephoneNumber;
 		this.jpegPhoto = jpegPhoto;
-		this.objectClasses = new ArrayList<String>();
+		this.objectClasses = new ArrayList<>();
 		this.objectClasses.add("inetOrgPerson");
 		this.objectClasses.add("organizationalPerson");
 		this.objectClasses.add("person");
@@ -57,10 +57,10 @@ public final class Person {
 	}
 
 	@Transient
-	private String someRandomField = null;
+	private String someRandomField;
 
 	@Transient
-	private List<String> someRandomList = new ArrayList<String>();
+	private List<String> someRandomList = new ArrayList<>();
 
 	@Attribute(name = "objectClass")
 	private List<String> objectClasses;
@@ -210,10 +210,7 @@ public final class Person {
 		else if (!this.surname.equals(other.surname)) {
 			return false;
 		}
-		if (this.telephoneNumber != other.telephoneNumber) {
-			return false;
-		}
-		return true;
+		return this.telephoneNumber == other.telephoneNumber;
 	}
 
 	@Override

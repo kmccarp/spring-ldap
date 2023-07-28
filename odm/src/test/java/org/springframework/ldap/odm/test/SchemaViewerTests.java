@@ -83,7 +83,7 @@ public final class SchemaViewerTests {
 		try {
 			System.setErr(new PrintStream(output));
 
-			List<String> commandFlags = new ArrayList<String>(Arrays.asList(commonFlags));
+			List<String> commandFlags = new ArrayList<>(Arrays.asList(commonFlags));
 			commandFlags.addAll(Arrays.asList(flags));
 
 			SchemaViewer.main(commandFlags.toArray(new String[0]));
@@ -101,20 +101,17 @@ public final class SchemaViewerTests {
 
 	// This makes the test dependent on the order in which the data is returned - it is
 	// invalid to assume that this will not change
-	private static TestData[] viewerTestData = new TestData[] { new TestData("-o", "top",
-			"NAME:top|MUST:objectClass |X-SCHEMA:system |NAME:top |NUMERICOID:2.5.6.0 |DESC:top of the superclass chain |ABSTRACT:true"),
-			new TestData("-o", "country",
-					"NAME:country|MUST:c |X-SCHEMA:core |SUP:top |NAME:country |STRUCTURAL:true |NUMERICOID:2.5.6.2 |DESC:RFC2256: a country |MAY:searchGuide description"),
-			new TestData("-a", "sn",
-					"NAME:sn|NAME:sn surname |SUBSTR:caseIgnoreSubstringsMatch |X-SCHEMA:core |SYNTAX:1.3.6.1.4.1.1466.115.121.1.15 |NUMERICOID:2.5.4.4 |SUP:name |DESC:RFC2256: last (family) name(s) for which the entity is known by |USAGE:userApplications |EQUALITY:caseIgnoreMatch"),
-			new TestData("-a", "jpegPhoto",
-					"NAME:jpegPhoto|X-SCHEMA:inetorgperson |SYNTAX:1.3.6.1.4.1.1466.115.121.1.28 |NAME:jpegPhoto |USAGE:userApplications |NUMERICOID:0.9.2342.19200300.100.1.60 |DESC:RFC2798: a JPEG image"), };
+	private static final TestData[] viewerTestData = new TestData[]{new TestData("-o", "top",
+"NAME:top|MUST:objectClass |X-SCHEMA:system |NAME:top |NUMERICOID:2.5.6.0 |DESC:top of the superclass chain |ABSTRACT:true"),
+new TestData("-o", "country","NAME:country|MUST:c |X-SCHEMA:core |SUP:top |NAME:country |STRUCTURAL:true |NUMERICOID:2.5.6.2 |DESC:RFC2256: a country |MAY:searchGuide description"),
+new TestData("-a", "sn","NAME:sn|NAME:sn surname |SUBSTR:caseIgnoreSubstringsMatch |X-SCHEMA:core |SYNTAX:1.3.6.1.4.1.1466.115.121.1.15 |NUMERICOID:2.5.4.4 |SUP:name |DESC:RFC2256: last (family) name(s) for which the entity is known by |USAGE:userApplications |EQUALITY:caseIgnoreMatch"),
+new TestData("-a", "jpegPhoto","NAME:jpegPhoto|X-SCHEMA:inetorgperson |SYNTAX:1.3.6.1.4.1.1466.115.121.1.28 |NAME:jpegPhoto |USAGE:userApplications |NUMERICOID:0.9.2342.19200300.100.1.60 |DESC:RFC2798: a JPEG image"), };
 
 	// Very simple test - mainly just to exercise the code and to
 	// ensure we get representative test coverage
 	@Test
 	public void testSchemaViewer() throws Exception {
-		new ExecuteRunnable<TestData>().runTests(new RunnableTests<TestData>() {
+		new ExecuteRunnable<TestData>().runTests(new RunnableTests<>() {
 			public void runTest(TestData testData) {
 				String result = runSchemaViewer(testData.flag, testData.value);
 				assertThat(testData.result).isEqualTo(result);

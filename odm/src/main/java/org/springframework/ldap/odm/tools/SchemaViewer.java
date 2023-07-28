@@ -221,7 +221,7 @@ public final class SchemaViewer {
 		String user = cmd.getOptionValue(Flag.USERNAME.getShort(), "");
 		String pass = cmd.getOptionValue(Flag.PASSWORD.getShort(), "");
 
-		Hashtable<String, String> env = new Hashtable<String, String>();
+		Hashtable<String, String> env = new Hashtable<>();
 		env.put(Context.PROVIDER_URL, url);
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		if (user != null) {

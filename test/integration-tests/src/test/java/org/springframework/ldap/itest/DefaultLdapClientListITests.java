@@ -126,7 +126,7 @@ public class DefaultLdapClientListITests extends AbstractLdapTemplateIntegration
 	@Test
 	public void testList_Handler() {
 		CountNameClassPairCallbackHandler handler = new CountNameClassPairCallbackHandler();
-		this.tested.list(BASE_STRING).toList((result) -> {
+		this.tested.list(BASE_STRING).toList(result -> {
 			handler.handleNameClassPair(result);
 			return result;
 		});
@@ -136,7 +136,7 @@ public class DefaultLdapClientListITests extends AbstractLdapTemplateIntegration
 	@Test
 	public void testList_Name_Handler() {
 		CountNameClassPairCallbackHandler handler = new CountNameClassPairCallbackHandler();
-		this.tested.list(BASE_NAME).toList((result) -> {
+		this.tested.list(BASE_NAME).toList(result -> {
 			handler.handleNameClassPair(result);
 			return result;
 		});
@@ -159,7 +159,7 @@ public class DefaultLdapClientListITests extends AbstractLdapTemplateIntegration
 	@Test
 	public void testListBindings_Handler() {
 		CountNameClassPairCallbackHandler handler = new CountNameClassPairCallbackHandler();
-		this.tested.list(BASE_STRING).toList((result) -> {
+		this.tested.list(BASE_STRING).toList(result -> {
 			handler.handleNameClassPair(result);
 			return result;
 		});
@@ -169,7 +169,7 @@ public class DefaultLdapClientListITests extends AbstractLdapTemplateIntegration
 	@Test
 	public void testListBindings_Name_Handler() {
 		CountNameClassPairCallbackHandler handler = new CountNameClassPairCallbackHandler();
-		this.tested.list(BASE_NAME).toList((result) -> {
+		this.tested.list(BASE_NAME).toList(result -> {
 			handler.handleNameClassPair(result);
 			return result;
 		});
