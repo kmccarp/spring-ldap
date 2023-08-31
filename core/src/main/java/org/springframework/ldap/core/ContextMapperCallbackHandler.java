@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
  */
 public class ContextMapperCallbackHandler<T> extends CollectingNameClassPairCallbackHandler<T> {
 
-	private ContextMapper<T> mapper;
+	private final ContextMapper<T> mapper;
 
 	/**
 	 * Constructs a new instance wrapping the supplied {@link ContextMapper}.

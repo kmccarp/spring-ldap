@@ -47,14 +47,14 @@ public class LdapTemplateBindUnbindITests extends AbstractLdapTemplateIntegratio
 	@Autowired
 	private LdapTemplate tested;
 
-	private static String DN = "cn=Some Person4,ou=company1,ou=Sweden";
+	private static String dn = "cn=Some Person4,ou=company1,ou=Sweden";
 
 	@Test
 	public void testBindAndUnbindWithAttributes() {
 		Attributes attributes = setupAttributes();
-		this.tested.bind(DN, null, attributes);
+		this.tested.bind(dn, null, attributes);
 		verifyBoundCorrectData();
-		this.tested.unbind(DN);
+		this.tested.unbind(dn);
 		verifyCleanup();
 	}
 
@@ -71,9 +71,9 @@ public class LdapTemplateBindUnbindITests extends AbstractLdapTemplateIntegratio
 	@Test
 	public void testBindAndUnbindWithAttributesUsingLdapName() {
 		Attributes attributes = setupAttributes();
-		this.tested.bind(LdapUtils.newLdapName(DN), null, attributes);
+		this.tested.bind(LdapUtils.newLdapName(dn), null, attributes);
 		verifyBoundCorrectData();
-		this.tested.unbind(LdapUtils.newLdapName(DN));
+		this.tested.unbind(LdapUtils.newLdapName(dn));
 		verifyCleanup();
 	}
 
@@ -84,9 +84,9 @@ public class LdapTemplateBindUnbindITests extends AbstractLdapTemplateIntegratio
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
-		this.tested.bind(DN, adapter, null);
+		this.tested.bind(dn, adapter, null);
 		verifyBoundCorrectData();
-		this.tested.unbind(DN);
+		this.tested.unbind(dn);
 		verifyCleanup();
 	}
 
@@ -97,28 +97,28 @@ public class LdapTemplateBindUnbindITests extends AbstractLdapTemplateIntegratio
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
-		this.tested.bind(LdapUtils.newLdapName(DN), adapter, null);
+		this.tested.bind(LdapUtils.newLdapName(dn), adapter, null);
 		verifyBoundCorrectData();
-		this.tested.unbind(LdapUtils.newLdapName(DN));
+		this.tested.unbind(LdapUtils.newLdapName(dn));
 		verifyCleanup();
 	}
 
 	@Test
 	public void testBindAndUnbindWithDirContextAdapterOnly() {
-		DirContextAdapter adapter = new DirContextAdapter(LdapUtils.newLdapName(DN));
+		DirContextAdapter adapter = new DirContextAdapter(LdapUtils.newLdapName(dn));
 		adapter.setAttributeValues("objectclass", new String[] { "top", "person" });
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
 		this.tested.bind(adapter);
 		verifyBoundCorrectData();
-		this.tested.unbind(DN);
+		this.tested.unbind(dn);
 		verifyCleanup();
 	}
 
 	@Test
 	public void testBindAndRebindWithDirContextAdapterOnly() {
-		DirContextAdapter adapter = new DirContextAdapter(LdapUtils.newLdapName(DN));
+		DirContextAdapter adapter = new DirContextAdapter(LdapUtils.newLdapName(dn));
 		adapter.setAttributeValues("objectclass", new String[] { "top", "person" });
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
@@ -128,7 +128,7 @@ public class LdapTemplateBindUnbindITests extends AbstractLdapTemplateIntegratio
 		adapter.setAttributeValue("sn", "Person4.Changed");
 		this.tested.rebind(adapter);
 		verifyReboundCorrectData();
-		this.tested.unbind(DN);
+		this.tested.unbind(dn);
 		verifyCleanup();
 	}
 
@@ -144,20 +144,20 @@ public class LdapTemplateBindUnbindITests extends AbstractLdapTemplateIntegratio
 	}
 
 	private void verifyBoundCorrectData() {
-		DirContextAdapter result = (DirContextAdapter) this.tested.lookup(DN);
+		DirContextAdapter result = (DirContextAdapter) this.tested.lookup(dn);
 		assertThat(result.getStringAttribute("cn")).isEqualTo("Some Person4");
 		assertThat(result.getStringAttribute("sn")).isEqualTo("Person4");
 	}
 
 	private void verifyReboundCorrectData() {
-		DirContextAdapter result = (DirContextAdapter) this.tested.lookup(DN);
+		DirContextAdapter result = (DirContextAdapter) this.tested.lookup(dn);
 		assertThat(result.getStringAttribute("cn")).isEqualTo("Some Person4");
 		assertThat(result.getStringAttribute("sn")).isEqualTo("Person4.Changed");
 	}
 
 	private void verifyCleanup() {
 		try {
-			this.tested.lookup(DN);
+			this.tested.lookup(dn);
 			fail("NameNotFoundException expected");
 		}
 		catch (NameNotFoundException expected) {

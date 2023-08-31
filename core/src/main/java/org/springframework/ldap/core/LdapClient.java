@@ -342,7 +342,7 @@ public interface LdapClient {
 		SearchSpec query(LdapQuery query);
 
 		default <O extends LdapDataEntry> O toEntry() {
-			ContextMapper<O> cast = (ctx) -> (O) ctx;
+			ContextMapper<O> cast = ctx -> (O) ctx;
 			return toObject(cast);
 		}
 
@@ -368,7 +368,7 @@ public interface LdapClient {
 		<O> O toObject(AttributesMapper<O> mapper);
 
 		default <O extends LdapDataEntry> List<O> toEntryList() {
-			ContextMapper<O> cast = (ctx) -> (O) ctx;
+			ContextMapper<O> cast = ctx -> (O) ctx;
 			return toList(cast);
 		}
 
@@ -391,7 +391,7 @@ public interface LdapClient {
 		<O> List<O> toList(AttributesMapper<O> mapper);
 
 		default <O extends LdapDataEntry> Stream<O> toEntryStream() {
-			ContextMapper<O> cast = (ctx) -> (O) ctx;
+			ContextMapper<O> cast = ctx -> (O) ctx;
 			return toStream(cast);
 		}
 

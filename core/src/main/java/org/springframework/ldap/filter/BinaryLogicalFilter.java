@@ -28,7 +28,7 @@ import java.util.List;
  */
 public abstract class BinaryLogicalFilter extends AbstractFilter {
 
-	private List<Filter> queryList = new LinkedList<Filter>();
+	private final List<Filter> queryList = new LinkedList<>();
 
 	public StringBuffer encode(StringBuffer buff) {
 		if (this.queryList.size() <= 0) {
@@ -75,11 +75,7 @@ public abstract class BinaryLogicalFilter extends AbstractFilter {
 
 		BinaryLogicalFilter that = (BinaryLogicalFilter) o;
 
-		if ((this.queryList != null) ? !this.queryList.equals(that.queryList) : that.queryList != null) {
-			return false;
-		}
-
-		return true;
+		return !((this.queryList != null) ? !this.queryList.equals(that.queryList) : that.queryList != null);
 	}
 
 	@Override

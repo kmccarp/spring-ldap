@@ -102,7 +102,7 @@ public class LdapTemplateListITests extends AbstractLdapTemplateIntegrationTests
 	}
 
 	private void verifyBindings(List<String> list) {
-		LinkedList<LdapName> transformed = new LinkedList<LdapName>();
+		LinkedList<LdapName> transformed = new LinkedList<>();
 
 		for (String s : list) {
 			transformed.add(LdapUtils.newLdapName(s));

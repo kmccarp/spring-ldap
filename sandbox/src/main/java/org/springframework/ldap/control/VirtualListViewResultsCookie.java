@@ -24,11 +24,11 @@ package org.springframework.ldap.control;
  */
 public class VirtualListViewResultsCookie {
 
-	private byte[] cookie;
+	private final byte[] cookie;
 
-	private int contentCount;
+	private final int contentCount;
 
-	private int targetPosition;
+	private final int targetPosition;
 
 	/**
 	 * Constructor.

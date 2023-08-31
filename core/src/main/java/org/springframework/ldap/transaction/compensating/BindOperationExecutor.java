@@ -35,15 +35,15 @@ import org.springframework.transaction.compensating.CompensatingTransactionOpera
  */
 public class BindOperationExecutor implements CompensatingTransactionOperationExecutor {
 
-	private static Logger log = LoggerFactory.getLogger(BindOperationExecutor.class);
+	private static final Logger log = LoggerFactory.getLogger(BindOperationExecutor.class);
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
-	private Name dn;
+	private final Name dn;
 
-	private Object originalObject;
+	private final Object originalObject;
 
-	private Attributes originalAttributes;
+	private final Attributes originalAttributes;
 
 	/**
 	 * Constructor.

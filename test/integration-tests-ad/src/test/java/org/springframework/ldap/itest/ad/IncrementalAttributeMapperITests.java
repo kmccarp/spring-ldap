@@ -201,7 +201,7 @@ public class IncrementalAttributeMapperITests extends AbstractJUnit4SpringContex
 		TransactionTemplate transactionTemplate = new TransactionTemplate(this.transactionManager);
 
 		try {
-			transactionTemplate.execute(new TransactionCallback<Object>() {
+			transactionTemplate.execute(new TransactionCallback<>() {
 				@Override
 				public Object doInTransaction(TransactionStatus status) {
 					ModificationItem modificationItem = new ModificationItem(DirContext.ADD_ATTRIBUTE,
