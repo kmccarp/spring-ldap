@@ -35,7 +35,7 @@ public final class PlainPerson {
 	public PlainPerson(Name dn, String commonName, String surname) {
 		this.dn = dn;
 		this.surname = surname;
-		this.objectClasses = new ArrayList<String>();
+		this.objectClasses = new ArrayList<>();
 		this.objectClasses.add("top");
 		this.objectClasses.add("person");
 		this.cn = commonName;
@@ -98,11 +98,7 @@ public final class PlainPerson {
 				: that.objectClasses != null) {
 			return false;
 		}
-		if ((this.surname != null) ? !this.surname.equals(that.surname) : that.surname != null) {
-			return false;
-		}
-
-		return true;
+		return !((this.surname != null) ? !this.surname.equals(that.surname) : that.surname != null);
 	}
 
 	@Override

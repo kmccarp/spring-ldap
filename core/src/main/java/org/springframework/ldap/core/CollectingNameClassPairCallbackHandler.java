@@ -30,7 +30,7 @@ import javax.naming.NamingException;
  */
 public abstract class CollectingNameClassPairCallbackHandler<T> implements NameClassPairCallbackHandler {
 
-	private List<T> list = new LinkedList<T>();
+	private final List<T> list = new LinkedList<>();
 
 	/**
 	 * Get the assembled list.
