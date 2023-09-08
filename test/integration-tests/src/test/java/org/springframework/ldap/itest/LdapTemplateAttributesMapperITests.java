@@ -70,8 +70,7 @@ public class LdapTemplateAttributesMapperITests extends AbstractLdapTemplateInte
 					String value = (String) enumeration.nextElement();
 					list.add(value);
 				}
-				String[] members = (String[]) list.toArray(new String[0]);
-				return members;
+				return (String[]) list.toArray(new String[0]);
 			}
 		};
 		List result = this.tested.search("ou=groups", "(&(objectclass=groupOfUniqueNames)(cn=ROLE_USER))", mapper);

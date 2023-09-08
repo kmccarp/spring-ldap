@@ -55,10 +55,10 @@ public class SingleContextSourceTests {
 		given(this.contextSourceMock.getReadWriteContext()).willReturn(this.dirContextMock);
 		verifyNoMoreInteractions(this.contextSourceMock);
 
-		SingleContextSource.doWithSingleContext(this.contextSourceMock, new LdapOperationsCallback<Object>() {
+		SingleContextSource.doWithSingleContext(this.contextSourceMock, new LdapOperationsCallback<>() {
 			@Override
 			public Object doWithLdapOperations(LdapOperations operations) {
-				operations.executeReadOnly(new ContextExecutor<Object>() {
+				operations.executeReadOnly(new ContextExecutor<>() {
 					@Override
 					public Object executeWithContext(DirContext ctx) throws NamingException {
 						Object targetContex = getInternalState(Proxy.getInvocationHandler(ctx), "target");
@@ -70,7 +70,7 @@ public class SingleContextSourceTests {
 				// Second operation will have retrieved new DirContext from the
 				// SingleContextSource.
 				// It should be the same instance.
-				operations.executeReadOnly(new ContextExecutor<Object>() {
+				operations.executeReadOnly(new ContextExecutor<>() {
 					@Override
 					public Object executeWithContext(DirContext ctx) throws NamingException {
 						Object targetContex = getInternalState(Proxy.getInvocationHandler(ctx), "target");

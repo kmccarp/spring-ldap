@@ -87,7 +87,7 @@ class DirContextPooledObjectFactory extends BaseKeyedPooledObjectFactory<Object,
 	 */
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private static final Set<Class<? extends Throwable>> DEFAULT_NONTRANSIENT_EXCEPTIONS = new HashSet<Class<? extends Throwable>>();
+	private static final Set<Class<? extends Throwable>> DEFAULT_NONTRANSIENT_EXCEPTIONS = new HashSet<>();
 
 	static {
 		DEFAULT_NONTRANSIENT_EXCEPTIONS.add(CommunicationException.class);
@@ -100,7 +100,7 @@ class DirContextPooledObjectFactory extends BaseKeyedPooledObjectFactory<Object,
 	private Set<Class<? extends Throwable>> nonTransientExceptions = DEFAULT_NONTRANSIENT_EXCEPTIONS;
 
 	void setNonTransientExceptions(Collection<Class<? extends Throwable>> nonTransientExceptions) {
-		this.nonTransientExceptions = new HashSet<Class<? extends Throwable>>(nonTransientExceptions);
+		this.nonTransientExceptions = new HashSet<>(nonTransientExceptions);
 	}
 
 	/**
@@ -239,7 +239,7 @@ class DirContextPooledObjectFactory extends BaseKeyedPooledObjectFactory<Object,
 	 */
 	@Override
 	public PooledObject<Object> wrap(Object value) {
-		return new DefaultPooledObject<Object>(value);
+		return new DefaultPooledObject<>(value);
 	}
 
 	/**
@@ -253,7 +253,7 @@ class DirContextPooledObjectFactory extends BaseKeyedPooledObjectFactory<Object,
 
 		private DirContext target;
 
-		private boolean hasFailed = false;
+		private boolean hasFailed;
 
 		FailureAwareContextProxy(DirContext target) {
 			Assert.notNull(target, "Target must not be null");
@@ -268,10 +268,10 @@ class DirContextPooledObjectFactory extends BaseKeyedPooledObjectFactory<Object,
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
 			String methodName = method.getName();
-			if (methodName.equals("getTargetContext")) {
+			if ("getTargetContext".equals(methodName)) {
 				return this.target;
 			}
-			else if (methodName.equals("hasFailed")) {
+			else if ("hasFailed".equals(methodName)) {
 				return this.hasFailed;
 			}
 

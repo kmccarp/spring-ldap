@@ -90,11 +90,7 @@ public abstract class CompareFilter extends AbstractFilter {
 		if ((this.attribute != null) ? !this.attribute.equals(that.attribute) : that.attribute != null) {
 			return false;
 		}
-		if ((this.value != null) ? !this.value.equals(that.value) : that.value != null) {
-			return false;
-		}
-
-		return true;
+		return !((this.value != null) ? !this.value.equals(that.value) : that.value != null);
 	}
 
 	@Override

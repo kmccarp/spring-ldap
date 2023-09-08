@@ -34,7 +34,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  */
 public abstract class AbstractCompensatingTransactionManagerDelegate {
 
-	private static Logger log = LoggerFactory.getLogger(AbstractCompensatingTransactionManagerDelegate.class);
+	private static final Logger log = LoggerFactory.getLogger(AbstractCompensatingTransactionManagerDelegate.class);
 
 	/**
 	 * Close the target resource - the implementation specific resource held in the

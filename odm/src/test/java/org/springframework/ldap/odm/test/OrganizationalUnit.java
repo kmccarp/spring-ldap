@@ -38,7 +38,7 @@ public final class OrganizationalUnit {
 	private Name dn;
 
 	@Attribute(name = "objectClass", syntax = "1.3.6.1.4.1.1466.115.121.1.38")
-	private List<String> objectClass = new ArrayList<String>();
+	private List<String> objectClass = new ArrayList<>();
 
 	@Attribute(name = "ou", syntax = "1.3.6.1.4.1.1466.115.121.1.15")
 	private String ou;

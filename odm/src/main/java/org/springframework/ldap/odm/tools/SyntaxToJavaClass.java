@@ -27,7 +27,7 @@ import java.util.Map.Entry;
  */
 /* package */ final class SyntaxToJavaClass {
 
-	private final Map<String, ClassInfo> mapSyntaxToClassInfo = new HashMap<String, ClassInfo>();
+	private final Map<String, ClassInfo> mapSyntaxToClassInfo = new HashMap<>();
 
 	SyntaxToJavaClass(Map<String, String> mapSyntaxToClass) {
 		for (Entry<String, String> syntaxAndClass : mapSyntaxToClass.entrySet()) {

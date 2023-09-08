@@ -58,7 +58,7 @@ public class DefaultLdapClientListTests {
 
 	private NamingEnumeration namingEnumerationMock;
 
-	private Name nameMock = LdapUtils.newLdapName(NAME);
+	private final Name nameMock = LdapUtils.newLdapName(NAME);
 
 	private ContextMapper<Object> contextMapperMock;
 

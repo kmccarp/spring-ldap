@@ -72,7 +72,7 @@ public class SupportedControlsITests extends AbstractLdapTemplateIntegrationTest
 		String[] controls = (String[]) this.tested.lookup("", new String[] { SUPPORTED_CONTROL }, mapper);
 		System.out.println(Arrays.toString(controls));
 
-		HashSet<String> controlsSet = new HashSet<String>(Arrays.asList(controls));
+		HashSet<String> controlsSet = new HashSet<>(Arrays.asList(controls));
 
 		assertThat(controlsSet.contains("1.3.6.1.4.1.4203.1.10.1")).as("Entry Change Notification LDAPv3 control,")
 				.isTrue();
