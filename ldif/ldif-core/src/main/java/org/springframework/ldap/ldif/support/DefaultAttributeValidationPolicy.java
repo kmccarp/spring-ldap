@@ -291,7 +291,7 @@ public class DefaultAttributeValidationPolicy implements AttributeValidationPoli
 
 	private static final Pattern UTF8_ATTRIBUTE_PATTERN = Pattern.compile(UTF8_ATTRIBUTE_EXPRESSION);
 
-	private boolean ordered = false;
+	private boolean ordered;
 
 	/**
 	 * Default constructor.

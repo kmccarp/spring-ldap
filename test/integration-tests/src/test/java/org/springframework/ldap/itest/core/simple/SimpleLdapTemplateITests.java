@@ -46,9 +46,9 @@ import static org.assertj.core.api.Assertions.fail;
 @ContextConfiguration(locations = { "/conf/simpleLdapTemplateTestContext.xml" })
 public class SimpleLdapTemplateITests extends AbstractLdapTemplateIntegrationTests {
 
-	private static String DN_STRING = "cn=Some Person4,ou=company1,ou=Sweden";
+	private static String dnString = "cn=Some Person4,ou=company1,ou=Sweden";
 
-	private static LdapName DN = LdapUtils.newLdapName("cn=Some Person4,ou=company1,ou=Sweden");
+	private static LdapName dn = LdapUtils.newLdapName("cn=Some Person4,ou=company1,ou=Sweden");
 
 	@Autowired
 	private LdapTemplate ldapTemplate;
@@ -129,7 +129,7 @@ public class SimpleLdapTemplateITests extends AbstractLdapTemplateIntegrationTes
 		this.ldapTemplate.modifyAttributes(ctx);
 
 		// verify that the data was properly updated.
-		this.ldapTemplate.lookup("cn=Some Person,ou=company1,ou=Sweden", new ContextMapper<Object>() {
+		this.ldapTemplate.lookup("cn=Some Person,ou=company1,ou=Sweden", new ContextMapper<>() {
 			public Object mapFromContext(Object ctx) {
 				DirContextAdapter adapter = (DirContextAdapter) ctx;
 				assertThat(adapter.getStringAttribute("description")).isEqualTo("updated description");
@@ -150,7 +150,7 @@ public class SimpleLdapTemplateITests extends AbstractLdapTemplateIntegrationTes
 		this.ldapTemplate.modifyAttributes(ctx);
 
 		// verify that the data was properly updated.
-		this.ldapTemplate.lookup("cn=Some Person,ou=company1,ou=Sweden", new ContextMapper<Object>() {
+		this.ldapTemplate.lookup("cn=Some Person,ou=company1,ou=Sweden", new ContextMapper<>() {
 			public Object mapFromContext(Object ctx) {
 				DirContextAdapter adapter = (DirContextAdapter) ctx;
 				assertThat(adapter.getStringAttribute("description")).isEqualTo("updated description");
@@ -167,9 +167,9 @@ public class SimpleLdapTemplateITests extends AbstractLdapTemplateIntegrationTes
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
-		this.ldapTemplate.bind(DN_STRING, adapter, null);
+		this.ldapTemplate.bind(dnString, adapter, null);
 		verifyBoundCorrectData();
-		this.ldapTemplate.unbind(DN_STRING);
+		this.ldapTemplate.unbind(dnString);
 		verifyCleanup();
 	}
 
@@ -180,22 +180,22 @@ public class SimpleLdapTemplateITests extends AbstractLdapTemplateIntegrationTes
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
-		this.ldapTemplate.bind(DN, adapter, null);
+		this.ldapTemplate.bind(dn, adapter, null);
 		verifyBoundCorrectData();
-		this.ldapTemplate.unbind(DN);
+		this.ldapTemplate.unbind(dn);
 		verifyCleanup();
 	}
 
 	@Test
 	public void testBindAndUnbindWithDirContextAdapter() {
-		DirContextAdapter adapter = new DirContextAdapter(DN);
+		DirContextAdapter adapter = new DirContextAdapter(dn);
 		adapter.setAttributeValues("objectclass", new String[] { "top", "person" });
 		adapter.setAttributeValue("cn", "Some Person4");
 		adapter.setAttributeValue("sn", "Person4");
 
 		this.ldapTemplate.bind(adapter);
 		verifyBoundCorrectData();
-		this.ldapTemplate.unbind(DN);
+		this.ldapTemplate.unbind(dn);
 		verifyCleanup();
 	}
 
@@ -208,14 +208,14 @@ public class SimpleLdapTemplateITests extends AbstractLdapTemplateIntegrationTes
 	}
 
 	private void verifyBoundCorrectData() {
-		DirContextOperations result = this.ldapTemplate.lookupContext(DN_STRING);
+		DirContextOperations result = this.ldapTemplate.lookupContext(dnString);
 		assertThat(result.getStringAttribute("cn")).isEqualTo("Some Person4");
 		assertThat(result.getStringAttribute("sn")).isEqualTo("Person4");
 	}
 
 	private void verifyCleanup() {
 		try {
-			this.ldapTemplate.lookupContext(DN_STRING);
+			this.ldapTemplate.lookupContext(dnString);
 			fail("NameNotFoundException expected");
 		}
 		catch (NameNotFoundException expected) {

@@ -52,9 +52,9 @@ def bundle_openldap_instance():
     bundle_instance(conn, instance.id, AMI_NAME, AMI_DESCRIPTION)
 
 
-def bundle_instance(conn, instance_id, ami_name, ami_description):
+def bundle_instance(conn, instanceId, amiName, amiDescription):
     print('Creating AMI')
-    new_id = conn.create_image(instance_id, ami_name, ami_description)
+    new_id = conn.create_image(instanceId, amiName, amiDescription)
     ami = conn.get_all_images([new_id])[0]
 
     while ami.state == 'pending':
@@ -62,8 +62,8 @@ def bundle_instance(conn, instance_id, ami_name, ami_description):
         ami.update()
         sleep(20)
 
-    conn.create_tags([ami.id], {'Name': ami_name})
-    conn.terminate_instances([instance_id])
+    conn.create_tags([ami.id], {'Name': amiName})
+    conn.terminate_instances([instanceId])
 
 
 def upgrade_instance():

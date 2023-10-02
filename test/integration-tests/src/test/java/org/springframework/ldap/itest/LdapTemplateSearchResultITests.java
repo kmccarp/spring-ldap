@@ -496,7 +496,7 @@ public class LdapTemplateSearchResultITests extends AbstractLdapTemplateIntegrat
 	@Test
 	public void verifyThatSearchWithCountLimitReturnsTheEntriesFoundSoFar() {
 		List<Object> result = this.tested.search(
-				LdapQueryBuilder.query().countLimit(3).where("objectclass").is("person"), new ContextMapper<Object>() {
+				LdapQueryBuilder.query().countLimit(3).where("objectclass").is("person"), new ContextMapper<>() {
 					@Override
 					public Object mapFromContext(Object ctx) throws NamingException {
 						return new Object();
@@ -510,7 +510,7 @@ public class LdapTemplateSearchResultITests extends AbstractLdapTemplateIntegrat
 	public void verifyThatSearchWithCountLimitWithFlagToFalseThrowsException() {
 		this.tested.setIgnoreSizeLimitExceededException(false);
 		this.tested.search(LdapQueryBuilder.query().countLimit(3).where("objectclass").is("person"),
-				new ContextMapper<Object>() {
+				new ContextMapper<>() {
 					@Override
 					public Object mapFromContext(Object ctx) throws NamingException {
 						return new Object();

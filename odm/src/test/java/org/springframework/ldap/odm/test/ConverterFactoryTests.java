@@ -34,37 +34,37 @@ public class ConverterFactoryTests {
 
 	private static final Converter nullConverter = new NullConverter();
 
-	private static ConverterConfigTestData[] converterConfigTestData = new ConverterConfigTestData[] {
-			new ConverterConfigTestData(new Class<?>[] { String.class }, "", new Class<?>[] { Integer.class }),
-			new ConverterConfigTestData(new Class<?>[] { Byte.class, java.lang.Integer.class }, "",
-					new Class<?>[] { String.class, Long.class }),
-			new ConverterConfigTestData(new Class<?>[] { String.class }, "123",
-					new Class<?>[] { java.net.URI.class }), };
+	private static final ConverterConfigTestData[] converterConfigTestData = new ConverterConfigTestData[]{
+			new ConverterConfigTestData(new Class<?>[]{String.class}, "", new Class<?>[]{Integer.class}),
+			new ConverterConfigTestData(new Class<?>[]{Byte.class, java.lang.Integer.class}, "",
+					new Class<?>[]{String.class, Long.class}),
+			new ConverterConfigTestData(new Class<?>[]{String.class}, "123",
+					new Class<?>[]{java.net.URI.class}), };
 
-	private ConverterTestData[] converterTestData = new ConverterTestData[] {
+	private final ConverterTestData[] converterTestData = new ConverterTestData[]{
 			new ConverterTestData(java.lang.String.class, "", java.lang.Integer.class, true),
 			new ConverterTestData(java.lang.Byte.class, "", java.lang.Long.class, true),
 			new ConverterTestData(java.lang.Integer.class, "444", java.lang.String.class, true),
 			new ConverterTestData(java.lang.String.class, "123", java.net.URI.class, true),
 			new ConverterTestData(java.lang.String.class, "123", java.lang.Byte.class, false),
-			new ConverterTestData(java.lang.Byte.class, "", java.lang.Integer.class, false) };
+			new ConverterTestData(java.lang.Byte.class, "", java.lang.Integer.class, false)};
 
 	@Test
 	public void testConverterFactory() throws Exception {
 		ConverterManagerFactoryBean converterManagerFactory = new ConverterManagerFactoryBean();
-		Set<ConverterManagerFactoryBean.ConverterConfig> configList = new HashSet<ConverterManagerFactoryBean.ConverterConfig>();
+		Set<ConverterManagerFactoryBean.ConverterConfig> configList = new HashSet<>();
 		for (ConverterConfigTestData config : converterConfigTestData) {
 			ConverterManagerFactoryBean.ConverterConfig converterConfig = new ConverterManagerFactoryBean.ConverterConfig();
-			converterConfig.setFromClasses(new HashSet<Class<?>>(Arrays.asList(config.fromClasses)));
+			converterConfig.setFromClasses(new HashSet<>(Arrays.asList(config.fromClasses)));
 			converterConfig.setSyntax(config.syntax);
-			converterConfig.setToClasses(new HashSet<Class<?>>(Arrays.asList(config.toClasses)));
+			converterConfig.setToClasses(new HashSet<>(Arrays.asList(config.toClasses)));
 			converterConfig.setConverter(nullConverter);
 			configList.add(converterConfig);
 		}
 		converterManagerFactory.setConverterConfig(configList);
 		final ConverterManager converterManager = (ConverterManager) converterManagerFactory.getObject();
 
-		new ExecuteRunnable<ConverterTestData>().runTests(new RunnableTests<ConverterTestData>() {
+		new ExecuteRunnable<ConverterTestData>().runTests(new RunnableTests<>() {
 			public void runTest(ConverterTestData testData) {
 				assertThat(testData.canConvert)
 						.isEqualTo(converterManager.canConvert(testData.fromClass, testData.syntax, testData.toClass));

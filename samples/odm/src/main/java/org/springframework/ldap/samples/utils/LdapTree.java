@@ -24,7 +24,7 @@ import org.springframework.ldap.core.DirContextOperations;
 public class LdapTree {
 	private final DirContextOperations node;
 
-	private List<LdapTree> subContexts = new LinkedList<LdapTree>();
+	private List<LdapTree> subContexts = new LinkedList<>();
 
 	public LdapTree(DirContextOperations node) {
 		this.node = node;

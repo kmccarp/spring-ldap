@@ -32,9 +32,9 @@ public final class LdapEncoder {
 
 	private static final int HEX = 16;
 
-	private static String[] NAME_ESCAPE_TABLE = new String[96];
+	private static final String[] NAME_ESCAPE_TABLE = new String[96];
 
-	private static String[] FILTER_ESCAPE_TABLE = new String['\\' + 1];
+	private static final String[] FILTER_ESCAPE_TABLE = new String['\\' + 1];
 
 	private static final int RFC2849_MAX_BASE64_CHARS_PER_LINE = 76;
 

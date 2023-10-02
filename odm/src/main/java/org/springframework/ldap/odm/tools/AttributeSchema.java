@@ -143,9 +143,9 @@ public final class AttributeSchema {
 		result = prime * result + (this.isBinary ? 1231 : 1237);
 		result = prime * result + (this.isMultiValued ? 1231 : 1237);
 		result = prime * result + (this.isPrimitive ? 1231 : 1237);
-		result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
-		result = prime * result + ((this.scalarType == null) ? 0 : this.scalarType.hashCode());
-		result = prime * result + ((this.syntax == null) ? 0 : this.syntax.hashCode());
+		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
+		result = prime * result + (this.scalarType == null ? 0 : this.scalarType.hashCode());
+		result = prime * result + (this.syntax == null ? 0 : this.syntax.hashCode());
 		return result;
 	}
 

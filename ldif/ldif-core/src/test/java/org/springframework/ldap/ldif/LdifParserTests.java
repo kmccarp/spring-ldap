@@ -49,9 +49,9 @@ import static org.assertj.core.api.Assertions.fail;
  */
 public class LdifParserTests {
 
-	private static Logger log = LoggerFactory.getLogger(LdifParserTests.class);
+	private static final Logger log = LoggerFactory.getLogger(LdifParserTests.class);
 
-	private LdifParser parser;
+	private final LdifParser parser;
 
 	/**
 	 * Default constructor: loads a preselected resource with sample LDIF entries. Each

@@ -130,7 +130,7 @@ public class LdapTemplateOdmGroupManipulationITests extends AbstractLdapTemplate
 	public void testSetMembersSyntacticallyEqual() {
 		Group group = this.tested.findOne(LdapQueryBuilder.query().where("cn").is("ROLE_USER"), Group.class);
 
-		group.setMembers(new HashSet<Name>() {
+		group.setMembers(new HashSet<>() {
 			{
 				add(LdapUtils.newLdapName("CN=Some Person,OU=company1, ou=Sweden, " + base));
 				add(LdapUtils.newLdapName("CN=Some Person2, OU=company1,ou=Sweden," + base));

@@ -141,7 +141,7 @@ public class DefaultDirObjectFactoryTests {
 		DirContextAdapter result = tested.constructAdapterFromName(new BasicAttributes(), name, "");
 
 		assertThat(result.getDn().toString()).isEqualTo("ou=People,o=JNDITutorial");
-		assertThat(result.getReferralUrl().toString()).isEqualTo("ldap://localhost:389");
+		assertThat(result.getReferralUrl()).isEqualTo("ldap://localhost:389");
 	}
 
 	@Test
@@ -152,7 +152,7 @@ public class DefaultDirObjectFactoryTests {
 		DirContextAdapter result = tested.constructAdapterFromName(new BasicAttributes(), name, "");
 
 		assertThat(result.getDn().toString()).isEqualTo("ou=People,o=JNDITutorial");
-		assertThat(result.getReferralUrl().toString()).isEqualTo("ldaps://localhost:389");
+		assertThat(result.getReferralUrl()).isEqualTo("ldaps://localhost:389");
 	}
 
 	@Test
@@ -163,7 +163,7 @@ public class DefaultDirObjectFactoryTests {
 		DirContextAdapter result = tested.constructAdapterFromName(new BasicAttributes(), name, "");
 
 		assertThat(result.getDn().toString()).isEqualTo("");
-		assertThat(result.getReferralUrl().toString()).isEqualTo("ldap://localhost:389");
+		assertThat(result.getReferralUrl()).isEqualTo("ldap://localhost:389");
 	}
 
 	@Test
@@ -174,7 +174,7 @@ public class DefaultDirObjectFactoryTests {
 		DirContextAdapter result = tested.constructAdapterFromName(new BasicAttributes(), name, "");
 
 		assertThat(result.getDn().toString()).isEqualTo("");
-		assertThat(result.getReferralUrl().toString()).isEqualTo("ldap://localhost:389");
+		assertThat(result.getReferralUrl()).isEqualTo("ldap://localhost:389");
 	}
 
 }

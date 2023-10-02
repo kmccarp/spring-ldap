@@ -39,17 +39,17 @@ import org.springframework.transaction.compensating.CompensatingTransactionOpera
  */
 public class RebindOperationExecutor implements CompensatingTransactionOperationExecutor {
 
-	private static Logger log = LoggerFactory.getLogger(RebindOperationExecutor.class);
+	private static final Logger log = LoggerFactory.getLogger(RebindOperationExecutor.class);
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
-	private Name originalDn;
+	private final Name originalDn;
 
-	private Name temporaryDn;
+	private final Name temporaryDn;
 
-	private Object originalObject;
+	private final Object originalObject;
 
-	private Attributes originalAttributes;
+	private final Attributes originalAttributes;
 
 	/**
 	 * Constructor.
