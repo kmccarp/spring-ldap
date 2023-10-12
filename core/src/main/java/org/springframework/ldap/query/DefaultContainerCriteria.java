@@ -29,7 +29,7 @@ import org.springframework.ldap.filter.Filter;
  */
 class DefaultContainerCriteria implements AppendableContainerCriteria {
 
-	private final Set<Filter> filters = new LinkedHashSet<Filter>();
+	private final Set<Filter> filters = new LinkedHashSet<>();
 
 	private final LdapQuery topQuery;
 

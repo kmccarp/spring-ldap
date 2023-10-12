@@ -33,7 +33,7 @@ class RangeOption implements Comparable<RangeOption> {
 
 	public static final int TERMINAL_MISSING = -2;
 
-	private int initial = 0;
+	private int initial;
 
 	private int terminal = TERMINAL_END_OF_RANGE;
 
@@ -152,7 +152,7 @@ class RangeOption implements Comparable<RangeOption> {
 			return -1;
 		}
 
-		return (this.getTerminal() > that.getTerminal()) ? 1 : -1;
+		return this.getTerminal() > that.getTerminal() ? 1 : -1;
 	}
 
 	@Override
@@ -169,11 +169,7 @@ class RangeOption implements Comparable<RangeOption> {
 		if (this.initial != that.initial) {
 			return false;
 		}
-		if (this.terminal != that.terminal) {
-			return false;
-		}
-
-		return true;
+		return this.terminal == that.terminal;
 	}
 
 	@Override
@@ -201,7 +197,7 @@ class RangeOption implements Comparable<RangeOption> {
 		}
 
 		int initial = getTerminal() + 1;
-		int terminal = (pageSize != TERMINAL_END_OF_RANGE) ? getTerminal() + pageSize : TERMINAL_END_OF_RANGE;
+		int terminal = pageSize != TERMINAL_END_OF_RANGE ? getTerminal() + pageSize : TERMINAL_END_OF_RANGE;
 
 		return new RangeOption(initial, terminal);
 	}

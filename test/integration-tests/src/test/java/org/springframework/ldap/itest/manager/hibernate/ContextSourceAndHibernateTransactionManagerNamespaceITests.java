@@ -141,7 +141,7 @@ public class ContextSourceAndHibernateTransactionManagerNamespaceITests extends 
 
 		List result = this.hibernateTemplate.findByNamedParam("from OrgPerson person where person.lastname = :lastname",
 				"lastname", person.getLastname());
-		assertThat(result.size() == 0).isTrue();
+		assertThat(result.isEmpty()).isTrue();
 
 	}
 

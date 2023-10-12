@@ -29,11 +29,11 @@ import java.util.Set;
  */
 public final class ObjectSchema {
 
-	private final Set<AttributeSchema> must = new HashSet<AttributeSchema>();
+	private final Set<AttributeSchema> must = new HashSet<>();
 
-	private final Set<AttributeSchema> may = new HashSet<AttributeSchema>();
+	private final Set<AttributeSchema> may = new HashSet<>();
 
-	private final Set<String> objectClass = new HashSet<String>();
+	private final Set<String> objectClass = new HashSet<>();
 
 	public void addMust(AttributeSchema must) {
 		// if may attributes contain must attribute, remove from may and add to must
@@ -109,9 +109,9 @@ public final class ObjectSchema {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.may == null) ? 0 : this.may.hashCode());
-		result = prime * result + ((this.must == null) ? 0 : this.must.hashCode());
-		result = prime * result + ((this.objectClass == null) ? 0 : this.objectClass.hashCode());
+		result = prime * result + (this.may == null ? 0 : this.may.hashCode());
+		result = prime * result + (this.must == null ? 0 : this.must.hashCode());
+		result = prime * result + (this.objectClass == null ? 0 : this.objectClass.hashCode());
 		return result;
 	}
 

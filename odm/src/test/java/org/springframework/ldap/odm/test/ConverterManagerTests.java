@@ -99,7 +99,7 @@ public final class ConverterManagerTests {
 				new ConverterTestData<String>(new URI("https://apache.org/index.html"), String.class,
 						"https://apache.org/index.html") };
 
-		new ExecuteRunnable<ConverterTestData<?>>().runTests(new RunnableTests<ConverterTestData<?>>() {
+		new ExecuteRunnable<ConverterTestData<?>>().runTests(new RunnableTests<>() {
 			public void runTest(ConverterTestData<?> testData) {
 				assertThat(testData.expectedValue).isEqualTo(ConverterManagerTests.this.converterManager
 						.convert(testData.sourceData, "", testData.destClass));
@@ -131,7 +131,7 @@ public final class ConverterManagerTests {
 				new ConverterTestData<Integer>(5, "3", Integer.class, Integer.valueOf(125)),
 				new ConverterTestData<Integer>(6, "3", Integer.class, Integer.valueOf(216)), };
 
-		new ExecuteRunnable<ConverterTestData<?>>().runTests(new RunnableTests<ConverterTestData<?>>() {
+		new ExecuteRunnable<ConverterTestData<?>>().runTests(new RunnableTests<>() {
 			public void runTest(ConverterTestData<?> testData) {
 				assertThat(testData.expectedValue).isEqualTo(ConverterManagerTests.this.converterManager
 						.convert(testData.sourceData, testData.syntax, testData.destClass));

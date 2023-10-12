@@ -114,7 +114,7 @@ public class DirContextAdapter implements DirContextOperations {
 
 	private LdapName base = LdapUtils.emptyLdapName();
 
-	private boolean updateMode = false;
+	private boolean updateMode;
 
 	private NameAwareAttributes updatedAttrs;
 
@@ -236,7 +236,7 @@ public class DirContextAdapter implements DirContextOperations {
 	@Override
 	public String[] getNamesOfModifiedAttributes() {
 
-		List<String> tmpList = new ArrayList<String>();
+		List<String> tmpList = new ArrayList<>();
 
 		NamingEnumeration<? extends Attribute> attributesEnumeration;
 		if (isUpdateMode()) {
@@ -282,7 +282,7 @@ public class DirContextAdapter implements DirContextOperations {
 			return new ModificationItem[0];
 		}
 
-		List<ModificationItem> tmpList = new LinkedList<ModificationItem>();
+		List<ModificationItem> tmpList = new LinkedList<>();
 		NamingEnumeration<? extends Attribute> attributesEnumeration = null;
 		try {
 			attributesEnumeration = this.updatedAttrs.getAll();
@@ -358,7 +358,7 @@ public class DirContextAdapter implements DirContextOperations {
 		else if (changedAttr.size() > 0) {
 			// Change of multivalue Attribute. Collect additions and removals
 			// individually.
-			List<ModificationItem> myModifications = new LinkedList<ModificationItem>();
+			List<ModificationItem> myModifications = new LinkedList<>();
 			collectModifications(currentAttribute, changedAttr, myModifications);
 
 			if (myModifications.isEmpty()) {
@@ -411,7 +411,7 @@ public class DirContextAdapter implements DirContextOperations {
 	 */
 	private boolean isEmptyAttribute(Attribute a) {
 		try {
-			return (a == null || a.size() == 0 || a.get() == null);
+			return a == null || a.size() == 0 || a.get() == null;
 		}
 		catch (NamingException ex) {
 			return true;
@@ -438,7 +438,7 @@ public class DirContextAdapter implements DirContextOperations {
 		NameAwareAttribute prev = this.updatedAttrs.get(name);
 
 		// values == null and values.length == 0 is treated the same way
-		boolean emptyNewValue = (values == null || values.length == 0);
+		boolean emptyNewValue = values == null || values.length == 0;
 
 		// Setting to empty ---------------------
 		if (emptyNewValue) {
@@ -757,7 +757,7 @@ public class DirContextAdapter implements DirContextOperations {
 	}
 
 	private <T> List<T> collectAttributeValuesAsList(String name, Class<T> clazz) {
-		List<T> list = new LinkedList<T>();
+		List<T> list = new LinkedList<>();
 		LdapUtils.collectAttributeValues(this.originalAttrs, name, list, clazz);
 		return list;
 	}
@@ -768,7 +768,7 @@ public class DirContextAdapter implements DirContextOperations {
 	@Override
 	public SortedSet<String> getAttributeSortedStringSet(String name) {
 		try {
-			TreeSet<String> attrSet = new TreeSet<String>();
+			TreeSet<String> attrSet = new TreeSet<>();
 			LdapUtils.collectAttributeValues(this.originalAttrs, name, attrSet, String.class);
 			return attrSet;
 		}
@@ -1311,24 +1311,20 @@ public class DirContextAdapter implements DirContextOperations {
 		if (this.updateMode != that.updateMode) {
 			return false;
 		}
-		if ((this.base != null) ? !this.base.equals(that.base) : that.base != null) {
+		if (this.base != null ? !this.base.equals(that.base) : that.base != null) {
 			return false;
 		}
-		if ((this.dn != null) ? !this.dn.equals(that.dn) : that.dn != null) {
+		if (this.dn != null ? !this.dn.equals(that.dn) : that.dn != null) {
 			return false;
 		}
-		if ((this.originalAttrs != null) ? !this.originalAttrs.equals(that.originalAttrs)
+		if (this.originalAttrs != null ? !this.originalAttrs.equals(that.originalAttrs)
 				: that.originalAttrs != null) {
 			return false;
 		}
-		if ((this.referralUrl != null) ? !this.referralUrl.equals(that.referralUrl) : that.referralUrl != null) {
+		if (this.referralUrl != null ? !this.referralUrl.equals(that.referralUrl) : that.referralUrl != null) {
 			return false;
 		}
-		if ((this.updatedAttrs != null) ? !this.updatedAttrs.equals(that.updatedAttrs) : that.updatedAttrs != null) {
-			return false;
-		}
-
-		return true;
+		return !(this.updatedAttrs != null ? !this.updatedAttrs.equals(that.updatedAttrs) : that.updatedAttrs != null);
 	}
 
 	/**
@@ -1336,12 +1332,12 @@ public class DirContextAdapter implements DirContextOperations {
 	 */
 	@Override
 	public int hashCode() {
-		int result = (this.originalAttrs != null) ? this.originalAttrs.hashCode() : 0;
-		result = 31 * result + ((this.dn != null) ? this.dn.hashCode() : 0);
-		result = 31 * result + ((this.base != null) ? this.base.hashCode() : 0);
+		int result = this.originalAttrs != null ? this.originalAttrs.hashCode() : 0;
+		result = 31 * result + (this.dn != null ? this.dn.hashCode() : 0);
+		result = 31 * result + (this.base != null ? this.base.hashCode() : 0);
 		result = 31 * result + (this.updateMode ? 1 : 0);
-		result = 31 * result + ((this.updatedAttrs != null) ? this.updatedAttrs.hashCode() : 0);
-		result = 31 * result + ((this.referralUrl != null) ? this.referralUrl.hashCode() : 0);
+		result = 31 * result + (this.updatedAttrs != null ? this.updatedAttrs.hashCode() : 0);
+		result = 31 * result + (this.referralUrl != null ? this.referralUrl.hashCode() : 0);
 		return result;
 	}
 

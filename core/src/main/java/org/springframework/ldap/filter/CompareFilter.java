@@ -87,20 +87,16 @@ public abstract class CompareFilter extends AbstractFilter {
 
 		CompareFilter that = (CompareFilter) o;
 
-		if ((this.attribute != null) ? !this.attribute.equals(that.attribute) : that.attribute != null) {
+		if (this.attribute != null ? !this.attribute.equals(that.attribute) : that.attribute != null) {
 			return false;
 		}
-		if ((this.value != null) ? !this.value.equals(that.value) : that.value != null) {
-			return false;
-		}
-
-		return true;
+		return !(this.value != null ? !this.value.equals(that.value) : that.value != null);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = (this.attribute != null) ? this.attribute.hashCode() : 0;
-		result = 31 * result + ((this.value != null) ? this.value.hashCode() : 0);
+		int result = this.attribute != null ? this.attribute.hashCode() : 0;
+		result = 31 * result + (this.value != null ? this.value.hashCode() : 0);
 		return result;
 	}
 
