@@ -346,7 +346,7 @@ public class LdifParser implements Parser, InitializingBean {
 				// Validate previous attribute and add to record.
 				Attribute attribute = this.attributePolicy.parse(buffer);
 
-				if (attribute.getID().equalsIgnoreCase("dn")) {
+				if ("dn".equalsIgnoreCase(attribute.getID())) {
 					LOG.trace("...adding DN to record.");
 
 					String dn;

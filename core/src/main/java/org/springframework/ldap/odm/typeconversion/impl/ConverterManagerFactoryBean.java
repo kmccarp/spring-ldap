@@ -97,7 +97,7 @@ public final class ConverterManagerFactoryBean implements FactoryBean {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ConverterManagerFactoryBean.class);
 
-	private Set<ConverterConfig> converterConfigList = null;
+	private Set<ConverterConfig> converterConfigList;
 
 	/**
 	 * @param converterConfigList
@@ -166,16 +166,16 @@ public final class ConverterManagerFactoryBean implements FactoryBean {
 	public static final class ConverterConfig {
 
 		// The set of classes the Converter will convert from.
-		private Set<Class<?>> fromClasses = new HashSet<Class<?>>();
+		private Set<Class<?>> fromClasses = new HashSet<>();
 
 		// The (optional) LDAP syntax.
-		private String syntax = null;
+		private String syntax;
 
 		// The set of classes the Converter will convert to.
-		private Set<Class<?>> toClasses = new HashSet<Class<?>>();
+		private Set<Class<?>> toClasses = new HashSet<>();
 
 		// The Converter to use.
-		private Converter converter = null;
+		private Converter converter;
 
 		public ConverterConfig() {
 		}

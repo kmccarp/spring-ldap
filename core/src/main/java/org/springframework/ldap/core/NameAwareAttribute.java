@@ -47,9 +47,9 @@ public final class NameAwareAttribute implements Attribute, Iterable<Object> {
 
 	private final boolean orderMatters;
 
-	private final Set<Object> values = new LinkedHashSet<Object>();
+	private final Set<Object> values = new LinkedHashSet<>();
 
-	private Map<Name, String> valuesAsNames = new HashMap<Name, String>();
+	private Map<Name, String> valuesAsNames = new HashMap<>();
 
 	/**
 	 * Construct a new instance with the specified id and one value.
@@ -162,7 +162,7 @@ public final class NameAwareAttribute implements Attribute, Iterable<Object> {
 			return;
 		}
 
-		Map<Name, String> newValuesAsNames = new HashMap<Name, String>();
+		Map<Name, String> newValuesAsNames = new HashMap<>();
 		for (Object value : this.values) {
 			if (value instanceof String) {
 				String s = (String) value;
@@ -311,7 +311,7 @@ public final class NameAwareAttribute implements Attribute, Iterable<Object> {
 
 		NameAwareAttribute that = (NameAwareAttribute) o;
 
-		if ((this.id != null) ? !this.id.equals(that.id) : that.id != null) {
+		if (this.id != null ? !this.id.equals(that.id) : that.id != null) {
 			return false;
 		}
 		if (this.values.size() != that.values.size()) {
@@ -360,7 +360,7 @@ public final class NameAwareAttribute implements Attribute, Iterable<Object> {
 
 	@Override
 	public int hashCode() {
-		int result = (this.id != null) ? this.id.hashCode() : 0;
+		int result = this.id != null ? this.id.hashCode() : 0;
 
 		int valuesHash = 7;
 		Set<?> myValues = this.values;

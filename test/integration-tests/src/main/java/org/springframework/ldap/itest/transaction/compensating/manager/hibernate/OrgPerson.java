@@ -141,11 +141,11 @@ public class OrgPerson {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.company == null) ? 0 : this.company.hashCode());
-		result = prime * result + ((this.country == null) ? 0 : this.country.hashCode());
-		result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
-		result = prime * result + ((this.fullname == null) ? 0 : this.fullname.hashCode());
-		result = prime * result + ((this.lastname == null) ? 0 : this.lastname.hashCode());
+		result = prime * result + (this.company == null ? 0 : this.company.hashCode());
+		result = prime * result + (this.country == null ? 0 : this.country.hashCode());
+		result = prime * result + (this.description == null ? 0 : this.description.hashCode());
+		result = prime * result + (this.fullname == null ? 0 : this.fullname.hashCode());
+		result = prime * result + (this.lastname == null ? 0 : this.lastname.hashCode());
 		return result;
 	}
 

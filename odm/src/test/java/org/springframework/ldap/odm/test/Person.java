@@ -42,7 +42,7 @@ public final class Person {
 		this.desc = desc;
 		this.telephoneNumber = telephoneNumber;
 		this.jpegPhoto = jpegPhoto;
-		this.objectClasses = new ArrayList<String>();
+		this.objectClasses = new ArrayList<>();
 		this.objectClasses.add("inetOrgPerson");
 		this.objectClasses.add("organizationalPerson");
 		this.objectClasses.add("person");
@@ -57,10 +57,10 @@ public final class Person {
 	}
 
 	@Transient
-	private String someRandomField = null;
+	private String someRandomField;
 
 	@Transient
-	private List<String> someRandomList = new ArrayList<String>();
+	private List<String> someRandomList = new ArrayList<>();
 
 	@Attribute(name = "objectClass")
 	private List<String> objectClasses;
@@ -210,25 +210,22 @@ public final class Person {
 		else if (!this.surname.equals(other.surname)) {
 			return false;
 		}
-		if (this.telephoneNumber != other.telephoneNumber) {
-			return false;
-		}
-		return true;
+		return this.telephoneNumber == other.telephoneNumber;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.cn == null) ? 0 : this.cn.hashCode());
-		result = prime * result + ((this.desc == null) ? 0 : new HashSet<String>(this.desc).hashCode());
-		result = prime * result + ((this.dn == null) ? 0 : this.dn.hashCode());
+		result = prime * result + (this.cn == null ? 0 : this.cn.hashCode());
+		result = prime * result + (this.desc == null ? 0 : new HashSet<String>(this.desc).hashCode());
+		result = prime * result + (this.dn == null ? 0 : this.dn.hashCode());
 		result = prime * result + Arrays.hashCode(this.jpegPhoto);
 		result = prime * result
-				+ ((this.objectClasses == null) ? 0 : new HashSet<String>(this.objectClasses).hashCode());
-		result = prime * result + ((this.someRandomField == null) ? 0 : this.someRandomField.hashCode());
-		result = prime * result + ((this.someRandomList == null) ? 0 : this.someRandomList.hashCode());
-		result = prime * result + ((this.surname == null) ? 0 : this.surname.hashCode());
+				+ (this.objectClasses == null ? 0 : new HashSet<String>(this.objectClasses).hashCode());
+		result = prime * result + (this.someRandomField == null ? 0 : this.someRandomField.hashCode());
+		result = prime * result + (this.someRandomList == null ? 0 : this.someRandomList.hashCode());
+		result = prime * result + (this.surname == null ? 0 : this.surname.hashCode());
 		result = prime * result + this.telephoneNumber;
 		return result;
 	}

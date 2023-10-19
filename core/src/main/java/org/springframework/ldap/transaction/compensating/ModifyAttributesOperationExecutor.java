@@ -36,15 +36,15 @@ import org.springframework.transaction.compensating.CompensatingTransactionOpera
  */
 public class ModifyAttributesOperationExecutor implements CompensatingTransactionOperationExecutor {
 
-	private static Logger log = LoggerFactory.getLogger(ModifyAttributesOperationExecutor.class);
+	private static final Logger log = LoggerFactory.getLogger(ModifyAttributesOperationExecutor.class);
 
-	private LdapOperations ldapOperations;
+	private final LdapOperations ldapOperations;
 
-	private Name dn;
+	private final Name dn;
 
-	private ModificationItem[] compensatingModifications;
+	private final ModificationItem[] compensatingModifications;
 
-	private ModificationItem[] actualModifications;
+	private final ModificationItem[] actualModifications;
 
 	/**
 	 * Constructor.

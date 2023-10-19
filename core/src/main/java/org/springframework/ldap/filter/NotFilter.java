@@ -67,16 +67,12 @@ public class NotFilter extends AbstractFilter {
 
 		NotFilter notFilter = (NotFilter) o;
 
-		if ((this.filter != null) ? !this.filter.equals(notFilter.filter) : notFilter.filter != null) {
-			return false;
-		}
-
-		return true;
+		return !(this.filter != null ? !this.filter.equals(notFilter.filter) : notFilter.filter != null);
 	}
 
 	@Override
 	public int hashCode() {
-		return (this.filter != null) ? this.filter.hashCode() : 0;
+		return this.filter != null ? this.filter.hashCode() : 0;
 	}
 
 }

@@ -37,7 +37,7 @@ package org.springframework.ldap.filter;
  */
 public class NotPresentFilter extends AbstractFilter {
 
-	private String attribute;
+	private final String attribute;
 
 	/**
 	 * Creates a new instance of a not present filter for a particular attribute.
@@ -65,16 +65,12 @@ public class NotPresentFilter extends AbstractFilter {
 
 		NotPresentFilter that = (NotPresentFilter) o;
 
-		if ((this.attribute != null) ? !this.attribute.equals(that.attribute) : that.attribute != null) {
-			return false;
-		}
-
-		return true;
+		return !(this.attribute != null ? !this.attribute.equals(that.attribute) : that.attribute != null);
 	}
 
 	@Override
 	public int hashCode() {
-		return (this.attribute != null) ? this.attribute.hashCode() : 0;
+		return this.attribute != null ? this.attribute.hashCode() : 0;
 	}
 
 }

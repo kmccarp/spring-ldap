@@ -432,7 +432,7 @@ public class DefaultLdapClientSearchResultITests extends AbstractLdapTemplateInt
 
 	@Test
 	public void testSearchForContext_LdapQuery() {
-		ContextMapper<DirContextOperations> mapper = (result) -> (DirContextOperations) result;
+		ContextMapper<DirContextOperations> mapper = DirContextOperations.class::cast;
 		DirContextOperations result = this.tested.search()
 				.query(LdapQueryBuilder.query().where("objectclass").is("person").and("sn").is("Person2"))
 				.toObject(mapper);
@@ -449,7 +449,7 @@ public class DefaultLdapClientSearchResultITests extends AbstractLdapTemplateInt
 
 	@Test
 	public void testSearchForContext_LdapQuery_SearchScope_CorrectBase() {
-		ContextMapper<DirContextOperations> mapper = (result) -> (DirContextOperations) result;
+		ContextMapper<DirContextOperations> mapper = DirContextOperations.class::cast;
 		DirContextOperations result = this.tested.search()
 				.query(LdapQueryBuilder.query().searchScope(SearchScope.ONELEVEL).base("ou=company1,ou=Sweden")
 						.where("objectclass").is("person").and("sn").is("Person2"))

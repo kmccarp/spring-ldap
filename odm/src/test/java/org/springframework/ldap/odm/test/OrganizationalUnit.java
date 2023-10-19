@@ -38,7 +38,7 @@ public final class OrganizationalUnit {
 	private Name dn;
 
 	@Attribute(name = "objectClass", syntax = "1.3.6.1.4.1.1466.115.121.1.38")
-	private List<String> objectClass = new ArrayList<String>();
+	private List<String> objectClass = new ArrayList<>();
 
 	@Attribute(name = "ou", syntax = "1.3.6.1.4.1.1466.115.121.1.15")
 	private String ou;
@@ -158,11 +158,11 @@ public final class OrganizationalUnit {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
-		result = prime * result + ((this.dn == null) ? 0 : this.dn.hashCode());
-		result = prime * result + ((this.objectClass == null) ? 0 : new HashSet<String>(this.objectClass).hashCode());
-		result = prime * result + ((this.ou == null) ? 0 : this.ou.hashCode());
-		result = prime * result + ((this.street == null) ? 0 : this.street.hashCode());
+		result = prime * result + (this.description == null ? 0 : this.description.hashCode());
+		result = prime * result + (this.dn == null ? 0 : this.dn.hashCode());
+		result = prime * result + (this.objectClass == null ? 0 : new HashSet<String>(this.objectClass).hashCode());
+		result = prime * result + (this.ou == null ? 0 : this.ou.hashCode());
+		result = prime * result + (this.street == null ? 0 : this.street.hashCode());
 		return result;
 	}
 

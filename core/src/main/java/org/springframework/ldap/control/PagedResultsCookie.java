@@ -68,16 +68,12 @@ public class PagedResultsCookie {
 
 		PagedResultsCookie that = (PagedResultsCookie) o;
 
-		if (!Arrays.equals(this.cookie, that.cookie)) {
-			return false;
-		}
-
-		return true;
+		return Arrays.equals(this.cookie, that.cookie);
 	}
 
 	@Override
 	public int hashCode() {
-		return (this.cookie != null) ? Arrays.hashCode(this.cookie) : 0;
+		return this.cookie != null ? Arrays.hashCode(this.cookie) : 0;
 	}
 
 }

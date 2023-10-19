@@ -124,7 +124,7 @@ public class DelegatingContext implements Context {
 	 */
 	public int hashCode() {
 		final Context context = this.getInnermostDelegateContext();
-		return (context != null) ? context.hashCode() : 0;
+		return context != null ? context.hashCode() : 0;
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class DelegatingContext implements Context {
 	 */
 	public String toString() {
 		final Context context = this.getInnermostDelegateContext();
-		return (context != null) ? context.toString() : "Context is closed";
+		return context != null ? context.toString() : "Context is closed";
 	}
 
 	// ***** Context Interface Delegates *****//
